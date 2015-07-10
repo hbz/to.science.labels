@@ -1,6 +1,6 @@
 h1. etikett 
 
-etikett helps you to render uris. It provides icons, labels and shortnames for each uri. The etikett database is created on startup, from skos files or similar rdf. etikett can be used to share display information about uris between applications.   
+etikett helps you to render uris. It provides icons, labels and shortnames for each uri. The etikett database is created on startup from skos files or similar rdf. etikett can be used to share display information between applications.   
 
 Comes with the following testsets
 - ddc - skos of german ddc
@@ -67,13 +67,6 @@ cp target/universal/etikett-0.1.0-SNAPSHOT.zip  /tmp
 cd /tmp
 unzip etikett-0.1.0-SNAPSHOT.zip
 mv etikett-0.1.0-SNAPSHOT /opt/etikett
-
-p. edit /opt/etikett/conf/application.conf
-
-bc.. http.path="/myetikett"
-application.context="/myetikett"
-#Provide a comma separated list of servers. etikett will not access files on any other servers. 
-etikett.whitelist="localhost,127.0.0.1"
 
 p. edit startscript
 
