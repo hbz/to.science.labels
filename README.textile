@@ -1,0 +1,121 @@
+h1. etikett 
+
+etikett helps you to render uris. It provides icons, labels and shortnames for each uri. The etikett database is created on startup, from skos files or similar rdf. etikett can be used to share display information about uris between applications.   
+
+Comes with the following testsets
+- ddc - skos of german ddc
+- rpb - skos file for Rheinlandpfälzische Landebibliografie
+
+The testsets refer to the following icon fonts 
+- font-awsome
+- glyphicon
+- octicon
+
+h1. Requirements
+
+1. Java 8
+2. Typesafe Activator
+
+bc.. cd /tmp
+wget http://downloads.typesafe.com/typesafe-activator/1.3.2/typesafe-activator-1.3.2-minimal.zip
+unzip typesafe-activator-1.3.2-minimal.zip
+sudo mv activator-1.3.2-minimal /opt
+
+h1. Run
+
+h2. Download
+
+bc.. cd /tmp
+git clone https://github.com/hbz/etikett
+cd etikett
+
+h2. Configure
+
+Provide a list of rdf-turtle files in the format
+
+bc.. <http://your.uri.to.describe>
+<http://hbz-nrw.de/regal#jsonName> "A proper and uniq name for your json rendering";
+<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-legal" ;
+<http://www.w3.org/2004/02/skos/core#prefLabel> "a proper label you want to present in your UI" .
+
+p. Include your config to application.conf by providing a comma-separated list in 
+
+bc.. etikett.configs="ddc.turtle,regal.turtle,rpb.turtle"
+
+h2. Run
+
+bc.. /opt/activator-1.3.2-minimal/activator run
+
+p. Go to http://localhost:9000
+
+h2. Manual Test
+
+List all
+
+bc.. curl "http://localhost:9000" -H"accept: application/json"
+
+p. Or list info for a single uri
+
+bc.. curl "http://localhost:9000/?url=http%3A%2F%2Fpurl.orms%2Fissued" -H"accept: application/json"
+
+h1. Install on Ubuntu
+
+bc.. 
+cd /tmp/etikett
+/opt/activator-1.3.2-minimal/activator dist
+cp target/universal/etikett-0.1.0-SNAPSHOT.zip  /tmp
+cd /tmp
+unzip etikett-0.1.0-SNAPSHOT.zip
+mv etikett-0.1.0-SNAPSHOT /opt/etikett
+
+p. edit /opt/etikett/conf/application.conf
+
+bc.. http.path="/myetikett"
+application.context="/myetikett"
+#Provide a comma separated list of servers. etikett will not access files on any other servers. 
+etikett.whitelist="localhost,127.0.0.1"
+
+p. edit startscript
+
+bc.. sudo cp /tmp/etikett/install/etikett.tmpl /etc/init.d/etikett
+sudo chmod u+x /etc/init.d/etikett
+sudo editor /etc/init.d/etikett
+
+p. set the following vars
+
+bc.. JAVA_HOME=/opt/java
+HOME="/opt/etikett"
+USER="user to run etikett"
+GROUP="user to run etikett"
+SECRET=`uuidgen` # generate a secret e.g. using uuidgen
+PORT=9000
+
+p. include into system start and shutdown
+
+bc.. sudo update-rc.d etikett defaults 99 20
+
+p. start
+
+bc.. sudo service etikett start
+
+h1. Update
+
+bc.. 
+rm -rf /tmp/etikett
+cd /tmp
+git clone https://github.com/hbz/etikett
+cd /tmp/etikett
+/opt/activator-1.3.2-minimal/activator dist
+cp target/universal/etikett-0.1.0-SNAPSHOT.zip  /tmp
+cd /tmp
+unzip etikett-0.1.0-SNAPSHOT.zip
+cp /opt/etikett/conf/application.conf /tmp/etikett-0.1.0-SNAPSHOT/conf
+sudo service etikett stop
+rm -rf /opt/etikett/*
+mv /tmp/etikett-0.1.0-SNAPSHOT/* /opt/etikett/
+sudo service etikett start
+
+h1. License
+
+GNU AFFERO GENERAL PUBLIC LICENSE 
+Version 3, 19 November 2007

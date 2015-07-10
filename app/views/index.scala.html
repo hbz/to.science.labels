@@ -1,0 +1,26 @@
+@* Copyright 2015 Jan Schnasse, hbz. Licensed under the GNU Affero General Public License *@
+ @(theApplicationProfile: List[MapEntry])
+
+
+@import models.MapEntry
+
+@main("Application Profile") {
+<div class="container">
+<table id="example" class="display" cellspacing="0" width="100%">
+<thead><tr><th>Icon</th><th>Label</th><th>Name</th><th>Uri</th></tr></thead>
+@for(entry <- theApplicationProfile){
+<tr>
+<td><span class="@entry.icon"></span><br/>@entry.icon</td><td>@entry.label</td><td>@entry.name</td><td><a href="/?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
+</tr>
+}
+</table>
+</div>
+<script type="text/javascript">
+	// For demo to fit into DataTables site builder...
+	$('#example')
+		.removeClass( 'display' )
+		.addClass('table table-striped table-bordered');
+</script>
+</body>
+
+}
