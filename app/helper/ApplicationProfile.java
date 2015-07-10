@@ -56,6 +56,11 @@ public class ApplicationProfile {
     public final static String name = "http://hbz-nrw.de/regal#jsonName";
 
     /**
+     * type predicate will be analyzed
+     */
+    public final static String referenceType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+
+    /**
      * A map with URIs as key and labels,icons, shortnames as values
      */
     public Map<String, MapEntry> pMap = new HashMap<String, MapEntry>();
@@ -133,8 +138,22 @@ public class ApplicationProfile {
 		String nameStr = st.getObject().stringValue();
 		addName(key, nameStr);
 	    }
+	    if (referenceType.equals(st.getPredicate().stringValue())) {
+		String key = st.getSubject().stringValue();
+		String typeStr = st.getObject().stringValue();
+		addReferenceType(key, typeStr);
+	    }
 	}
 	loadNMap();
+    }
+
+    private void addReferenceType(String key, String typeStr) {
+	MapEntry e = new MapEntry();
+	if (pMap.containsKey(key)) {
+	    e = pMap.get(key);
+	}
+	e.referenceType = typeStr;
+	pMap.put(key, e);
     }
 
     void addLabel(String key, String labelStr) {
@@ -188,6 +207,8 @@ public class ApplicationProfile {
 	for (Entry<String, MapEntry> e : set) {
 	    String l = e.getValue().label;
 	    String i = e.getValue().icon;
+	    String t = e.getValue().referenceType;
+	    String n = e.getValue().name;
 
 	    if (l != null) {
 		result = RdfUtils.addTriple(e.getKey(), prefLabel, l, true,
@@ -195,6 +216,14 @@ public class ApplicationProfile {
 	    }
 	    if (i != null) {
 		result = RdfUtils.addTriple(e.getKey(), icon, i, true, result,
+			RDFFormat.TURTLE);
+	    }
+	    if (t != null) {
+		result = RdfUtils.addTriple(e.getKey(), referenceType, t, true,
+			result, RDFFormat.TURTLE);
+	    }
+	    if (n != null) {
+		result = RdfUtils.addTriple(e.getKey(), name, t, true, result,
 			RDFFormat.TURTLE);
 	    }
 	}

@@ -42,4 +42,9 @@ public class MapEntry {
      * the full id as uri
      */
     public String uri = null;
+
+    /**
+     * The expected type of the resource
+     */
+    public String referenceType = null;
 }

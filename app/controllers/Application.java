@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.openrdf.rio.RDFFormat;
 
@@ -88,6 +91,8 @@ public class Application extends MyController {
 		    return ok(entry.name);
 		case "Uri":
 		    return ok(entry.uri);
+		case "RefType":
+		    return ok(entry.referenceType);
 		}
 		return ok(entry.label);
 	    }
@@ -205,4 +210,27 @@ public class Application extends MyController {
 	return ok(upload.render());
     }
 
+    public static Promise<Result> asJsonLdContext() {
+	return Promise.promise(() -> {
+	    try {
+		List<MapEntry> ls = new ArrayList<MapEntry>(
+			Globals.profile.nMap.values());
+		Map<String, Object> pmap;
+		Map<String, Object> cmap = new HashMap<String, Object>();
+		for (MapEntry l : ls) {
+		    pmap = new HashMap<String, Object>();
+		    pmap.put("@id", l.uri);
+		    pmap.put("label", l.label);
+		    if (l.referenceType != null) {
+			pmap.put("@type", l.referenceType);
+		    }
+		    cmap.put(l.name, pmap);
+		}
+		return ok(json(cmap));
+	    } catch (Exception e) {
+		play.Logger.warn("", e);
+		return redirect(routes.Application.index());
+	    }
+	});
+    }
 }

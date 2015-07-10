@@ -1,6 +1,6 @@
 h1. etikett 
 
-etikett helps you to render uris. It provides icons, labels and shortnames for each uri. The etikett database is created on startup from skos files or similar rdf. etikett can be used to share display information between applications.   
+etikett helps you to render uris. It provides icons, labels and shortnames for each uri. The etikett database is created on startup from skos files or similar rdf. etikett can be used to share display information between applications. Etikett helps you to create and maintain json-ld context documents. This can be extremely useful if you want to create json files dynamically from rdf data.   
 
 Comes with the following testsets
 - ddc - skos of german ddc
@@ -31,12 +31,15 @@ cd etikett
 
 h2. Configure
 
-Provide a list of rdf-turtle files in the format
+Provide a list of rdf-turtle files. Four triples are supported so far regal:jsonName, skos:prefLabel, and xhtml:icon.
 
-bc.. <http://your.uri.to.describe>
-<http://hbz-nrw.de/regal#jsonName> "A proper and uniq name for your json rendering";
-<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-legal" ;
-<http://www.w3.org/2004/02/skos/core#prefLabel> "a proper label you want to present in your UI" .
+Example:
+
+bc.. <http://purl.org/dc/terms/creator>
+<http://hbz-nrw.de/regal#jsonName> "creator";
+<http://www.w3.org/2004/02/skos/core#prefLabel> "Autor" ;
+<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-user" ;
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
 p. Include your config to application.conf by providing a comma-separated list in 
 

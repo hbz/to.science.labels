@@ -17,12 +17,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package controllers;
 
+import java.io.IOException;
 import java.io.StringWriter;
 
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * @author Jan Schnasse
@@ -52,6 +59,20 @@ public class MyController extends Controller {
 
     protected static String json(Object obj) {
 	try {
+	    setJsonHeader();
+	    mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+	    mapper.setSerializationInclusion(Include.NON_NULL);
+	    mapper.getSerializerProvider().setNullKeySerializer(
+		    new JsonSerializer() {
+			@Override
+			public void serialize(Object obj,
+				JsonGenerator jsonGenerator,
+				SerializerProvider sp) throws IOException,
+				JsonProcessingException {
+			    jsonGenerator.writeFieldName("null");
+
+			}
+		    });
 	    StringWriter w = new StringWriter();
 	    mapper.writeValue(w, obj);
 	    String result = w.toString();
@@ -60,4 +81,5 @@ public class MyController extends Controller {
 	    throw new RuntimeException(e);
 	}
     }
+
 }
