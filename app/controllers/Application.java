@@ -44,14 +44,54 @@ public class Application extends MyController {
      *            if not null provides just the element with the passed url
      * @return a list of entries of this application profile
      */
-    public static Promise<Result> index(String urlAddress) {
+    public static Promise<Result> index() {
 	return Promise.promise(() -> {
 	    if (request().accepts("text/html")) {
-		return asHtml(urlAddress);
+		return asHtml(null);
 	    } else {
-		return asJson(urlAddress);
+		return asJson(null);
 	    }
+	});
+    }
 
+    public static Result row(String urlAddress) {
+
+	if (request().accepts("text/html")) {
+	    return asHtml(urlAddress);
+	} else {
+	    return asJson(urlAddress);
+	}
+
+    }
+
+    /**
+     * @param urlAddress
+     *            a url address
+     * @param colum
+     *            the name of the colum
+     * @return a string with the content of the colum
+     */
+    public static Promise<Result> getColum(String urlAddress, String colum) {
+	return Promise.promise(() -> {
+	    if (colum == null) {
+		return row(urlAddress);
+	    }
+	    response().setHeader("Content-Type", "text/plain; charset=utf-8");
+	    if (colum != null && !colum.isEmpty() && urlAddress != null) {
+		MapEntry entry = Globals.profile.pMap.get(urlAddress);
+		switch (colum) {
+		case "Icon":
+		    return ok(entry.icon);
+		case "Label":
+		    return ok(entry.label);
+		case "Name":
+		    return ok(entry.name);
+		case "Uri":
+		    return ok(entry.uri);
+		}
+		return ok(entry.label);
+	    }
+	    return status(500);
 	});
     }
 
@@ -63,6 +103,7 @@ public class Application extends MyController {
 	try {
 	    response().setHeader("Content-Type",
 		    "application/json; charset=utf-8");
+
 	    if (urlAddress != null) {
 		MapEntry entry = Globals.profile.pMap.get(urlAddress);
 		ArrayList<MapEntry> result = new ArrayList<MapEntry>();
@@ -72,6 +113,7 @@ public class Application extends MyController {
 		return ok(json(new ArrayList<MapEntry>(
 			Globals.profile.nMap.values())));
 	    }
+
 	} catch (Exception e) {
 	    play.Logger.debug("", e);
 	    return status(500, json(e.toString()));
@@ -147,14 +189,14 @@ public class Application extends MyController {
 				Globals.profile.loadToMap(uploadData);
 
 				flash("info", "File uploaded");
-				return redirect(routes.Application.index(null));
+				return redirect(routes.Application.index());
 			    }
 			} else {
 			    flash("error", "Missing file");
-			    return redirect(routes.Application.index(null));
+			    return redirect(routes.Application.index());
 			}
 		    } catch (Exception e) {
-			return redirect(routes.Application.index(null));
+			return redirect(routes.Application.index());
 		    }
 		});
     }

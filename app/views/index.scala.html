@@ -10,7 +10,10 @@
 <thead><tr><th>Icon</th><th>Label</th><th>Name</th><th>Uri</th></tr></thead>
 @for(entry <- theApplicationProfile){
 <tr>
-<td><span class="@entry.icon"></span><br/>@entry.icon</td><td>@entry.label</td><td>@entry.name</td><td><a href="/?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
+<td><span class="@entry.icon"></span><br/><a href="/etikett?url=@Application.EncodeURL(entry.uri)&colum=Icon">@entry.icon</a></td>
+<td><a href="/etikett?url=@Application.EncodeURL(entry.uri)&colum=Label">@entry.label</a></td>
+<td><a href="/etikett?url=@Application.EncodeURL(entry.uri)&colum=Name">@entry.name</a></td>
+<td><a href="/etikett?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
 </tr>
 }
 </table>

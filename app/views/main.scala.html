@@ -22,7 +22,9 @@
 		<script src="@controllers.routes.Assets.at("javascripts/jquery.dataTables.min.js")"></script>
 	  <script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#example').dataTable();
+				$('#example').dataTable( {
+    				"order": [0,'desc']
+				} );
 			} );
 		</script>
     </head>
@@ -40,8 +42,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/upload">Add New</a></li>
-            <li><a href="/download.json">Download</a></li>
+            <li><a href="/etikett/upload">Add New</a></li>
+            <li><a href="/etikett/download.json">Download</a></li>
           </ul>
           
         </div>
