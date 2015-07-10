@@ -1,7 +1,7 @@
 @* Copyright 2015 Jan Schnasse, hbz. Licensed under the GNU Affero General Public License *@
  @(theApplicationProfile: List[MapEntry])
 
-
+@import play.api.Play.current
 @import models.MapEntry
 
 @main("Application Profile") {
@@ -11,10 +11,10 @@
 @for(entry <- theApplicationProfile){
 <tr>
 <td><span class="@entry.icon"></span><br/><a href="/etikett?url=@Application.EncodeURL(entry.uri)&colum=Icon">@entry.icon</a></td>
-<td><a href="/etikett?url=@Application.EncodeURL(entry.uri)&colum=Label">@entry.label</a></td>
-<td><a href="/etikett?url=@Application.EncodeURL(entry.uri)&colum=Name">@entry.name</a></td>
-<td><a href="/etikett?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
-<td><a href="/etikett?url=@Application.EncodeURL(entry.uri)&colum=RefType"">@entry.referenceType</a></td>
+<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&colum=Label">@entry.label</a></td>
+<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&colum=Name">@entry.name</a></td>
+<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
+<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&colum=RefType"">@entry.referenceType</a></td>
 </tr>
 }
 </table>
