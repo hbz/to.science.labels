@@ -5,6 +5,7 @@
 <html>
     <head>
 		<link rel="shortcut icon" href="/public/images/favicon.ico" type="image/x-icon" /> 
+		<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/bootstrap.min.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/octicons.css")">
         <link rel="shortcut icon" type="image/png" href="@controllers.routes.Assets.at("images/favicon.png")">
@@ -39,7 +40,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")">Add New</a></li>
+            <li><a href="/upload">Add New</a></li>
             <li><a href="/download.json">Download</a></li>
           </ul>
           

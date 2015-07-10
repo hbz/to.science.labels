@@ -79,7 +79,7 @@ public class ApplicationProfile {
 	for (String s : configs) {
 	    loadToMap(s);
 	}
-	loadNMap();
+
     }
 
     private void loadDefaultConfig() {
@@ -106,11 +106,18 @@ public class ApplicationProfile {
 	}
     }
 
-    private void loadToMap(InputStream in) {
+    /**
+     * @param in
+     *            an input stream with rdf in turtle format
+     */
+    public void loadToMap(InputStream in) {
 	Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
 	Iterator<Statement> statements = g.iterator();
 	while (statements.hasNext()) {
 	    Statement st = statements.next();
+	    play.Logger.info(st.getSubject().stringValue() + ","
+		    + st.getPredicate().stringValue() + ","
+		    + st.getObject().stringValue());
 	    if (prefLabel.equals(st.getPredicate().stringValue())) {
 		String key = st.getSubject().stringValue();
 		String labelStr = st.getObject().stringValue();
@@ -127,6 +134,7 @@ public class ApplicationProfile {
 		addName(key, nameStr);
 	    }
 	}
+	loadNMap();
     }
 
     void addLabel(String key, String labelStr) {

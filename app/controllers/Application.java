@@ -17,14 +17,21 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+
+import org.openrdf.rio.RDFFormat;
 
 import models.MapEntry;
 import play.libs.F.Promise;
 import play.mvc.Call;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import views.html.index;
-import views.html.message;
+import views.html.*;
 
 /**
  * @author Jan Schnasse
@@ -82,7 +89,7 @@ public class Application extends MyController {
 		return ok(index.render(result));
 	    } else {
 		return ok(index.render(new ArrayList<MapEntry>(
-			Globals.profile.nMap.values())));
+			Globals.profile.pMap.values())));
 	    }
 	} catch (Exception e) {
 	    play.Logger.debug("", e);
@@ -119,6 +126,41 @@ public class Application extends MyController {
     public static String EncodeURL(Call call)
 	    throws java.io.UnsupportedEncodingException {
 	return EncodeURL(call.toString());
+    }
+
+    /**
+     * @return http status
+     */
+    public static Promise<Result> addSkosData() {
+	return Promise
+		.promise(() -> {
+		    try {
+			MultipartFormData body = request().body()
+				.asMultipartFormData();
+			FilePart data = body.getFile("data");
+			if (data != null) {
+			    String fileName = data.getFilename();
+			    String contentType = data.getContentType();
+			    File file = data.getFile();
+			    try (FileInputStream uploadData = new FileInputStream(
+				    file)) {
+				Globals.profile.loadToMap(uploadData);
+
+				flash("info", "File uploaded");
+				return redirect(routes.Application.index(null));
+			    }
+			} else {
+			    flash("error", "Missing file");
+			    return redirect(routes.Application.index(null));
+			}
+		    } catch (Exception e) {
+			return redirect(routes.Application.index(null));
+		    }
+		});
+    }
+
+    public static Result upload() {
+	return ok(upload.render());
     }
 
 }
