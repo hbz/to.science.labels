@@ -1,2 +1,3 @@
 GET		/					 controllers.Application.index(url : String?=null)
+GET		/download.json	     controllers.Application.asJson(url : String?=null)
 GET     /public/*file        controllers.Assets.at(path="/public", file)

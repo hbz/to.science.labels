@@ -48,9 +48,14 @@ public class Application extends MyController {
 	});
     }
 
-    private static Result asJson(String urlAddress) {
+    /**
+     * @param urlAddress
+     * @return all data as json array
+     */
+    public static Result asJson(String urlAddress) {
 	try {
-	    response().setHeader("Content-Type", "application/json");
+	    response().setHeader("Content-Type",
+		    "application/json; charset=utf-8");
 	    if (urlAddress != null) {
 		MapEntry entry = Globals.profile.pMap.get(urlAddress);
 		ArrayList<MapEntry> result = new ArrayList<MapEntry>();
@@ -69,7 +74,7 @@ public class Application extends MyController {
 
     private static Result asHtml(String urlAddress) {
 	try {
-	    response().setHeader("Content-Type", "text/html");
+	    response().setHeader("Content-Type", "text/html; charset=utf-8");
 	    if (urlAddress != null) {
 		MapEntry entry = Globals.profile.pMap.get(urlAddress);
 		ArrayList<MapEntry> result = new ArrayList<MapEntry>();

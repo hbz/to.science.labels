@@ -33,7 +33,7 @@ public class MyController extends Controller {
 
     private static void setJsonHeader() {
 	response().setHeader("Access-Control-Allow-Origin", "*");
-	response().setContentType("application/json");
+	response().setContentType("application/json; charset=utf-8");
     }
 
     /**
