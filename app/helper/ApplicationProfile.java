@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package helper;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,18 +65,30 @@ public class ApplicationProfile {
      */
     public Map<String, MapEntry> nMap = new HashMap<String, MapEntry>();
 
-    private final String defaultMap = "/tmp/regal-default.ntriple";
+    private String defaultMap = null;
 
     /**
      * Associates labels to rdf predicates or known objects
      */
     public ApplicationProfile() {
+	defaultMap = Play.application().configuration()
+		.getString("etikett.databaseFile");
 	String[] configs = Play.application().configuration()
 		.getString("etikett.configs").split("\\s*,[,\\s]*");
+	loadDefaultConfig();
 	for (String s : configs) {
 	    loadToMap(s);
 	}
 	loadNMap();
+    }
+
+    private void loadDefaultConfig() {
+	try {
+	    loadToMap(new FileInputStream(new File(defaultMap)));
+	} catch (Exception e) {
+	    play.Logger.info("Default config file " + defaultMap
+		    + " not found.");
+	}
     }
 
     private void loadNMap() {
