@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import controllers.Globals;
 import play.Application;
 import play.GlobalSettings;
 import play.libs.F.Promise;
@@ -46,7 +45,7 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStop(Application app) {
-	Globals.profile.saveMap();
+	// Globals.profile.dumpData();
 	play.Logger.info("Application shutdown...");
     }
 

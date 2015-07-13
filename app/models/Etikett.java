@@ -17,13 +17,30 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package models;
 
+import javax.persistence.*;
+
+import play.db.ebean.*;
+
 /**
  * This class is used in ApplicationProfile
  * 
  * @author Jan Schnasse
  *
  */
-public class MapEntry {
+@Entity
+public class Etikett extends Model {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6716611400533458082L;
+
+    /**
+     * the full id as uri
+     */
+    @Id
+    public String uri = null;
+
     /**
      * a label
      */
@@ -37,11 +54,6 @@ public class MapEntry {
      * The name is a short-form for the uri used in JSON-LD
      */
     public String name = null;
-
-    /**
-     * the full id as uri
-     */
-    public String uri = null;
 
     /**
      * The expected type of the resource
