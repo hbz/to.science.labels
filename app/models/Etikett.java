@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package models;
 
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 
 import play.db.ebean.*;

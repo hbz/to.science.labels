@@ -19,7 +19,9 @@ package helper;
 
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import models.Etikett;
 
@@ -58,17 +60,10 @@ public class ApplicationProfile {
     public final static String referenceType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 
     /**
-     * Associates labels to rdf predicates or known objects
+     * @param fileName
+     *            add data from a file
      */
-    public ApplicationProfile() {
-	String[] configs = Play.application().configuration()
-		.getString("etikett.configs").split("\\s*,[,\\s]*");
-	for (String s : configs) {
-	    addRdfData(s);
-	}
-    }
-
-    private void addRdfData(String fileName) {
+    public void addRdfData(String fileName) {
 	try (InputStream in = Play.application().resourceAsStream(fileName)) {
 	    addRdfData(in);
 	} catch (Exception e) {
@@ -84,51 +79,26 @@ public class ApplicationProfile {
     public void addRdfData(InputStream in) {
 	Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
 	Iterator<Statement> statements = g.iterator();
+	Map<String, Etikett> collect = new HashMap<String, Etikett>();
 	while (statements.hasNext()) {
 	    Statement st = statements.next();
 	    String subj = st.getSubject().stringValue();
 	    String obj = st.getObject().stringValue();
+	    Etikett e = collect.get(subj);
+	    if (e == null)
+		e = new Etikett();
 	    if (prefLabel.equals(st.getPredicate().stringValue())) {
-		addLabel(subj, obj);
+		e.label = obj;
+	    } else if (icon.equals(st.getPredicate().stringValue())) {
+		e.icon = obj;
+	    } else if (name.equals(st.getPredicate().stringValue())) {
+		e.name = obj;
+	    } else if (referenceType.equals(st.getPredicate().stringValue())) {
+		e.referenceType = obj;
 	    }
-	    if (icon.equals(st.getPredicate().stringValue())) {
-		addIcon(subj, obj);
-	    }
-	    if (name.equals(st.getPredicate().stringValue())) {
-		addName(subj, obj);
-	    }
-	    if (referenceType.equals(st.getPredicate().stringValue())) {
-		addReferenceType(subj, obj);
-	    }
+	    collect.put(subj, e);
 	}
-    }
-
-    private void addReferenceType(String key, String obj) {
-	Etikett e = getValue(key);
-	e.uri = key;
-	e.referenceType = obj;
-	Ebean.update(e);
-    }
-
-    void addLabel(String key, String obj) {
-	Etikett e = getValue(key);
-	e.uri = key;
-	e.label = obj;
-	Ebean.update(e);
-    }
-
-    void addIcon(String key, String obj) {
-	Etikett e = getValue(key);
-	e.uri = key;
-	e.icon = obj;
-	Ebean.update(e);
-    }
-
-    void addName(String key, String obj) {
-	Etikett e = getValue(key);
-	e.uri = key;
-	e.name = obj;
-	Ebean.update(e);
+	Ebean.save(collect.values());
     }
 
     /**
