@@ -55,12 +55,6 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
-<http://data.archiveshub.ac.uk/def/ArchivalResource>
-    <http://hbz-nrw.de/regal#jsonName> "ArchivalResource";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-wifi" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Archivierte Online Resource" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
 <http://downlode.org/Code/RDF/File_Properties/schema#checksum>
     <http://hbz-nrw.de/regal#jsonName> "checksum";
   	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-barcode" ;
@@ -152,7 +146,7 @@
 <http://lobid.org/vocab/lobid#fulltextOnline>
     <http://hbz-nrw.de/regal#jsonName> "fulltextOnline";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Download" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
 <http://purl.org/dc/elements/1.1/contributor>
     <http://hbz-nrw.de/regal#jsonName> "contributor";
@@ -178,12 +172,6 @@
 <http://purl.org/dc/elements/1.1/subject>
     <http://hbz-nrw.de/regal#jsonName> "subject";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Schlagwort" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/dc/terms/BibliographicResource>
-    <http://hbz-nrw.de/regal#jsonName> "BibliographicResource";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-file-o" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Bibliografische Ressource" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
 <http://purl.org/dc/terms/alternative>
@@ -268,35 +256,6 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Titel" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
-<http://purl.org/library/BrailleBook>
-    <http://hbz-nrw.de/regal#jsonName> "BrailleBook";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-hand-o-up" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Braille" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/library/CassetteTape>
-    <http://hbz-nrw.de/regal#jsonName> "CassetteTape";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-audio" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Tonband" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/lobid/lv#Bibliography>
-    <http://hbz-nrw.de/regal#jsonName> "Bibliography";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-bars" ;
-  	<http://www.w3.org/2004/02/skos/core#prefLabel> "Bibliografie" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/lobid/lv#Legislation>
-    <http://hbz-nrw.de/regal#jsonName> "Legislation";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-legal" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Amtsdruckschrift" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/lobid/lv#Miscellaneous>
-    <http://hbz-nrw.de/regal#jsonName> "Miscellaneous";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Sonstige", "Verschiedenes" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
 <http://purl.org/lobid/lv#hbzID>
     <http://hbz-nrw.de/regal#jsonName> "hbzID";
   	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-bars" ;
@@ -307,66 +266,6 @@
     <http://hbz-nrw.de/regal#jsonName> "urn";
   	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-exchange" ;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Urn" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/AudioDocument>
-    <http://hbz-nrw.de/regal#jsonName> "AudioDocument";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-audio" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Audio" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/AudioVisualDocument>
-    <http://hbz-nrw.de/regal#jsonName> "AudioVisualDocument";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-video-o" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Audio-Visuell" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/Book>
-    <http://hbz-nrw.de/regal#jsonName> "Book";
-    <http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-book" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Buch" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/Collection>
-    <http://hbz-nrw.de/regal#jsonName> "Collection";
-    <http://www.w3.org/1999/xhtml/vocab#icon> "glyphicon glyphicon-th-large" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Sammlung" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/Image>
-    <http://hbz-nrw.de/regal#jsonName> "Image";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-file-image-o" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Bild" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/Journal>
-    <http://hbz-nrw.de/regal#jsonName> "Journal";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-newspaper-o" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Journal" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/Map>
-    <http://hbz-nrw.de/regal#jsonName> "Map";
-    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-globe" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Karte", "Landkarte" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/Newspaper>
-    <http://hbz-nrw.de/regal#jsonName> "Newspaper";
-    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-book" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Zeitung" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/Periodical>
-    <http://hbz-nrw.de/regal#jsonName> "Periodical";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-newspaper-o" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Periodikum" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/Thesis>
-    <http://hbz-nrw.de/regal#jsonName> "Thesis";
-    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-mortar-board" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Abschlussarbeit" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
 <http://purl.org/ontology/bibo/doi>
@@ -429,12 +328,6 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Band" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
-<http://purl.org/ontology/mo/Vinyl>
-    <http://hbz-nrw.de/regal#jsonName> "Vinyl";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-dot-circle-o" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Schallplatte" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
 <http://purl.org/ontology/mo/ismn>
     <http://hbz-nrw.de/regal#jsonName> "ismn";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Ismn" ;
@@ -443,12 +336,6 @@
 <http://purl.org/ontology/mo/wikipedia>
     <http://hbz-nrw.de/regal#jsonName> "wikipedia";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Wikipedia" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/vocab/frbr/core#Manifestation>
-    <http://hbz-nrw.de/regal#jsonName> "Manifestation";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-file-o" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "frbr:Manifestation" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
 <http://purl.org/vocab/frbr/core#exemplar>
@@ -477,46 +364,11 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Verantwortlich" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
-<http://rdvocab.info/termList/RDACarrierType/1010>
-    <http://hbz-nrw.de/regal#jsonName> "1010";
-    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-database" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Datenträger" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://rdvocab.info/termList/RDACarrierType/1018>
-    <http://hbz-nrw.de/regal#jsonName> "1018";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-wifi" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Online", "Online-Ressource" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://rdvocab.info/termList/RDACarrierType/1020>
-    <http://hbz-nrw.de/regal#jsonName> "1020";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-eye" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Mikroform" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://rdvocab.info/termList/RDACarrierType/1050>
-    <http://hbz-nrw.de/regal#jsonName> "1050";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-video-camera" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Video" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://rdvocab.info/termList/RDAMediaType/1005>
-    <http://hbz-nrw.de/regal#jsonName> "1005";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://rdvocab.info/termList/RDAproductionMethod/1010>
-    <http://hbz-nrw.de/regal#jsonName> "1010";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-print" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Druck" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
 <http://umbel.org/umbel#isLike>
     <http://hbz-nrw.de/regal#jsonName> "isLike";
   	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-link" ;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "ähnlich zu" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
 <http://www.openarchives.org/OAI/2.0/itemID>
     <http://hbz-nrw.de/regal#jsonName> "itemID";
@@ -541,10 +393,6 @@
 <http://www.umbel.org/specifications/vocabulary#isLike>
     <http://hbz-nrw.de/regal#jsonName> "isLike";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "ähnlich zu" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-rdf:type
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Typ" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
 <http://www.w3.org/2000/01/rdf-schema#inDataset>
@@ -581,12 +429,12 @@ rdf:type
 <http://xmlns.com/foaf/0.1/isPrimaryTopicOf>
     <http://hbz-nrw.de/regal#jsonName> "isPrimaryTopicOf";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Gegenstand von" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
 <info:fedora/fedora-system:def/relations-external#hasPart>
     <http://hbz-nrw.de/regal#jsonName> "hasPart";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Kindobjekte" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
 <info:fedora/fedora-system:def/relations-external#isMemberOf>
     <http://hbz-nrw.de/regal#jsonName> "isMemberOf";
@@ -596,7 +444,7 @@ rdf:type
 <info:fedora/fedora-system:def/relations-external#isPartOf>
     <http://hbz-nrw.de/regal#jsonName> "isPartOf";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Elternobjekt" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
 <info:hbz/hbz-ingest:def/model#accessScheme>
     <http://hbz-nrw.de/regal#jsonName> "accessScheme";
@@ -622,4 +470,152 @@ rdf:type
     <http://hbz-nrw.de/regal#jsonName> "subjectChain";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Schlagwortkette" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    
+<http://purl.org/vocab/frbr/core#Manifestation>
+    <http://hbz-nrw.de/regal#jsonName> "Manifestation";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-file-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "frbr:Manifestation" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+    
+<http://purl.org/ontology/mo/Vinyl>
+    <http://hbz-nrw.de/regal#jsonName> "Vinyl";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-dot-circle-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Schallplatte" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+    
+<http://data.archiveshub.ac.uk/def/ArchivalResource>
+    <http://hbz-nrw.de/regal#jsonName> "ArchivalResource";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-wifi" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Archivierte Online Resource" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+    
+<http://rdvocab.info/termList/RDACarrierType/1010>
+    <http://hbz-nrw.de/regal#jsonName> "1010";
+    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-database" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Datenträger" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
 
+<http://rdvocab.info/termList/RDACarrierType/1018>
+    <http://hbz-nrw.de/regal#jsonName> "1018";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-wifi" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Online", "Online-Ressource" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://rdvocab.info/termList/RDACarrierType/1020>
+    <http://hbz-nrw.de/regal#jsonName> "1020";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-eye" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Mikroform" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://rdvocab.info/termList/RDACarrierType/1050>
+    <http://hbz-nrw.de/regal#jsonName> "1050";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-video-camera" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Video" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://rdvocab.info/termList/RDAMediaType/1005>
+    <http://hbz-nrw.de/regal#jsonName> "1005";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://rdvocab.info/termList/RDAproductionMethod/1010>
+    <http://hbz-nrw.de/regal#jsonName> "1010";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-print" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Druck" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .       
+    
+<http://purl.org/dc/terms/BibliographicResource>
+    <http://hbz-nrw.de/regal#jsonName> "BibliographicResource";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-file-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Bibliografische Ressource" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+    
+<http://purl.org/library/BrailleBook>
+    <http://hbz-nrw.de/regal#jsonName> "BrailleBook";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-hand-o-up" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Braille" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/library/CassetteTape>
+    <http://hbz-nrw.de/regal#jsonName> "CassetteTape";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-audio" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Tonband" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/lobid/lv#Bibliography>
+    <http://hbz-nrw.de/regal#jsonName> "Bibliography";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-bars" ;
+  	<http://www.w3.org/2004/02/skos/core#prefLabel> "Bibliografie" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/lobid/lv#Legislation>
+    <http://hbz-nrw.de/regal#jsonName> "Legislation";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-legal" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Amtsdruckschrift" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/lobid/lv#Miscellaneous>
+    <http://hbz-nrw.de/regal#jsonName> "Miscellaneous";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Sonstige", "Verschiedenes" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+    
+
+<http://purl.org/ontology/bibo/AudioDocument>
+    <http://hbz-nrw.de/regal#jsonName> "AudioDocument";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-audio" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Audio" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/AudioVisualDocument>
+    <http://hbz-nrw.de/regal#jsonName> "AudioVisualDocument";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-video-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Audio-Visuell" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Book>
+    <http://hbz-nrw.de/regal#jsonName> "Book";
+    <http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-book" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Buch" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Collection>
+    <http://hbz-nrw.de/regal#jsonName> "Collection";
+    <http://www.w3.org/1999/xhtml/vocab#icon> "glyphicon glyphicon-th-large" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Sammlung" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Image>
+    <http://hbz-nrw.de/regal#jsonName> "Image";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-file-image-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Bild" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Journal>
+    <http://hbz-nrw.de/regal#jsonName> "Journal";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-newspaper-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Journal" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Map>
+    <http://hbz-nrw.de/regal#jsonName> "Map";
+    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-globe" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Karte", "Landkarte" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Newspaper>
+    <http://hbz-nrw.de/regal#jsonName> "Newspaper";
+    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-book" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Zeitung" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Periodical>
+    <http://hbz-nrw.de/regal#jsonName> "Periodical";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-newspaper-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Periodikum" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Thesis>
+    <http://hbz-nrw.de/regal#jsonName> "Thesis";
+    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-mortar-board" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Abschlussarbeit" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .

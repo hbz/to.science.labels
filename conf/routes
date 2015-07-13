@@ -1,5 +1,5 @@
 GET		/		 				controllers.Application.index()
-GET	    /etikett				controllers.Application.getColum(url : String?=null,colum:String?=null)
+GET	    /etikett				controllers.Application.getColumn(url : String?=null,column:String?=null)
 GET		/etikett/download.json	controllers.Application.asJson(url : String?=null)
 GET		/etikett/context.json	controllers.Application.asJsonLdContext()
 GET		/etikett/upload		    controllers.Application.upload()

@@ -17,16 +17,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package controllers;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.openrdf.rio.RDFFormat;
 
 import models.MapEntry;
 import play.libs.F.Promise;
@@ -43,9 +39,7 @@ import views.html.*;
 public class Application extends MyController {
 
     /**
-     * @param urlAddress
-     *            if not null provides just the element with the passed url
-     * @return a list of entries of this application profile
+     * @return a list of all entries of this application profile
      */
     public static Promise<Result> index() {
 	return Promise.promise(() -> {
@@ -57,6 +51,10 @@ public class Application extends MyController {
 	});
     }
 
+    /**
+     * @param urlAddress
+     * @return the data of the corresponding row
+     */
     public static Result row(String urlAddress) {
 
 	if (request().accepts("text/html")) {
@@ -74,15 +72,15 @@ public class Application extends MyController {
      *            the name of the colum
      * @return a string with the content of the colum
      */
-    public static Promise<Result> getColum(String urlAddress, String colum) {
+    public static Promise<Result> getColumn(String urlAddress, String column) {
 	return Promise.promise(() -> {
-	    if (colum == null) {
+	    if (column == null) {
 		return row(urlAddress);
 	    }
 	    response().setHeader("Content-Type", "text/plain; charset=utf-8");
-	    if (colum != null && !colum.isEmpty() && urlAddress != null) {
+	    if (column != null && !column.isEmpty() && urlAddress != null) {
 		MapEntry entry = Globals.profile.pMap.get(urlAddress);
-		switch (colum) {
+		switch (column) {
 		case "Icon":
 		    return ok(entry.icon);
 		case "Label":
@@ -186,51 +184,61 @@ public class Application extends MyController {
 				.asMultipartFormData();
 			FilePart data = body.getFile("data");
 			if (data != null) {
-			    String fileName = data.getFilename();
-			    String contentType = data.getContentType();
-			    File file = data.getFile();
-			    try (FileInputStream uploadData = new FileInputStream(
-				    file)) {
-				Globals.profile.loadToMap(uploadData);
-
-				flash("info", "File uploaded");
-				return redirect(routes.Application.index());
-			    }
-			} else {
-			    flash("error", "Missing file");
-			    return redirect(routes.Application.index());
-			}
-		    } catch (Exception e) {
-			return redirect(routes.Application.index());
-		    }
-		});
+			    // String fileName = data.getFilename();
+			    // String contentType = data.getContentType();
+		File file = data.getFile();
+		try (FileInputStream uploadData = new FileInputStream(file)) {
+		    Globals.profile.loadToMap(uploadData);
+		    flash("info", "File uploaded");
+		    return redirect(routes.Application.index());
+		}
+	    } else {
+		flash("error", "Missing file");
+		return redirect(routes.Application.index());
+	    }
+	} catch (Exception e) {
+	    return redirect(routes.Application.index());
+	}
+    })  ;
     }
 
+    /**
+     * @return a simple upload form for rdf files
+     */
     public static Result upload() {
 	return ok(upload.render());
     }
 
+    /**
+     * @return a jsonLd Context
+     */
     public static Promise<Result> asJsonLdContext() {
-	return Promise.promise(() -> {
-	    try {
-		List<MapEntry> ls = new ArrayList<MapEntry>(
-			Globals.profile.nMap.values());
-		Map<String, Object> pmap;
-		Map<String, Object> cmap = new HashMap<String, Object>();
-		for (MapEntry l : ls) {
-		    pmap = new HashMap<String, Object>();
-		    pmap.put("@id", l.uri);
-		    pmap.put("label", l.label);
-		    if (l.referenceType != null) {
-			pmap.put("@type", l.referenceType);
+	return Promise
+		.promise(() -> {
+		    try {
+			List<MapEntry> ls = new ArrayList<MapEntry>(
+				Globals.profile.nMap.values());
+			Map<String, Object> pmap;
+			Map<String, Object> cmap = new HashMap<String, Object>();
+			for (MapEntry l : ls) {
+			    if ("class".equals(l.referenceType)
+				    || l.referenceType == null)
+				continue;
+			    pmap = new HashMap<String, Object>();
+			    pmap.put("@id", l.uri);
+			    pmap.put("label", l.label);
+			    if (l.referenceType != null) {
+				pmap.put("@type", l.referenceType);
+			    }
+			    cmap.put(l.name, pmap);
+			}
+			Map<String, Object> contextObject = new HashMap<String, Object>();
+			contextObject.put("@context", cmap);
+			return ok(json(contextObject));
+		    } catch (Exception e) {
+			play.Logger.warn("", e);
+			return redirect(routes.Application.index());
 		    }
-		    cmap.put(l.name, pmap);
-		}
-		return ok(json(cmap));
-	    } catch (Exception e) {
-		play.Logger.warn("", e);
-		return redirect(routes.Application.index());
-	    }
-	});
+		});
     }
 }

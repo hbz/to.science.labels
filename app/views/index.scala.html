@@ -10,11 +10,11 @@
 <thead><tr><th>Icon</th><th>Label</th><th>Name</th><th>Uri</th><th>RefType</th></tr></thead>
 @for(entry <- theApplicationProfile){
 <tr>
-<td><span class="@entry.icon"></span><br/><a href="/etikett?url=@Application.EncodeURL(entry.uri)&colum=Icon">@entry.icon</a></td>
-<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&colum=Label">@entry.label</a></td>
-<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&colum=Name">@entry.name</a></td>
+<td><span class="@entry.icon"></span><br/><a href="/etikett?url=@Application.EncodeURL(entry.uri)&column=Icon">@entry.icon</a></td>
+<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&column=Label">@entry.label</a></td>
+<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&column=Name">@entry.name</a></td>
 <td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
-<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&colum=RefType"">@entry.referenceType</a></td>
+<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett?url=@Application.EncodeURL(entry.uri)&column=RefType"">@entry.referenceType</a></td>
 </tr>
 }
 </table>
