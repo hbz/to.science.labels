@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import controllers.Globals;
 import play.Application;
 import play.GlobalSettings;
+import play.Play;
 import play.libs.F.Promise;
 import play.mvc.Action;
 import play.mvc.Http.Request;
@@ -40,13 +41,21 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
+
+	if (play.api.Play.isDev(play.api.Play.current())) {
+	    play.Logger.info("Application has started in dev mode");
+	    String[] configs = Play.application().configuration()
+		    .getString("etikett.configs").split("\\s*,[,\\s]*");
+	    for (String s : configs) {
+		Globals.profile.addRdfData(s);
+	    }
+	}
 	play.Logger.info("Application has started");
 
     }
 
     @Override
     public void onStop(Application app) {
-	Globals.profile.saveMap();
 	play.Logger.info("Application shutdown...");
     }
 

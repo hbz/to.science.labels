@@ -6,7 +6,7 @@ import static play.test.Helpers.running;
 
 import java.util.ArrayList;
 
-import models.MapEntry;
+import models.Etikett;
 
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class ApplicationTest {
 	running(fakeApplication(), new Runnable() {
 	    public void run() {
 		Content html = views.html.index
-			.render(new ArrayList<MapEntry>());
+			.render(new ArrayList<Etikett>());
 		assertThat(contentType(html)).isEqualTo("text/html");
 		assertThat(contentAsString(html)).contains(
 			"Application Profile");

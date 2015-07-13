@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.MapEntry;
+import models.Etikett;
 import play.libs.F.Promise;
 import play.mvc.Call;
 import play.mvc.Http.MultipartFormData;
@@ -66,7 +66,7 @@ public class Application extends MyController {
 	    }
 	    response().setHeader("Content-Type", "text/plain; charset=utf-8");
 	    if (column != null && !column.isEmpty() && urlAddress != null) {
-		MapEntry entry = Globals.profile.pMap.get(urlAddress);
+		Etikett entry = Globals.profile.getValue(urlAddress);
 		switch (column) {
 		case "Icon":
 		    return ok(entry.icon);
@@ -95,13 +95,13 @@ public class Application extends MyController {
 		    "application/json; charset=utf-8");
 
 	    if (urlAddress != null) {
-		MapEntry entry = Globals.profile.pMap.get(urlAddress);
-		ArrayList<MapEntry> result = new ArrayList<MapEntry>();
+		Etikett entry = Globals.profile.getValue(urlAddress);
+		ArrayList<Etikett> result = new ArrayList<Etikett>();
 		result.add(entry);
 		return ok(json(result));
 	    } else {
-		return ok(json(new ArrayList<MapEntry>(
-			Globals.profile.pMap.values())));
+		return ok(json(new ArrayList<Etikett>(
+			Globals.profile.getValues())));
 	    }
 
 	} catch (Exception e) {
@@ -115,13 +115,13 @@ public class Application extends MyController {
 	try {
 	    response().setHeader("Content-Type", "text/html; charset=utf-8");
 	    if (urlAddress != null) {
-		MapEntry entry = Globals.profile.pMap.get(urlAddress);
-		ArrayList<MapEntry> result = new ArrayList<MapEntry>();
+		Etikett entry = Globals.profile.getValue(urlAddress);
+		ArrayList<Etikett> result = new ArrayList<Etikett>();
 		result.add(entry);
 		return ok(index.render(result));
 	    } else {
-		return ok(index.render(new ArrayList<MapEntry>(
-			Globals.profile.pMap.values())));
+		return ok(index.render(new ArrayList<Etikett>(Globals.profile
+			.getValues())));
 	    }
 	} catch (Exception e) {
 	    play.Logger.debug("", e);
@@ -175,7 +175,7 @@ public class Application extends MyController {
 			    // String contentType = data.getContentType();
 		File file = data.getFile();
 		try (FileInputStream uploadData = new FileInputStream(file)) {
-		    Globals.profile.loadToMap(uploadData);
+		    Globals.profile.addRdfData(uploadData);
 		    flash("info", "File uploaded");
 		    return redirect(routes.Application.getColumn(null, null));
 		}
@@ -203,11 +203,11 @@ public class Application extends MyController {
 	return Promise
 		.promise(() -> {
 		    try {
-			List<MapEntry> ls = new ArrayList<MapEntry>(
-				Globals.profile.nMap.values());
+			List<Etikett> ls = new ArrayList<Etikett>(
+				Globals.profile.getValues());
 			Map<String, Object> pmap;
 			Map<String, Object> cmap = new HashMap<String, Object>();
-			for (MapEntry l : ls) {
+			for (Etikett l : ls) {
 			    if ("class".equals(l.referenceType)
 				    || l.referenceType == null
 				    || l.name == null)

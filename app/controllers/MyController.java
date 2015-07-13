@@ -57,6 +57,7 @@ public class MyController extends Controller {
 	}
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     protected static String json(Object obj) {
 	try {
 	    setJsonHeader();

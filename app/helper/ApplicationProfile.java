@@ -17,20 +17,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package helper;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
-import models.MapEntry;
+import models.Etikett;
 
 import org.openrdf.model.Graph;
 import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
+
+import com.avaje.ebean.Ebean;
 
 import play.Play;
 
@@ -61,50 +60,12 @@ public class ApplicationProfile {
     public final static String referenceType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 
     /**
-     * A map with URIs as key and labels,icons, shortnames as values
+     * @param fileName
+     *            add data from a file
      */
-    public Map<String, MapEntry> pMap = new HashMap<String, MapEntry>();
-
-    /**
-     * A map with Shortnames as key and labels,icons, uris as values
-     */
-    public Map<String, MapEntry> nMap = new HashMap<String, MapEntry>();
-
-    private String defaultMap = null;
-
-    /**
-     * Associates labels to rdf predicates or known objects
-     */
-    public ApplicationProfile() {
-	defaultMap = Play.application().configuration()
-		.getString("etikett.databaseFile");
-	String[] configs = Play.application().configuration()
-		.getString("etikett.configs").split("\\s*,[,\\s]*");
-	loadDefaultConfig();
-	for (String s : configs) {
-	    loadToMap(s);
-	}
-
-    }
-
-    private void loadDefaultConfig() {
-	try {
-	    loadToMap(new FileInputStream(new File(defaultMap)));
-	} catch (Exception e) {
-	    play.Logger.info("Default config file " + defaultMap
-		    + " not found.");
-	}
-    }
-
-    private void loadNMap() {
-	for (Entry<String, MapEntry> e : pMap.entrySet()) {
-	    nMap.put(e.getValue().name, e.getValue());
-	}
-    }
-
-    private void loadToMap(String fileName) {
+    public void addRdfData(String fileName) {
 	try (InputStream in = Play.application().resourceAsStream(fileName)) {
-	    loadToMap(in);
+	    addRdfData(in);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    play.Logger.info("config file " + fileName + " not found.");
@@ -115,155 +76,45 @@ public class ApplicationProfile {
      * @param in
      *            an input stream with rdf in turtle format
      */
-    public void loadToMap(InputStream in) {
+    public void addRdfData(InputStream in) {
 	Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
 	Iterator<Statement> statements = g.iterator();
+	Map<String, Etikett> collect = new HashMap<String, Etikett>();
 	while (statements.hasNext()) {
 	    Statement st = statements.next();
-	    play.Logger.debug(st.getSubject().stringValue() + ","
-		    + st.getPredicate().stringValue() + ","
-		    + st.getObject().stringValue());
-
 	    String subj = st.getSubject().stringValue();
 	    String obj = st.getObject().stringValue();
+	    Etikett e = collect.get(subj);
+	    if (e == null)
+		e = new Etikett();
 	    if (prefLabel.equals(st.getPredicate().stringValue())) {
-		addLabel(subj, obj);
+		e.label = obj;
+	    } else if (icon.equals(st.getPredicate().stringValue())) {
+		e.icon = obj;
+	    } else if (name.equals(st.getPredicate().stringValue())) {
+		e.name = obj;
+	    } else if (referenceType.equals(st.getPredicate().stringValue())) {
+		e.referenceType = obj;
 	    }
-	    if (icon.equals(st.getPredicate().stringValue())) {
-		addIcon(subj, obj);
-	    }
-	    if (name.equals(st.getPredicate().stringValue())) {
-		addName(subj, obj);
-	    }
-	    if (referenceType.equals(st.getPredicate().stringValue())) {
-		addReferenceType(subj, obj);
-	    }
+	    collect.put(subj, e);
 	}
-	loadNMap();
-    }
-
-    private void addReferenceType(String key, String obj) {
-	MapEntry e = new MapEntry();
-	if (pMap.containsKey(key)) {
-	    e = pMap.get(key);
-	}
-	e.uri = key;
-	e.referenceType = obj;
-	pMap.put(key, e);
-    }
-
-    void addLabel(String key, String obj) {
-	MapEntry e = new MapEntry();
-	if (pMap.containsKey(key)) {
-	    e = pMap.get(key);
-	}
-	e.uri = key;
-	e.label = obj;
-	pMap.put(key, e);
-    }
-
-    void addIcon(String key, String obj) {
-	MapEntry e = new MapEntry();
-	if (pMap.containsKey(key)) {
-	    e = pMap.get(key);
-	}
-	e.uri = key;
-	e.icon = obj;
-	pMap.put(key, e);
-    }
-
-    void addName(String key, String obj) {
-	MapEntry e = new MapEntry();
-	if (pMap.containsKey(key)) {
-	    e = pMap.get(key);
-	}
-	e.uri = key;
-	e.name = obj;
-	pMap.put(key, e);
+	Ebean.save(collect.values());
     }
 
     /**
-     * @param key
-     * @return a icon string or null
+     * @return all Values from etikett store
      */
-    public String getIcon(String key) {
-	if (pMap.containsKey(key)) {
-	    MapEntry value = pMap.get(key);
-	    return value.icon;
-	}
-	return null;
+    public Collection<? extends Etikett> getValues() {
+	return Ebean.find(Etikett.class).findList();
     }
 
     /**
-     * stores the pmap to a file. Each entry is represented in one row forming
-     * an ntriple key prefLabel value
+     * @param urlAddress
+     * @return data associated with the url
      */
-    public void saveMap() {
-	play.Logger.info("Write labels to map please hold on!!!");
-	String result = new String();
-	Set<Entry<String, MapEntry>> set = pMap.entrySet();
-	for (Entry<String, MapEntry> e : set) {
-	    String l = e.getValue().label;
-	    String i = e.getValue().icon;
-	    String t = e.getValue().referenceType;
-	    String n = e.getValue().name;
-
-	    if (l != null) {
-		result = RdfUtils.addTriple(e.getKey(), prefLabel, l, true,
-			result, RDFFormat.TURTLE);
-	    }
-	    if (i != null) {
-		result = RdfUtils.addTriple(e.getKey(), icon, i, true, result,
-			RDFFormat.TURTLE);
-	    }
-	    if (t != null) {
-		result = RdfUtils.addTriple(e.getKey(), referenceType, t, true,
-			result, RDFFormat.TURTLE);
-	    }
-	    if (n != null) {
-		result = RdfUtils.addTriple(e.getKey(), name, t, true, result,
-			RDFFormat.TURTLE);
-	    }
-	}
-	XmlUtils.newStringToFile(new File(defaultMap), result);
+    public Etikett getValue(String urlAddress) {
+	return Ebean.find(Etikett.class).where().eq("uri", urlAddress)
+		.findUnique();
     }
 
-    /**
-     * Creates new RdfResource with labels for objects and predicates
-     * 
-     * @param r
-     *            a RdfResource
-     * 
-     * @return new RdfResource with labels for objects and predicates
-     */
-    public RdfResource addLabels(final RdfResource r) {
-	try {
-	    RdfResource result = new RdfResource(r.getUri());
-	    for (Link l : r.getLinks()) {
-		MapEntry entry = pMap.get(l.getPredicate());
-
-		if (entry == null || entry.label == null) {
-
-		} else {
-		    l.setPredicateLabel(entry.label);
-		}
-
-		if (!l.isLiteral() && l.getObjectLabel() == null) {
-
-		    entry = pMap.get(l.getObject());
-		    if (entry == null || entry.label == null) {
-			l.setObjectLabel(l.getObject());
-			// play.Logger.debug("No label for " + l.getObject());
-		    } else {
-			l.setObjectLabel(entry.label);
-		    }
-		}
-		result.addLink(l);
-	    }
-	    return result;
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    throw e;
-	}
-    }
 }

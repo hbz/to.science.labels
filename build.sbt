@@ -5,7 +5,7 @@ name := """etikett"""
 version := "0.1.0-SNAPSHOT"
 
 libraryDependencies ++= Seq(
-  cache,javaJdbc,
+  cache,javaJdbc,javaEbean,
    "org.openrdf.sesame" % "sesame-repository-api" % "2.7.10" ,
   "org.openrdf.sesame" % "sesame-core" % "2.7.10",
   "org.openrdf.sesame" % "sesame-rio" % "2.7.10",
@@ -25,7 +25,8 @@ libraryDependencies ++= Seq(
   "org.openrdf.sesame" % "sesame-http" % "2.7.10",
   "org.openrdf.sesame" % "sesame-repository-sail" % "2.7.10",
   "org.openrdf.sesame" % "sesame-sail-memory" % "2.7.10",
-  "org.openrdf.sesame" % "sesame-sail-nativerdf" % "2.7.10"
+  "org.openrdf.sesame" % "sesame-sail-nativerdf" % "2.7.10",
+   "mysql" % "mysql-connector-java" % "5.1.18"
   )
 
 playJavaSettings

@@ -29,23 +29,9 @@ bc.. cd /tmp
 git clone https://github.com/hbz/etikett
 cd etikett
 
-h2. Configure
-
-Provide a list of rdf-turtle files. Four triples are supported so far regal:jsonName, skos:prefLabel, and xhtml:icon.
-
-Example:
-
-bc.. <http://purl.org/dc/terms/creator>
-<http://hbz-nrw.de/regal#jsonName> "creator";
-<http://www.w3.org/2004/02/skos/core#prefLabel> "Autor" ;
-<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-user" ;
-<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
-
-p. Include your config to application.conf by providing a comma-separated list in 
-
-bc.. etikett.configs="ddc.turtle,regal.turtle,rpb.turtle"
-
 h2. Run
+
+This will start the application in developer mode. Some test data is loaded at startup
 
 bc.. /opt/activator-1.3.2-minimal/activator run
 
@@ -89,6 +75,20 @@ PORT=9000
 p. include into system start and shutdown
 
 bc.. sudo update-rc.d etikett defaults 99 20
+
+p. Create/Configure Mysql Table
+
+bc.. mysql -u root -p
+CREATE DATABASE etikett;
+CREATE USER 'etikett'@'localhost' IDENTIFIED BY 'etikett';
+GRANT ALL ON etikett.* TO 'etikett'@'localhost';
+
+p. Set /opt/etikett/conf/application.conf
+
+bc.. db.default.driver=com.mysql.jdbc.Driver
+db.default.url="jdbc:mysql://localhost/etikett"
+db.default.user=etikett
+db.default.password="etikett"
 
 p. start
 
