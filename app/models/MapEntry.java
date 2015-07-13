@@ -46,5 +46,5 @@ public class MapEntry {
     /**
      * The expected type of the resource
      */
-    public String referenceType = null;
+    public String referenceType = "class";
 }

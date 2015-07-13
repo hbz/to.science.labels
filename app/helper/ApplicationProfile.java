@@ -120,67 +120,65 @@ public class ApplicationProfile {
 	Iterator<Statement> statements = g.iterator();
 	while (statements.hasNext()) {
 	    Statement st = statements.next();
-	    play.Logger.info(st.getSubject().stringValue() + ","
+	    play.Logger.debug(st.getSubject().stringValue() + ","
 		    + st.getPredicate().stringValue() + ","
 		    + st.getObject().stringValue());
+
+	    String subj = st.getSubject().stringValue();
+	    String obj = st.getObject().stringValue();
 	    if (prefLabel.equals(st.getPredicate().stringValue())) {
-		String key = st.getSubject().stringValue();
-		String labelStr = st.getObject().stringValue();
-		addLabel(key, labelStr);
+		addLabel(subj, obj);
 	    }
 	    if (icon.equals(st.getPredicate().stringValue())) {
-		String key = st.getSubject().stringValue();
-		String iconStr = st.getObject().stringValue();
-		addIcon(key, iconStr);
+		addIcon(subj, obj);
 	    }
 	    if (name.equals(st.getPredicate().stringValue())) {
-		String key = st.getSubject().stringValue();
-		String nameStr = st.getObject().stringValue();
-		addName(key, nameStr);
+		addName(subj, obj);
 	    }
 	    if (referenceType.equals(st.getPredicate().stringValue())) {
-		String key = st.getSubject().stringValue();
-		String typeStr = st.getObject().stringValue();
-		addReferenceType(key, typeStr);
+		addReferenceType(subj, obj);
 	    }
 	}
 	loadNMap();
     }
 
-    private void addReferenceType(String key, String typeStr) {
-	MapEntry e = new MapEntry();
-	if (pMap.containsKey(key)) {
-	    e = pMap.get(key);
-	}
-	e.referenceType = typeStr;
-	pMap.put(key, e);
-    }
-
-    void addLabel(String key, String labelStr) {
-	MapEntry e = new MapEntry();
-	if (pMap.containsKey(key)) {
-	    e = pMap.get(key);
-	}
-	e.label = labelStr;
-	pMap.put(key, e);
-    }
-
-    void addIcon(String key, String iconStr) {
-	MapEntry e = new MapEntry();
-	if (pMap.containsKey(key)) {
-	    e = pMap.get(key);
-	}
-	e.icon = iconStr;
-	pMap.put(key, e);
-    }
-
-    void addName(String key, String nameStr) {
+    private void addReferenceType(String key, String obj) {
 	MapEntry e = new MapEntry();
 	if (pMap.containsKey(key)) {
 	    e = pMap.get(key);
 	}
 	e.uri = key;
-	e.name = nameStr;
+	e.referenceType = obj;
+	pMap.put(key, e);
+    }
+
+    void addLabel(String key, String obj) {
+	MapEntry e = new MapEntry();
+	if (pMap.containsKey(key)) {
+	    e = pMap.get(key);
+	}
+	e.uri = key;
+	e.label = obj;
+	pMap.put(key, e);
+    }
+
+    void addIcon(String key, String obj) {
+	MapEntry e = new MapEntry();
+	if (pMap.containsKey(key)) {
+	    e = pMap.get(key);
+	}
+	e.uri = key;
+	e.icon = obj;
+	pMap.put(key, e);
+    }
+
+    void addName(String key, String obj) {
+	MapEntry e = new MapEntry();
+	if (pMap.containsKey(key)) {
+	    e = pMap.get(key);
+	}
+	e.uri = key;
+	e.name = obj;
 	pMap.put(key, e);
     }
 

@@ -68,9 +68,9 @@ public class Application extends MyController {
     /**
      * @param urlAddress
      *            a url address
-     * @param colum
-     *            the name of the colum
-     * @return a string with the content of the colum
+     * @param column
+     *            the name of the column
+     * @return a string with the content of the column
      */
     public static Promise<Result> getColumn(String urlAddress, String column) {
 	return Promise.promise(() -> {
@@ -114,7 +114,7 @@ public class Application extends MyController {
 		return ok(json(result));
 	    } else {
 		return ok(json(new ArrayList<MapEntry>(
-			Globals.profile.nMap.values())));
+			Globals.profile.pMap.values())));
 	    }
 
 	} catch (Exception e) {
@@ -222,12 +222,13 @@ public class Application extends MyController {
 			Map<String, Object> cmap = new HashMap<String, Object>();
 			for (MapEntry l : ls) {
 			    if ("class".equals(l.referenceType)
-				    || l.referenceType == null)
+				    || l.referenceType == null
+				    || l.name == null)
 				continue;
 			    pmap = new HashMap<String, Object>();
 			    pmap.put("@id", l.uri);
 			    pmap.put("label", l.label);
-			    if (l.referenceType != null) {
+			    if ("@id".equals(l.referenceType)) {
 				pmap.put("@type", l.referenceType);
 			    }
 			    cmap.put(l.name, pmap);
