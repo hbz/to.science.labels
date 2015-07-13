@@ -39,19 +39,6 @@ import views.html.*;
 public class Application extends MyController {
 
     /**
-     * @return a list of all entries of this application profile
-     */
-    public static Promise<Result> index() {
-	return Promise.promise(() -> {
-	    if (request().accepts("text/html")) {
-		return asHtml(null);
-	    } else {
-		return asJson(null);
-	    }
-	});
-    }
-
-    /**
      * @param urlAddress
      * @return the data of the corresponding row
      */
@@ -190,14 +177,14 @@ public class Application extends MyController {
 		try (FileInputStream uploadData = new FileInputStream(file)) {
 		    Globals.profile.loadToMap(uploadData);
 		    flash("info", "File uploaded");
-		    return redirect(routes.Application.index());
+		    return redirect(routes.Application.getColumn(null, null));
 		}
 	    } else {
 		flash("error", "Missing file");
-		return redirect(routes.Application.index());
+		return redirect(routes.Application.getColumn(null, null));
 	    }
 	} catch (Exception e) {
-	    return redirect(routes.Application.index());
+	    return redirect(routes.Application.getColumn(null, null));
 	}
     })  ;
     }
@@ -238,7 +225,8 @@ public class Application extends MyController {
 			return ok(json(contextObject));
 		    } catch (Exception e) {
 			play.Logger.warn("", e);
-			return redirect(routes.Application.index());
+			return redirect(routes.Application
+				.getColumn(null, null));
 		    }
 		});
     }

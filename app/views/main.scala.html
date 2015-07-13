@@ -38,13 +38,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="@play.api.Play.configuration.getString("application.context").getOrElse("/")">@title</a>
+          <a class="navbar-brand" href="@play.api.Play.configuration.getString("application.context").getOrElse("")">@title</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett/upload">Add New</a></li>
-            <li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett/download.json">Json</a></li>
-            <li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/etikett/context.json">Json-Ld Context</a></li>
+            <li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/upload">Add New</a></li>
+            <li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/download.json">Json</a></li>
+            <li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/context.json">Json-Ld Context</a></li>
           </ul>
           
         </div>
