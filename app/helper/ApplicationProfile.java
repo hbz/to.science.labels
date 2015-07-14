@@ -85,8 +85,9 @@ public class ApplicationProfile {
 	    String subj = st.getSubject().stringValue();
 	    String obj = st.getObject().stringValue();
 	    Etikett e = collect.get(subj);
-	    if (e == null)
-		e = new Etikett();
+	    if (e == null) {
+		e = new Etikett(subj);
+	    }
 	    if (prefLabel.equals(st.getPredicate().stringValue())) {
 		e.label = obj;
 	    } else if (icon.equals(st.getPredicate().stringValue())) {
