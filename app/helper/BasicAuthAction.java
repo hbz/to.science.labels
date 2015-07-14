@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package controllers;
+package helper;
 
 import play.Play;
 import play.libs.F;

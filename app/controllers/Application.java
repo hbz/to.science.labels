@@ -17,6 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package controllers;
 
+import helper.BasicAuth;
+import helper.Globals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
