@@ -1,15 +1,10 @@
 h1. etikett 
 
-etikett helps you to render uris. It provides icons, labels and shortnames for each uri. The etikett database is created on startup from skos files or similar rdf. etikett can be used to share display information between applications. Etikett helps you to create and maintain json-ld context documents. This can be extremely useful if you want to create json files dynamically from rdf data.   
+etikett helps you to render URIs. URI rendering is a common use case when dealing with rdf data. 
+ 
+- etikett stores labels and icon information to be used in your UIs 
+- etikett stores shortnames and types to be used in your json representation of rdf data
 
-Comes with the following testsets
-- ddc - skos of german ddc
-- rpb - skos file for Rheinlandpfälzische Landebibliografie
-
-The testsets refer to the following icon fonts 
-- font-awsome
-- glyphicon
-- octicon
 
 h1. Requirements
 
@@ -79,16 +74,16 @@ bc.. sudo update-rc.d etikett defaults 99 20
 p. Create/Configure Mysql Table
 
 bc.. mysql -u root -p
-CREATE DATABASE etikett;
-CREATE USER 'etikett'@'localhost' IDENTIFIED BY 'etikett';
-GRANT ALL ON etikett.* TO 'etikett'@'localhost';
+CREATE DATABASE etikett_test;
+CREATE USER 'etikett_test'@'localhost' IDENTIFIED BY 'etikett_test';
+GRANT ALL ON etikett_test.* TO 'etikett_test'@'localhost';
 
 p. Set /opt/etikett/conf/application.conf
 
 bc.. db.default.driver=com.mysql.jdbc.Driver
 db.default.url="jdbc:mysql://localhost/etikett"
-db.default.user=etikett
-db.default.password="etikett"
+db.default.user=etikett_test
+db.default.password="etikett_test"
 
 p. start
 
