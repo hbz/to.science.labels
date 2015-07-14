@@ -93,7 +93,6 @@ public class Application extends MyController {
 	try {
 	    response().setHeader("Content-Type",
 		    "application/json; charset=utf-8");
-
 	    if (urlAddress != null) {
 		Etikett entry = Globals.profile.getValue(urlAddress);
 		ArrayList<Etikett> result = new ArrayList<Etikett>();
@@ -103,7 +102,6 @@ public class Application extends MyController {
 		return ok(json(new ArrayList<Etikett>(
 			Globals.profile.getValues())));
 	    }
-
 	} catch (Exception e) {
 	    play.Logger.debug("", e);
 	    return status(500, json(e.toString()));
@@ -163,9 +161,10 @@ public class Application extends MyController {
     /**
      * @return http status
      */
+    @BasicAuth
     public static Promise<Result> addSkosData() {
-	return Promise
-		.promise(() -> {
+	return new ModifyAction()
+		.call(() -> {
 		    try {
 			MultipartFormData body = request().body()
 				.asMultipartFormData();

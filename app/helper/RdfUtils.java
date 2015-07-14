@@ -17,32 +17,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package helper;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
 
 import org.openrdf.model.Graph;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.TreeModel;
-import org.openrdf.repository.Repository;
-import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
-import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
 import org.openrdf.rio.helpers.StatementCollector;
-import org.openrdf.sail.memory.MemoryStore;
 
 /**
  * @author Jan Schnasse schnasse@hbz-nrw.de

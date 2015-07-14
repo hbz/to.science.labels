@@ -17,11 +17,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package models;
 
-import java.sql.Timestamp;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-
-import play.db.ebean.*;
+import play.db.ebean.Model;
 
 /**
  * This class is used in ApplicationProfile

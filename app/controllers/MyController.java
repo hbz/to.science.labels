@@ -20,8 +20,11 @@ package controllers;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import play.libs.F.Promise;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
+import views.html.message;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -36,6 +39,11 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  *
  */
 public class MyController extends Controller {
+    /**
+     * The admin can do everything
+     */
+    public final static String ADMIN_ROLE = "admin";
+
     protected static ObjectMapper mapper = new ObjectMapper();
 
     private static void setJsonHeader() {
@@ -83,4 +91,46 @@ public class MyController extends Controller {
 	}
     }
 
+    interface ApiAction {
+	Result exec();
+    }
+
+    /**
+     * @author Jan Schnasse
+     *
+     */
+    public static class ModifyAction {
+	Promise<Result> call(ApiAction ca) {
+	    return Promise.promise(() -> {
+		try {
+		    String role = (String) Http.Context.current().args
+			    .get("role");
+		    if (!modifyingAccessIsAllowed(role)) {
+			return AccessDenied();
+		    }
+		    return ca.exec();
+		} catch (Exception e) {
+		    throw new RuntimeException(e);
+		}
+	    });
+	}
+    }
+
+    /**
+     * @param role
+     *            the role of the user
+     * @return true if the user is allowed to modify the object
+     */
+    public static boolean modifyingAccessIsAllowed(String role) {
+	if (ADMIN_ROLE.equals(role))
+	    return true;
+	return false;
+    }
+
+    /**
+     * @return Html or Json Output
+     */
+    public static Result AccessDenied() {
+	return status(401, message.render("Access Denied"));
+    }
 }
