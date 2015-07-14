@@ -214,6 +214,7 @@ public class Application extends MyController {
 			    pmap = new HashMap<String, Object>();
 			    pmap.put("@id", l.uri);
 			    pmap.put("label", l.label);
+			    pmap.put("icon", l.icon);
 			    if ("@id".equals(l.referenceType)) {
 				pmap.put("@type", l.referenceType);
 			    }
