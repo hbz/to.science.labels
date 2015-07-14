@@ -2,7 +2,7 @@ h1. etikett
 
 etikett helps you to render URIs. URI rendering is a common use case when dealing with rdf data. 
  
-- presentation of rdf data for enduser - etikett stores labels and icon information 
+- presentation of rdf data to end users - etikett stores labels and icon information 
 - json-ld transformation from rdf database - etikett stores shortnames and types 
 
 With etikett one can establish unified rdf handling to similar applications. 
