@@ -33,6 +33,14 @@ import play.db.ebean.*;
 public class Etikett extends Model {
 
     /**
+     * @param subj
+     *            is used as primary key in table
+     */
+    public Etikett(String subj) {
+	uri = subj;
+    }
+
+    /**
      * 
      */
     private static final long serialVersionUID = 6716611400533458082L;
