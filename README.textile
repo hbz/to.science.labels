@@ -2,9 +2,10 @@ h1. etikett
 
 etikett helps you to render URIs. URI rendering is a common use case when dealing with rdf data. 
  
-- etikett stores labels and icon information to be used in your UIs 
-- etikett stores shortnames and types to be used in your json representation of rdf data
+- presentation of rdf data for enduser - etikett stores labels and icon information 
+- json-ld transformation from rdf database - etikett stores shortnames and types 
 
+With etikett one can establish unified rdf handling to similar applications. 
 
 h1. Requirements
 
@@ -30,17 +31,17 @@ This will start the application in developer mode. Some test data is loaded at s
 
 bc.. /opt/activator-1.3.2-minimal/activator run
 
-p. Go to http://localhost:9000
+p. Go to http://localhost:9000/tools/etikett
 
 h2. Manual Test
 
 List all
 
-bc.. curl "http://localhost:9000" -H"accept: application/json"
+bc.. curl "http://localhost:9000/tools/etikett" -H"accept: application/json"
 
 p. Or list info for a single uri
 
-bc.. curl "http://localhost:9000/?url=http%3A%2F%2Fpurl.orms%2Fissued" -H"accept: application/json"
+bc.. curl "http://localhost:9000/tools/etikett?url=http%3A%2F%2Fpurl.orms%2Fissued" -H"accept: application/json"
 
 h1. Install on Ubuntu
 
