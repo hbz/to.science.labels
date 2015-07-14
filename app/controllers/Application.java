@@ -17,6 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package controllers;
 
+import helper.BasicAuth;
+import helper.Globals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.Etikett;
+import play.data.Form;
 import play.libs.F.Promise;
 import play.mvc.Call;
 import play.mvc.Http.MultipartFormData;
@@ -229,5 +233,45 @@ public class Application extends MyController {
 				.getColumn(null, null));
 		    }
 		});
+    }
+
+    /**
+     * @return a simple form for new entries
+     */
+    public static Result edit(String url) {
+	if (url != null) {
+	    Etikett e = Globals.profile.getValue(url);
+	    Form<Etikett> form = Form.form(Etikett.class).fill(e);
+	    return ok(edit.render(form));
+	}
+	return ok(edit.render(Form.form(Etikett.class)));
+    }
+
+    /**
+     * @return a simple form for new entries
+     */
+    public static Result update() {
+	Form<Etikett> form = Form.form(Etikett.class).bindFromRequest();
+	if (form.hasErrors()) {
+	    return badRequest(edit.render(form));
+	} else {
+	    Etikett u = form.get();
+	    u.update();
+	}
+	return redirect(routes.Application.getColumn(null, null));
+    }
+
+    /**
+     * @return a simple form for new entries
+     */
+    public static Result delete(String url) {
+	play.Logger.debug("Try to delete " + url);
+	if (url != null) {
+	    Etikett e = Globals.profile.getValue(url);
+	    e.delete();
+	    redirect(routes.Application.getColumn(null, null));
+	}
+	flash("error", "Missing Parameter url");
+	return redirect(routes.Application.getColumn(null, null));
     }
 }
