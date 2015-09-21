@@ -6,11 +6,6 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Etikett" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
-<info:hbz/hbz-ingest:def/model#isNodeType>
-    <http://hbz-nrw.de/regal#jsonName> "isNodeType";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Fedora Typ" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
 <http://purl.org/dc/terms/modified>
     <http://hbz-nrw.de/regal#jsonName> "modified";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Zuletzt bearbeitet" ;
@@ -27,7 +22,7 @@
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 	
 <http://purl.org/lobid/lv#hbzID>
-    <http://hbz-nrw.de/regal#jsonName> "hbzID";
+    <http://hbz-nrw.de/regal#jsonName> "hbzId";
   	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-bars" ;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Katalog Id" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
@@ -680,4 +675,14 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Abschlussarbeit" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
 
+<http://fr.dbpedia.org/ontology/institution>
+    <http://hbz-nrw.de/regal#jsonName> "institution";
+    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-mortar-board" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Institution" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
+<http://hbz-nrw.de/regal#parallelEdition>
+    <http://hbz-nrw.de/regal#jsonName> "parallelEdition";
+    <http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-mortar-board" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Titelkopie" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
