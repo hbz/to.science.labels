@@ -236,6 +236,7 @@ public class Application extends MyController {
     }
 
     /**
+     * @param url
      * @return a simple form for new entries
      */
     public static Result edit(String url) {
@@ -262,6 +263,7 @@ public class Application extends MyController {
     }
 
     /**
+     * @param url
      * @return a simple form for new entries
      */
     public static Result delete(String url) {
