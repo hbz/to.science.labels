@@ -674,3 +674,37 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Schlagwortkette" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
  
+<http://purl.org/ontology/bibo/Proceedings>
+    <http://hbz-nrw.de/regal#jsonName> "proceeding";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-three-bars" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Konferenzband" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+    
+<http://purl.org/ontology/bibo/Article>
+    <http://hbz-nrw.de/regal#jsonName> "article";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-file-text" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Aufsatz" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+ 
+<http://purl.org/ontology/bibo/Series>
+    <http://hbz-nrw.de/regal#jsonName> "series";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "glyphicon glyphicon-th-large" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Reihe" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+ 
+<http://purl.org/lobid/lv#EditedVolume>
+    <http://hbz-nrw.de/regal#jsonName> "editedVolume";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-package" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Aufsatzsammlung" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+ 
+<http://purl.org/lobid/lv#Biography>
+    <http://hbz-nrw.de/regal#jsonName> "biography";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "glyphicon glyphicon-user" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Biograpeeehie" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+ 
+ 
+ 
+ 
+ 

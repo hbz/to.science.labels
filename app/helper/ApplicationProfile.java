@@ -30,6 +30,7 @@ import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.Play;
 
@@ -84,20 +85,27 @@ public class ApplicationProfile {
 	    Statement st = statements.next();
 	    String subj = st.getSubject().stringValue();
 	    String obj = st.getObject().stringValue();
+	    String pred = st.getPredicate().stringValue();
 	    Etikett e = collect.get(subj);
 	    if (e == null) {
-		e = new Etikett(subj);
+		e = getValue(subj);
+		if (e == null) {
+		    e = new Etikett(subj);
+		}
 	    }
-	    if (prefLabel.equals(st.getPredicate().stringValue())) {
+	    if (prefLabel.equals(pred)) {
 		e.label = obj;
-	    } else if (icon.equals(st.getPredicate().stringValue())) {
+	    } else if (icon.equals(pred)) {
 		e.icon = obj;
-	    } else if (name.equals(st.getPredicate().stringValue())) {
+	    } else if (name.equals(pred)) {
+		play.Logger.info(subj + "," + pred + "," + obj);
 		e.name = obj;
-	    } else if (referenceType.equals(st.getPredicate().stringValue())) {
+	    } else if (referenceType.equals(pred)) {
 		e.referenceType = obj;
 	    }
+	    play.Logger.info(e.uri + " " + e.name);
 	    collect.put(subj, e);
+
 	}
 	Ebean.save(collect.values());
     }
