@@ -6,11 +6,6 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Etikett" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
-<info:hbz/hbz-ingest:def/model#isNodeType>
-    <http://hbz-nrw.de/regal#jsonName> "isNodeType";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Fedora Typ" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
 <http://purl.org/dc/terms/modified>
     <http://hbz-nrw.de/regal#jsonName> "modified";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Zuletzt bearbeitet" ;
@@ -27,7 +22,7 @@
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 	
 <http://purl.org/lobid/lv#hbzID>
-    <http://hbz-nrw.de/regal#jsonName> "hbzID";
+    <http://hbz-nrw.de/regal#jsonName> "hbzId";
   	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-bars" ;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Katalog Id" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
@@ -476,10 +471,10 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Weitere Informationen" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
-<http://www.w3.org/2000/01/rdf-schema#type>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
     <http://hbz-nrw.de/regal#jsonName> "type";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Typ" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
 <http://www.w3.org/2002/07/owl#sameAs>
     <http://hbz-nrw.de/regal#jsonName> "sameAs";
@@ -495,36 +490,6 @@
     <http://hbz-nrw.de/regal#jsonName> "isPrimaryTopicOf";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Gegenstand von" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
-
-<info:fedora/fedora-system:def/relations-external#hasPart>
-    <http://hbz-nrw.de/regal#jsonName> "hasPart";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Kindobjekte" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
-
-<info:fedora/fedora-system:def/relations-external#isMemberOf>
-    <http://hbz-nrw.de/regal#jsonName> "isMemberOf";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Oai Set" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<info:fedora/fedora-system:def/relations-external#isPartOf>
-    <http://hbz-nrw.de/regal#jsonName> "isPartOf";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Elternobjekt" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
-
-<info:hbz/hbz-ingest:def/model#accessScheme>
-    <http://hbz-nrw.de/regal#jsonName> "accessScheme";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Sichtbarkeit Daten" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<info:hbz/hbz-ingest:def/model#contentType>
-    <http://hbz-nrw.de/regal#jsonName> "contentType";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Regal Typ" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<info:hbz/hbz-ingest:def/model#publishScheme>
-    <http://hbz-nrw.de/regal#jsonName> "publishScheme";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Sichtbarkeit Metadaten" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
     
 <http://purl.org/lobid/lv#subjectChain>
     <http://hbz-nrw.de/regal#jsonName> "subjectChain";
@@ -618,7 +583,6 @@
     <http://hbz-nrw.de/regal#jsonName> "Miscellaneous";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Sonstige", "Verschiedenes" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
-    
 
 <http://purl.org/ontology/bibo/AudioDocument>
     <http://hbz-nrw.de/regal#jsonName> "AudioDocument";
@@ -680,4 +644,33 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Abschlussarbeit" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
 
+<http://dbpedia.org/ontology/institution>
+    <http://hbz-nrw.de/regal#jsonName> "institution";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Institution" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
+<http://hbz-nrw.de/regal#parallelEdition>
+    <http://hbz-nrw.de/regal#jsonName> "parallelEdition";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Titelkopie" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
+
+<http://purl.org/dc/elements/1.1/contributor>
+    <http://hbz-nrw.de/regal#jsonName> "contributorName";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Mitarbeiter" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+
+<http://purl.org/dc/elements/1.1/creator>
+    <http://hbz-nrw.de/regal#jsonName> "creatorName";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Titelkopie" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .  
+    
+<http://rdaregistry.info/Elements/u/P60489>
+    <http://hbz-nrw.de/regal#jsonName> "P60489";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Hochschulschriftenvermerk";
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String"  .
+    
+<http://purl.org/lobid/lv#subjectChain>
+    <http://hbz-nrw.de/regal#jsonName> "subjectChain";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Schlagwortkette" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+ 
