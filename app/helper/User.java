@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package controllers;
+package helper;
 
 /**
  * @author Jan Schnasse schnasse@hbz-nrw.de

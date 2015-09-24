@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package models;
 
+import java.util.Map;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -68,4 +70,5 @@ public class Etikett extends Model {
      * The expected type of the resource
      */
     public String referenceType = "class";
+
 }
