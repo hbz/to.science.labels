@@ -1,5 +1,5 @@
 GET	    /					controllers.Application.getColumn(url : String?=null,column:String?=null)
-GET		/download.json		controllers.Application.asJson(url : String?=null)
+GET		/labels.json		controllers.Application.asJson(url : String?=null)
 GET		/context.json		controllers.Application.asJsonLdContext()
 GET		/upload		    	controllers.Application.upload()
 GET		/edit		    	controllers.Application.edit(url : String?=null)
