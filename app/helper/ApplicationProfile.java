@@ -32,6 +32,7 @@ import org.openrdf.rio.RDFFormat;
 import com.avaje.ebean.Ebean;
 
 import play.Play;
+import play.mvc.Http;
 
 /**
  * @author Jan Schnasse
@@ -124,9 +125,15 @@ public class ApplicationProfile {
 	Etikett result = Ebean.find(Etikett.class).where()
 		.eq("uri", urlAddress).findUnique();
 	if (result == null) {
-	    result = createLabel(urlAddress);
-	    if (result.label != null)
-		result.save();
+	    if ("admin"
+		    .equals((String) Http.Context.current().args.get("role"))) {
+		result = createLabel(urlAddress);
+		if (result.label != null) {
+		    result.save();
+		}
+	    } else {
+		result = new Etikett(urlAddress);
+	    }
 	}
 	return result;
     }

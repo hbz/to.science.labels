@@ -39,7 +39,8 @@ public class BasicAuthAction extends Action<BasicAuth> {
 
 	String authHeader = context.request().getHeader(AUTHORIZATION);
 	if (authHeader == null) {
-	    return unauthorized(context);
+	    context.args.put("role", "anonymous");
+	    return delegate.call(context);
 	}
 
 	String auth = authHeader.substring(6);
