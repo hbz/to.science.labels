@@ -100,13 +100,19 @@
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 	
 <http://purl.org/dc/terms/isPartOf>
-    <http://hbz-nrw.de/regal#jsonName> "isPartOf";
+    <http://hbz-nrw.de/regal#jsonName> "parentPid";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Bestandteil von" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
     
-<http://purl.org/dc/terms/isPartOf>
-    <http://hbz-nrw.de/regal#jsonName> "parentPid";
+<http://hbz-nrw.de/regal#isPartOf>
+    <http://hbz-nrw.de/regal#jsonName> "isPartOf";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Bestandteil von" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
+
+<http://purl.org/lobid/lv#Festschrift>
+    <http://hbz-nrw.de/regal#jsonName> "festschrift";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-gift" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Festschrift" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 	
 <http://purl.org/dc/terms/format>
@@ -267,7 +273,7 @@
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
 <http://purl.org/dc/elements/1.1/isPartOf>
-    <http://hbz-nrw.de/regal#jsonName> "isPartOf";
+    <http://hbz-nrw.de/regal#jsonName> "isPartOfName";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Bestandteil von" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
@@ -278,7 +284,7 @@
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
 <http://purl.org/dc/elements/1.1/subject>
-    <http://hbz-nrw.de/regal#jsonName> "subject";
+    <http://hbz-nrw.de/regal#jsonName> "subjectName";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Schlagwort" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
@@ -484,7 +490,7 @@
 <http://www.w3.org/2007/05/powder-s#describedby>
     <http://hbz-nrw.de/regal#jsonName> "describedby";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Beschrieben durch" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "@id" .
 
 <http://xmlns.com/foaf/0.1/isPrimaryTopicOf>
     <http://hbz-nrw.de/regal#jsonName> "isPrimaryTopicOf";
@@ -581,7 +587,7 @@
 
 <http://purl.org/lobid/lv#Miscellaneous>
     <http://hbz-nrw.de/regal#jsonName> "Miscellaneous";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Sonstige", "Verschiedenes" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Report" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
 
 <http://purl.org/ontology/bibo/AudioDocument>
@@ -592,7 +598,7 @@
 
 <http://purl.org/ontology/bibo/AudioVisualDocument>
     <http://hbz-nrw.de/regal#jsonName> "AudioVisualDocument";
-  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-video-o" ;
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-file-video-o" ;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Audio-Visuell" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
 
@@ -677,7 +683,7 @@
 <http://purl.org/ontology/bibo/Proceedings>
     <http://hbz-nrw.de/regal#jsonName> "proceeding";
   	<http://www.w3.org/1999/xhtml/vocab#icon> "octicon octicon-three-bars" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Konferenzband" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Konferenzband/Konferenzbeitrag" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
     
 <http://purl.org/ontology/bibo/Article>
@@ -701,10 +707,34 @@
 <http://purl.org/lobid/lv#Biography>
     <http://hbz-nrw.de/regal#jsonName> "biography";
   	<http://www.w3.org/1999/xhtml/vocab#icon> "glyphicon glyphicon-user" ;
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Biograpeeehie" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Biografie" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/lobid/lv#ArchivedWebPage>
+	<http://hbz-nrw.de/regal#jsonName> "archivedWebpage";
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-wifi" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Archivierte Webseite" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
  
- 
- 
+<http://hbz-nrw.de/regal#objectTimestamp>
+ 	<http://hbz-nrw.de/regal#jsonName> "objectTimestamp";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Objekt bearb." ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
+    
+<http://purl.org/ontology/bibo/DocumentPart>
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-folder-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Unterordnung" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Issue>
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-clone" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Ausgabe" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+
+<http://purl.org/ontology/bibo/Volume>
+  	<http://www.w3.org/1999/xhtml/vocab#icon> "fa fa-calendar-o" ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Jahrgang" ;
+    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "class" .
+ 	
  
  
