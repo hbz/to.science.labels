@@ -36,6 +36,7 @@ import views.html.*;
  * @author Jan Schnasse
  *
  */
+@BasicAuth
 public class Application extends MyController {
 
     /**

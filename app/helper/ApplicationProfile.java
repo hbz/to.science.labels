@@ -30,9 +30,9 @@ import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.Play;
+import play.mvc.Http;
 
 /**
  * @author Jan Schnasse
@@ -122,8 +122,34 @@ public class ApplicationProfile {
      * @return data associated with the url
      */
     public Etikett getValue(String urlAddress) {
-	return Ebean.find(Etikett.class).where().eq("uri", urlAddress)
-		.findUnique();
+	Etikett result = Ebean.find(Etikett.class).where()
+		.eq("uri", urlAddress).findUnique();
+	if (result == null) {
+	    if ("admin"
+		    .equals((String) Http.Context.current().args.get("role"))) {
+		result = createLabel(urlAddress);
+		if (result.label != null) {
+		    result.save();
+		}
+	    } else {
+		result = new Etikett(urlAddress);
+	    }
+	}
+	return result;
+    }
+
+    private Etikett createLabel(String urlAddress) {
+	Etikett etikett = new Etikett(urlAddress);
+	etikett.label = lookUpLabel(urlAddress);
+	return etikett;
+    }
+
+    private String lookUpLabel(String urlAddress) {
+	if (urlAddress.startsWith(GndLabelResolver.id)) {
+	    return GndLabelResolver.lookup(urlAddress);
+	} else {
+	    return DefaultLabelResolver.lookup(urlAddress);
+	}
     }
 
 }
