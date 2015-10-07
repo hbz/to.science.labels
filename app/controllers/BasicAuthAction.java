@@ -32,15 +32,19 @@ public class BasicAuthAction extends Action<BasicAuth> {
 
     private static final String AUTHORIZATION = "authorization";
     private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
-    private static final String REALM = "Basic realm=\"Please enter edoweb-anonymous with any password for guest access\"";
+    private static final String REALM = "Basic realm=\"Please enter anonymous with any password for guest access\"";
 
     @Override
     public F.Promise<SimpleResult> call(Http.Context context) throws Throwable {
 
 	String authHeader = context.request().getHeader(AUTHORIZATION);
 	if (authHeader == null) {
-	    context.args.put("role", "anonymous");
-	    return delegate.call(context);
+	    if (context.request().method().equals("GET")) {
+		context.args.put("role", "anonymous");
+		return delegate.call(context);
+	    } else {
+		return unauthorized(context);
+	    }
 	}
 
 	String auth = authHeader.substring(6);
