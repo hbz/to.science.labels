@@ -2,5 +2,5 @@ GET	    /					controllers.Application.getColumn(url : String?=null,column:String
 GET		/labels.json		controllers.Application.asJson(url : String?=null)
 GET		/context.json		controllers.Application.asJsonLdContext()
 GET		/upload		    	controllers.Application.upload()
-POST	/                	controllers.Application.addSkosData()
+POST	/                	controllers.Application.addData()
 GET     /public/*file       controllers.Assets.at(path="/public", file)

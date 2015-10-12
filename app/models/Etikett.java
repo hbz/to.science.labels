@@ -20,6 +20,8 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import play.db.ebean.Model;
 
 /**
@@ -68,4 +70,18 @@ public class Etikett extends Model {
      * The expected type of the resource
      */
     public String referenceType = "class";
+
+    public String toString() {
+	try {
+	    return new ObjectMapper().writeValueAsString(this);
+	} catch (Exception e) {
+	    return "To String failed " + e.getMessage();
+	}
+    }
+
+    public void copy(Etikett e) {
+	icon = e.icon;
+	label = e.label;
+	name = e.name;
+    }
 }

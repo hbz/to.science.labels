@@ -24,7 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import models.Etikett;
+import play.data.DynamicForm;
+import play.data.Form;
 import play.libs.F.Promise;
 import play.mvc.Call;
 import play.mvc.Http.MultipartFormData;
@@ -67,7 +72,7 @@ public class Application extends MyController {
 	    }
 	    response().setHeader("Content-Type", "text/plain; charset=utf-8");
 	    if (column != null && !column.isEmpty() && urlAddress != null) {
-		Etikett entry = Globals.profile.getValue(urlAddress);
+		Etikett entry = Globals.profile.findEtikett(urlAddress);
 		switch (column) {
 		case "Icon":
 		    return ok(entry.icon);
@@ -95,7 +100,7 @@ public class Application extends MyController {
 	    response().setHeader("Content-Type",
 		    "application/json; charset=utf-8");
 	    if (urlAddress != null) {
-		Etikett entry = Globals.profile.getValue(urlAddress);
+		Etikett entry = Globals.profile.findEtikett(urlAddress);
 		ArrayList<Etikett> result = new ArrayList<Etikett>();
 		result.add(entry);
 		return ok(json(result));
@@ -114,7 +119,7 @@ public class Application extends MyController {
 	try {
 	    response().setHeader("Content-Type", "text/html; charset=utf-8");
 	    if (urlAddress != null) {
-		Etikett entry = Globals.profile.getValue(urlAddress);
+		Etikett entry = Globals.profile.findEtikett(urlAddress);
 		ArrayList<Etikett> result = new ArrayList<Etikett>();
 		result.add(entry);
 		return ok(index.render(result));
@@ -163,30 +168,46 @@ public class Application extends MyController {
      * @return http status
      */
     @BasicAuth
-    public static Promise<Result> addSkosData() {
+    public static Promise<Result> addData() {
 	return new ModifyAction()
 		.call(() -> {
 		    try {
+
 			MultipartFormData body = request().body()
 				.asMultipartFormData();
+
+			DynamicForm requestData = Form.form().bindFromRequest();
+			String format = requestData.get("format-cb");
+			play.Logger.debug(format);
 			FilePart data = body.getFile("data");
 			if (data != null) {
-			    // String fileName = data.getFilename();
-			    // String contentType = data.getContentType();
-		File file = data.getFile();
-		try (FileInputStream uploadData = new FileInputStream(file)) {
-		    Globals.profile.addRdfData(uploadData);
-		    flash("info", "File uploaded");
-		    return redirect(routes.Application.getColumn(null, null));
-		}
-	    } else {
-		flash("error", "Missing file");
-		return redirect(routes.Application.getColumn(null, null));
-	    }
-	} catch (Exception e) {
-	    return redirect(routes.Application.getColumn(null, null));
-	}
-    })  ;
+			    File file = data.getFile();
+			    try (FileInputStream uploadData = new FileInputStream(
+				    file)) {
+				if (!"Json".equals(format)) {
+				    Globals.profile.addRdfData(uploadData);
+				} else {
+				    Globals.profile.addJsonData(new ObjectMapper()
+					    .readValue(
+						    uploadData,
+						    new TypeReference<List<Etikett>>() {
+						    }));
+				}
+				flash("info", "File uploaded");
+				return redirect(routes.Application.getColumn(
+					null, null));
+			    }
+			} else {
+			    flash("error", "Missing file");
+			    return redirect(routes.Application.getColumn(null,
+				    null));
+			}
+		    } catch (Exception e) {
+			play.Logger.warn("", e);
+			return redirect(routes.Application
+				.getColumn(null, null));
+		    }
+		});
     }
 
     /**

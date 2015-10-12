@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import models.Etikett;
@@ -88,7 +89,7 @@ public class ApplicationProfile {
 	    String pred = st.getPredicate().stringValue();
 	    Etikett e = collect.get(subj);
 	    if (e == null) {
-		e = getValue(subj);
+		e = findEtikett(subj);
 		if (e == null) {
 		    e = new Etikett(subj);
 		}
@@ -98,12 +99,10 @@ public class ApplicationProfile {
 	    } else if (icon.equals(pred)) {
 		e.icon = obj;
 	    } else if (name.equals(pred)) {
-		play.Logger.info(subj + "," + pred + "," + obj);
 		e.name = obj;
 	    } else if (referenceType.equals(pred)) {
 		e.referenceType = obj;
 	    }
-	    play.Logger.info(e.uri + " " + e.name);
 	    collect.put(subj, e);
 
 	}
@@ -121,7 +120,7 @@ public class ApplicationProfile {
      * @param urlAddress
      * @return data associated with the url
      */
-    public Etikett getValue(String urlAddress) {
+    public Etikett findEtikett(String urlAddress) {
 	Etikett result = Ebean.find(Etikett.class).where()
 		.eq("uri", urlAddress).findUnique();
 	if (result == null) {
@@ -152,4 +151,23 @@ public class ApplicationProfile {
 	}
     }
 
+    /**
+     * @param uploadData
+     *            items in the list will override existing items with same uri
+     *            <a href="https://ebean-orm.github.io/docs/introduction"> See
+     *            ebean docu on save delete </a>
+     */
+    public void addJsonData(List<Etikett> uploadData) {
+	play.Logger.debug("Insert " + uploadData.size() + " new labels.");
+	for (Etikett e : uploadData) {
+	    Etikett cur = Ebean.find(Etikett.class).where().eq("uri", e.uri)
+		    .findUnique();
+	    if (cur == null) {
+		cur = new Etikett(e.uri);
+	    }
+	    cur.copy(e);
+	    Ebean.save(cur);
+	}
+
+    }
 }

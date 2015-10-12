@@ -3,9 +3,15 @@
 @main("Application Profile") {
 
 Upload a Turtle Rdf Skos File
-@helper.form(action = routes.Application.addSkosData, 'enctype -> "multipart/form-data") {
+@helper.form(action = routes.Application.addData, 'enctype -> "multipart/form-data") {
     <span class="btn btn-default btn-file">
     <input type="file" name="data">
+    <fieldset> 
+       <input type="radio" id="rdf-format" name="format-cb" value="Rdf-Turtle">
+       <label for="rdf-format">Rdf-Turtle</label>
+       <input type="radio" id="json-format" name="format-cb" value="Json">
+       <label for="json-format">Json</label>
+    </fieldset>
     </span>
     <p>
         <input type="submit" name="Upload" value="Upload">
