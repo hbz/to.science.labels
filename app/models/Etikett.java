@@ -79,6 +79,10 @@ public class Etikett extends Model {
 	}
     }
 
+    /**
+     * @param e
+     *            attrbutes from e will be copied to this etikett
+     */
     public void copy(Etikett e) {
 	icon = e.icon;
 	label = e.label;

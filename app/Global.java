@@ -17,13 +17,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import static play.mvc.Results.notFound;
 
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import controllers.Globals;
+import models.Etikett;
 import play.Application;
 import play.GlobalSettings;
 import play.Play;
@@ -32,6 +35,12 @@ import play.mvc.Action;
 import play.mvc.Http.Request;
 import play.mvc.Http.RequestHeader;
 import play.mvc.SimpleResult;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.CharStreams;
+
+import controllers.Globals;
 
 /**
  * @author Jan Schnasse
@@ -50,8 +59,26 @@ public class Global extends GlobalSettings {
 		Globals.profile.addRdfData(s);
 	    }
 	}
+	String[] imports = Play.application().configuration()
+		.getString("etikett.imports").split("\\s*,[,\\s]*");
+	for (String url : imports) {
+	    play.Logger.info("Import data from " + url + ".");
+	    readStringFromUrl(url + "/labels.json");
+	}
 	play.Logger.info("Application has started");
 
+    }
+
+    private void readStringFromUrl(String url) {
+	try {
+	    String uploadData = CharStreams.toString(new InputStreamReader(
+		    new URL(url).openConnection().getInputStream(), "UTF-8"));
+	    Globals.profile.addJsonData(new ObjectMapper().readValue(
+		    uploadData, new TypeReference<List<Etikett>>() {
+		    }));
+	} catch (Exception e) {
+	    play.Logger.warn("Cannot import data from " + url + ".");
+	}
     }
 
     @Override
