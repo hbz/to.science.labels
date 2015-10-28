@@ -89,10 +89,7 @@ public class ApplicationProfile {
 	    String pred = st.getPredicate().stringValue();
 	    Etikett e = collect.get(subj);
 	    if (e == null) {
-		e = findEtikett(subj);
-		if (e == null) {
-		    e = new Etikett(subj);
-		}
+		e = new Etikett(subj);
 	    }
 	    if (prefLabel.equals(pred)) {
 		e.label = obj;
@@ -104,8 +101,8 @@ public class ApplicationProfile {
 		e.referenceType = obj;
 	    }
 	    collect.put(subj, e);
-
 	}
+
 	Ebean.save(collect.values());
     }
 

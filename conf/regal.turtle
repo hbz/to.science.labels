@@ -375,11 +375,6 @@
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Issn" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
-<http://purl.org/ontology/bibo/issue>
-    <http://hbz-nrw.de/regal#jsonName> "issue";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Issue" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
 <http://purl.org/ontology/bibo/lccn>
     <http://hbz-nrw.de/regal#jsonName> "lccn";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Lccn" ;
@@ -398,11 +393,6 @@
 <http://purl.org/ontology/bibo/translator>
     <http://hbz-nrw.de/regal#jsonName> "translator";
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Übersetzer" ;
-    <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
-
-<http://purl.org/ontology/bibo/volume>
-    <http://hbz-nrw.de/regal#jsonName> "volume";
-    <http://www.w3.org/2004/02/skos/core#prefLabel> "Band" ;
     <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "String" .
 
 <http://purl.org/ontology/mo/ismn>

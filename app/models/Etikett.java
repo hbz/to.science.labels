@@ -87,5 +87,6 @@ public class Etikett extends Model {
 	icon = e.icon;
 	label = e.label;
 	name = e.name;
+	referenceType = e.referenceType;
     }
 }
