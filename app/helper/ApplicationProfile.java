@@ -41,130 +41,139 @@ import play.mvc.Http;
  */
 public class ApplicationProfile {
 
-    /**
-     * prefLabel predicate will be analysed
-     */
-    public final static String prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
+	/**
+	 * prefLabel predicate will be analysed
+	 */
+	public final static String prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
 
-    /**
-     * icon predicate will be analyzed
-     */
-    public final static String icon = "http://www.w3.org/1999/xhtml/vocab#icon";
+	/**
+	 * icon predicate will be analyzed
+	 */
+	public final static String icon = "http://www.w3.org/1999/xhtml/vocab#icon";
 
-    /**
-     * name predicate will be analyzed
-     */
-    public final static String name = "http://hbz-nrw.de/regal#jsonName";
+	/**
+	 * name predicate will be analyzed
+	 */
+	public final static String name = "http://hbz-nrw.de/regal#jsonName";
 
-    /**
-     * type predicate will be analyzed
-     */
-    public final static String referenceType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+	/**
+	 * type predicate will be analyzed
+	 */
+	public final static String referenceType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 
-    /**
-     * @param fileName
-     *            add data from a file
-     */
-    public void addRdfData(String fileName) {
-	try (InputStream in = Play.application().resourceAsStream(fileName)) {
-	    addRdfData(in);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    play.Logger.info("config file " + fileName + " not found.");
-	}
-    }
-
-    /**
-     * @param in
-     *            an input stream with rdf in turtle format
-     */
-    public void addRdfData(InputStream in) {
-	Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
-	Iterator<Statement> statements = g.iterator();
-	Map<String, Etikett> collect = new HashMap<String, Etikett>();
-	while (statements.hasNext()) {
-	    Statement st = statements.next();
-	    String subj = st.getSubject().stringValue();
-	    String obj = st.getObject().stringValue();
-	    String pred = st.getPredicate().stringValue();
-	    Etikett e = collect.get(subj);
-	    if (e == null) {
-		e = new Etikett(subj);
-	    }
-	    if (prefLabel.equals(pred)) {
-		e.label = obj;
-	    } else if (icon.equals(pred)) {
-		e.icon = obj;
-	    } else if (name.equals(pred)) {
-		e.name = obj;
-	    } else if (referenceType.equals(pred)) {
-		e.referenceType = obj;
-	    }
-	    collect.put(subj, e);
-	}
-
-	Ebean.save(collect.values());
-    }
-
-    /**
-     * @return all Values from etikett store
-     */
-    public Collection<? extends Etikett> getValues() {
-	return Ebean.find(Etikett.class).findList();
-    }
-
-    /**
-     * @param urlAddress
-     * @return data associated with the url
-     */
-    public Etikett findEtikett(String urlAddress) {
-	Etikett result = Ebean.find(Etikett.class).where()
-		.eq("uri", urlAddress).findUnique();
-	if (result == null) {
-	    if ("admin"
-		    .equals((String) Http.Context.current().args.get("role"))) {
-		result = createLabel(urlAddress);
-		if (result.label != null) {
-		    result.save();
+	/**
+	 * @param fileName
+	 *            add data from a file
+	 */
+	public void addRdfData(String fileName) {
+		try (InputStream in = Play.application().resourceAsStream(fileName)) {
+			addRdfData(in);
+		} catch (Exception e) {
+			e.printStackTrace();
+			play.Logger.info("config file " + fileName + " not found.");
 		}
-	    } else {
-		result = new Etikett(urlAddress);
-	    }
-	}
-	return result;
-    }
-
-    private Etikett createLabel(String urlAddress) {
-	Etikett etikett = new Etikett(urlAddress);
-	etikett.label = lookUpLabel(urlAddress);
-	return etikett;
-    }
-
-    private String lookUpLabel(String urlAddress) {
-	if (urlAddress.startsWith(GndLabelResolver.id)) {
-	    return GndLabelResolver.lookup(urlAddress);
-	} else {
-	    return DefaultLabelResolver.lookup(urlAddress);
-	}
-    }
-
-    /**
-     * @param uploadData
-     *            items in the list will override existing items with same uri
-     *            <a href="https://ebean-orm.github.io/docs/introduction"> See
-     *            ebean docu on save delete </a>
-     */
-    public void addJsonData(List<Etikett> uploadData) {
-	play.Logger.debug("Insert " + uploadData.size() + " new labels.");
-	for (Etikett e : uploadData) {
-	    Etikett cur = Ebean.find(Etikett.class).where().eq("uri", e.uri)
-		    .findUnique();
-	    if (cur == null) {
-		cur = new Etikett(e.uri);
-	    }
-	    cur.copy(e);
-	    Ebean.save(cur);
 	}
 
-    }
+	/**
+	 * @param in
+	 *            an input stream with rdf in turtle format
+	 */
+	public void addRdfData(InputStream in) {
+		Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
+		Iterator<Statement> statements = g.iterator();
+		Map<String, Etikett> collect = new HashMap<String, Etikett>();
+		while (statements.hasNext()) {
+			Statement st = statements.next();
+			String subj = st.getSubject().stringValue();
+			String obj = st.getObject().stringValue();
+			String pred = st.getPredicate().stringValue();
+			Etikett e = collect.get(subj);
+			if (e == null) {
+				e = new Etikett(subj);
+			}
+			if (prefLabel.equals(pred)) {
+				e.label = obj;
+			} else if (icon.equals(pred)) {
+				e.icon = obj;
+			} else if (name.equals(pred)) {
+				e.name = obj;
+			} else if (referenceType.equals(pred)) {
+				e.referenceType = obj;
+			}
+			collect.put(subj, e);
+		}
+
+		Ebean.save(collect.values());
+	}
+
+	/**
+	 * @return all Values from etikett store
+	 */
+	public Collection<? extends Etikett> getValues() {
+		return Ebean.find(Etikett.class).findList();
+	}
+
+	/**
+	 * @param urlAddress
+	 * @return data associated with the url
+	 */
+	public Etikett findEtikett(String urlAddress) {
+		Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
+		if (result == null) {
+			if ("admin".equals((String) Http.Context.current().args.get("role"))) {
+				result = createLabel(urlAddress);
+				if (result.label != null) {
+					result.save();
+				}
+			} else {
+				result = new Etikett(urlAddress);
+			}
+		}
+		return result;
+	}
+
+	public Etikett getValue(String urlAddress) {
+		Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
+		return result;
+	}
+
+	private Etikett createLabel(String urlAddress) {
+		Etikett etikett = new Etikett(urlAddress);
+		etikett.label = lookUpLabel(urlAddress);
+		return etikett;
+	}
+
+	private String lookUpLabel(String urlAddress) {
+		if (urlAddress.startsWith(GndLabelResolver.id)) {
+			return GndLabelResolver.lookup(urlAddress);
+		} else {
+			return DefaultLabelResolver.lookup(urlAddress);
+		}
+	}
+
+	/**
+	 * @param uploadData
+	 *            items in the list will override existing items with same uri
+	 *            <a href="https://ebean-orm.github.io/docs/introduction"> See
+	 *            ebean docu on save delete </a>
+	 */
+	public void addJsonData(List<Etikett> uploadData) {
+		play.Logger.debug("Insert " + uploadData.size() + " new labels.");
+		for (Etikett e : uploadData) {
+			addJsonData(e);
+		}
+
+	}
+
+	public void addJsonData(Etikett e) {
+		Etikett cur = null;
+		if (e != null) {
+			cur = Ebean.find(Etikett.class).where().eq("uri", e.uri).findUnique();
+		}
+		if (cur == null) {
+			cur = new Etikett(e.uri);
+		}
+		cur.copy(e);
+		Ebean.save(cur);
+	}
 }
