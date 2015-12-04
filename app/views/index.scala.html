@@ -6,8 +6,10 @@
 
 @main("Application Profile") {
 <div class="container">
+
+<div class="col-xs-11">
 <table id="example" class="display" cellspacing="0" width="100%">
-<thead><tr><th>Icon</th><th>Label</th><th>Name</th><th>Uri</th><th>RefType</th></tr></thead>
+<thead><tr><th>Icon</th><th>Label</th><th>Name</th><th>Uri</th><th>RefType</th><th>Action</th></tr></thead>
 @for(entry <- theApplicationProfile){
 <tr>
 <td><span class="@entry.icon"></span><br/><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Icon">@entry.icon</a></td>
@@ -15,9 +17,27 @@
 <td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Name">@entry.name</a></td>
 <td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
 <td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=RefType"">@entry.referenceType</a></td>
+<td>
+    <a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
+		<span class="fa fa-pencil"/>
+	</a>
+	
+	<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/delete?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
+		<span class="fa fa-trash-o"/>
+	</a>
+	
+</td>
 </tr>
 }
 </table>
+</div>
+<div class="col-xs-1"> 
+<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit" class="btn btn-default">
+<span class="fa fa-file-o"/>
+</a>
+
+</div>
+
 </div>
 <script type="text/javascript">
 	// For demo to fit into DataTables site builder...
