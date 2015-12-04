@@ -9,8 +9,11 @@ With etikett one can establish unified rdf handling to similar applications.
 
 h1. Requirements
 
-1. Java 8
-2. Typesafe Activator
+h2. Java 8
+
+bc.. echo $JAVA_HOME //check if java 8 assigned
+
+h2. Typesafe Activator
 
 bc.. cd /tmp
 wget http://downloads.typesafe.com/typesafe-activator/1.3.2/typesafe-activator-1.3.2-minimal.zip
