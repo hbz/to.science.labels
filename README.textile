@@ -1,5 +1,7 @@
 h1. etikett 
 
+!https://travis-ci.org/hbz/etikett.svg?branch=master!:https://travis-ci.org/hbz/etikett
+
 etikett helps you to render URIs. URI rendering is a common use case when dealing with rdf data. 
  
 - presentation of rdf data to end users - etikett stores labels and icon information 
