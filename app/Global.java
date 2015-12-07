@@ -51,14 +51,6 @@ public class Global extends GlobalSettings {
 
 	@Override
 	public void onStart(Application app) {
-
-		if (play.api.Play.isDev(play.api.Play.current())) {
-			play.Logger.info("Application has started in dev mode");
-			String[] configs = Play.application().configuration().getString("etikett.configs").split("\\s*,[,\\s]*");
-			for (String s : configs) {
-				Globals.profile.addRdfData(s);
-			}
-		}
 		String[] imports = Play.application().configuration().getString("etikett.imports").split("\\s*,[,\\s]*");
 		for (String url : imports) {
 			play.Logger.info("Import data from " + url + ".");
