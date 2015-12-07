@@ -39,98 +39,109 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  *
  */
 public class MyController extends Controller {
-    /**
-     * The admin can do everything
-     */
-    public final static String ADMIN_ROLE = "admin";
+	/**
+	 * The admin can do everything
+	 */
+	public final static String ADMIN_ROLE = "admin";
 
-    protected static ObjectMapper mapper = new ObjectMapper();
+	static ObjectMapper mapper = new ObjectMapper();
 
-    private static void setJsonHeader() {
-	response().setHeader("Access-Control-Allow-Origin", "*");
-	response().setContentType("application/json; charset=utf-8");
-    }
-
-    /**
-     * @param obj
-     *            an arbitrary object
-     * @return json serialization of obj
-     */
-    public static Result getJsonResult(Object obj) {
-	setJsonHeader();
-	try {
-	    return ok(json(obj));
-	} catch (Exception e) {
-	    return internalServerError("Not able to create response!");
+	private static void setJsonHeader() {
+		response().setHeader("Access-Control-Allow-Origin", "*");
+		response().setContentType("application/json; charset=utf-8");
 	}
-    }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected static String json(Object obj) {
-	try {
-	    setJsonHeader();
-	    mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-	    mapper.setSerializationInclusion(Include.NON_NULL);
-	    mapper.getSerializerProvider().setNullKeySerializer(
-		    new JsonSerializer() {
+	/**
+	 * @param obj
+	 *            an arbitrary object
+	 * @return json serialization of obj
+	 */
+	public static Result getJsonResult(Object obj) {
+		setJsonHeader();
+		try {
+			return ok(json(obj));
+		} catch (Exception e) {
+			return internalServerError("Not able to create response!");
+		}
+	}
+
+	public static ObjectMapper getMapper() {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+		mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper.getSerializerProvider().setNullKeySerializer(new JsonSerializer() {
 			@Override
-			public void serialize(Object obj,
-				JsonGenerator jsonGenerator,
-				SerializerProvider sp) throws IOException,
-				JsonProcessingException {
-			    jsonGenerator.writeFieldName("null");
+			public void serialize(Object obj, JsonGenerator jsonGenerator, SerializerProvider sp)
+					throws IOException, JsonProcessingException {
+				jsonGenerator.writeFieldName("null");
 
 			}
-		    });
-	    StringWriter w = new StringWriter();
-	    mapper.writeValue(w, obj);
-	    String result = w.toString();
-	    return result;
-	} catch (Exception e) {
-	    throw new RuntimeException(e);
+		});
+		return mapper;
 	}
-    }
 
-    interface ApiAction {
-	Result exec();
-    }
-
-    /**
-     * @author Jan Schnasse
-     *
-     */
-    public static class ModifyAction {
-	Promise<Result> call(ApiAction ca) {
-	    return Promise.promise(() -> {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected static String json(Object obj) {
 		try {
-		    String role = (String) Http.Context.current().args
-			    .get("role");
-		    if (!modifyingAccessIsAllowed(role)) {
-			return AccessDenied();
-		    }
-		    return ca.exec();
+			setJsonHeader();
+			mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+			mapper.setSerializationInclusion(Include.NON_NULL);
+			mapper.getSerializerProvider().setNullKeySerializer(new JsonSerializer() {
+				@Override
+				public void serialize(Object obj, JsonGenerator jsonGenerator, SerializerProvider sp)
+						throws IOException, JsonProcessingException {
+					jsonGenerator.writeFieldName("null");
+
+				}
+			});
+			StringWriter w = new StringWriter();
+			mapper.writeValue(w, obj);
+			String result = w.toString();
+			return result;
 		} catch (Exception e) {
-		    throw new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
-	    });
 	}
-    }
 
-    /**
-     * @param role
-     *            the role of the user
-     * @return true if the user is allowed to modify the object
-     */
-    public static boolean modifyingAccessIsAllowed(String role) {
-	if (ADMIN_ROLE.equals(role))
-	    return true;
-	return false;
-    }
+	interface ApiAction {
+		Result exec();
+	}
 
-    /**
-     * @return Html or Json Output
-     */
-    public static Result AccessDenied() {
-	return status(401, message.render("Access Denied"));
-    }
+	/**
+	 * @author Jan Schnasse
+	 *
+	 */
+	public static class ModifyAction {
+		Promise<Result> call(ApiAction ca) {
+			return Promise.promise(() -> {
+				try {
+					String role = (String) Http.Context.current().args.get("role");
+					if (!modifyingAccessIsAllowed(role)) {
+						return AccessDenied();
+					}
+					return ca.exec();
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			});
+		}
+	}
+
+	/**
+	 * @param role
+	 *            the role of the user
+	 * @return true if the user is allowed to modify the object
+	 */
+	public static boolean modifyingAccessIsAllowed(String role) {
+		if (ADMIN_ROLE.equals(role))
+			return true;
+		return false;
+	}
+
+	/**
+	 * @return Html or Json Output
+	 */
+	public static Result AccessDenied() {
+		return status(401, message.render("Access Denied"));
+	}
 }

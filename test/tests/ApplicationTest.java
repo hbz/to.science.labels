@@ -1,16 +1,29 @@
+package tests;
+
 import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.contentAsString;
-import static play.test.Helpers.contentType;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import models.Etikett;
 
 import org.junit.Test;
 
-import play.mvc.Content;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
+import controllers.MyController;
+import helper.ApplicationProfile;
 
 /**
  *
@@ -21,23 +34,35 @@ import play.mvc.Content;
 @SuppressWarnings("javadoc")
 public class ApplicationTest {
 
-    @Test
-    public void simpleCheck() {
-	int a = 1 + 1;
-	assertThat(a).isEqualTo(2);
-    }
+	@Test
+	public void simpleCheck() {
+		int a = 1 + 1;
+		assertThat(a).isEqualTo(2);
+	}
 
-    @Test
-    public void indexTemplateShouldContainTheStringThatIsPassedToIt() {
-	running(fakeApplication(), new Runnable() {
-	    public void run() {
-		Content html = views.html.index
-			.render(new ArrayList<Etikett>());
-		assertThat(contentType(html)).isEqualTo("text/html");
-		assertThat(contentAsString(html)).contains(
-			"Application Profile");
-	    }
-	});
-    }
+	@Test
+	public void indexTemplateShouldContainTheStringThatIsPassedToIt() {
+		running(fakeApplication(play.test.Helpers.inMemoryDatabase("etikett_test")), () -> {
+			try {
+				ObjectMapper mapper = MyController.getMapper();
+				mapper.setSerializationInclusion(Include.NON_EMPTY);
+				ApplicationProfile profile = new ApplicationProfile();
+				profile.addJsonData((List<Etikett>) mapper.readValue(new FileInputStream("test/resources/labels.json"),
+						new TypeReference<List<Etikett>>() {
+				}));
+				Map<String, Object> actual = ApplicationProfile.getContext();
+				Map<String, Object> expected = mapper.setSerializationInclusion(Include.NON_NULL)
+						.readValue(new File("test/resources/context.json"), Map.class);
+				JsonNode actNode = mapper.convertValue(actual, JsonNode.class);
+				JsonNode expectNode = mapper.convertValue(expected, JsonNode.class);
+				Files.write(actNode.toString(), new File("/tmp/etikett-test.log"), Charsets.UTF_8);
+				boolean result = new CompareJsonMaps().compare(actNode, expectNode);
+				org.junit.Assert.assertTrue(result);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		});
+	}
 
 }
