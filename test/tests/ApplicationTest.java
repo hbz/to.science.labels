@@ -42,7 +42,7 @@ public class ApplicationTest {
 
 	@Test
 	public void indexTemplateShouldContainTheStringThatIsPassedToIt() {
-		running(fakeApplication(play.test.Helpers.inMemoryDatabase("etikett_test")), () -> {
+		running(fakeApplication(play.test.Helpers.inMemoryDatabase()), () -> {
 			try {
 				ObjectMapper mapper = MyController.getMapper();
 				mapper.setSerializationInclusion(Include.NON_EMPTY);
