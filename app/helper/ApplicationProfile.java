@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package helper;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,6 +33,7 @@ import org.openrdf.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
 
+import controllers.Globals;
 import play.Play;
 import play.mvc.Http;
 
@@ -175,5 +177,34 @@ public class ApplicationProfile {
 		}
 		cur.copy(e);
 		Ebean.save(cur);
+	}
+
+	public static Map<String, Object> getContext() {
+		List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
+		Map<String, Object> pmap;
+		Map<String, Object> cmap = new HashMap<String, Object>();
+		for (Etikett l : ls) {
+			if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
+				continue;
+			pmap = new HashMap<String, Object>();
+			pmap.put("@id", l.uri);
+			pmap.put("label", l.label);
+			pmap.put("icon", l.icon);
+			if ("@list".equals(l.referenceType)) {
+				pmap.put("@container", l.referenceType);
+			} else if ("@set".equals(l.referenceType)) {
+				pmap.put("@container", l.referenceType);
+			} else if ("@language".equals(l.referenceType)) {
+				pmap.put("@container", l.referenceType);
+			} else if ("@index".equals(l.referenceType)) {
+				pmap.put("@container", l.referenceType);
+			} else if (!"String".equals(l.referenceType)) {
+				pmap.put("@type", l.referenceType);
+			}
+			cmap.put(l.name, pmap);
+		}
+		Map<String, Object> contextObject = new HashMap<String, Object>();
+		contextObject.put("@context", cmap);
+		return contextObject;
 	}
 }

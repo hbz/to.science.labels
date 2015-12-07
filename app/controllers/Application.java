@@ -27,6 +27,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import helper.ApplicationProfile;
 import models.Etikett;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -207,23 +208,7 @@ public class Application extends MyController {
 	public static Promise<Result> asJsonLdContext() {
 		return Promise.promise(() -> {
 			try {
-				List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
-				Map<String, Object> pmap;
-				Map<String, Object> cmap = new HashMap<String, Object>();
-				for (Etikett l : ls) {
-					if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
-						continue;
-					pmap = new HashMap<String, Object>();
-					pmap.put("@id", l.uri);
-					pmap.put("label", l.label);
-					pmap.put("icon", l.icon);
-					if ("@id".equals(l.referenceType)) {
-						pmap.put("@type", l.referenceType);
-					}
-					cmap.put(l.name, pmap);
-				}
-				Map<String, Object> contextObject = new HashMap<String, Object>();
-				contextObject.put("@context", cmap);
+				Map<String, Object> contextObject = ApplicationProfile.getContext();
 				return ok(json(contextObject));
 			} catch (Exception e) {
 				play.Logger.warn("", e);
