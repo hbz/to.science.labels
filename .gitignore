@@ -17,4 +17,4 @@ dist
 /project/*-shim.sbt
 /activator*
 /*~
-conf/thumby
+/bin
