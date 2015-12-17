@@ -31,36 +31,33 @@ public class HardCodedUser implements User {
      * 
      */
     public HardCodedUser() {
-	String adminPwd;
-	adminPwd = Play.application().configuration()
-		.getString("etikett.admin-password");
+        String adminPwd;
+        adminPwd = Play.application().configuration().getString("etikett.admin-password");
 
-	if (adminPwd == null)
-	    throw new RuntimeException(
-		    "Please set passwords for all roles in application.conf");
+        if (adminPwd == null)
+            throw new RuntimeException("Please set passwords for all roles in application.conf");
     }
 
     @Override
     public User authenticate(String username, String password) {
-	role = null;
-	if (MyController.ADMIN_ROLE.equals(username)
-		&& password.equals(Play.application().configuration()
-			.getString("etikett.admin-password"))) {
-	    role = MyController.ADMIN_ROLE;
-	}
-	if (role == null)
-	    throw new RuntimeException("No valid credentials!");
-	play.Logger.debug("You are authorized with role " + role);
-	return this;
+        role = null;
+        if (MyController.ADMIN_ROLE.equals(username)
+                && password.equals(Play.application().configuration().getString("etikett.admin-password"))) {
+            role = MyController.ADMIN_ROLE;
+        }
+        if (role == null)
+            throw new RuntimeException("No valid credentials!");
+        play.Logger.debug("You are authorized with role " + role);
+        return this;
     }
 
     @Override
     public String getRole() {
-	return role;
+        return role;
     }
 
     @Override
     public void setRole(String role) {
-	this.role = role;
+        this.role = role;
     }
 }

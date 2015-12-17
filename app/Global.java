@@ -49,59 +49,59 @@ import controllers.Globals;
  */
 public class Global extends GlobalSettings {
 
-	@Override
-	public void onStart(Application app) {
-		String[] imports = Play.application().configuration().getString("etikett.imports").split("\\s*,[,\\s]*");
-		for (String url : imports) {
-			play.Logger.info("Import data from " + url + ".");
-			readStringFromUrl(url + "/labels.json");
-		}
-		play.Logger.info("Application has started");
+    @Override
+    public void onStart(Application app) {
+        String[] imports = Play.application().configuration().getString("etikett.imports").split("\\s*,[,\\s]*");
+        for (String url : imports) {
+            play.Logger.info("Import data from " + url + ".");
+            readStringFromUrl(url + "/labels.json");
+        }
+        play.Logger.info("Application has started");
 
-	}
+    }
 
-	private void readStringFromUrl(String url) {
-		try {
-			String uploadData = CharStreams
-					.toString(new InputStreamReader(new URL(url).openConnection().getInputStream(), "UTF-8"));
-			Globals.profile.addJsonData(
-					(List<Etikett>) new ObjectMapper().readValue(uploadData, new TypeReference<List<Etikett>>() {
-					}));
-		} catch (Exception e) {
-			play.Logger.warn("Cannot import data from " + url + ".");
-		}
-	}
+    private void readStringFromUrl(String url) {
+        try {
+            String uploadData = CharStreams
+                    .toString(new InputStreamReader(new URL(url).openConnection().getInputStream(), "UTF-8"));
+            Globals.profile.addJsonData(
+                    (List<Etikett>) new ObjectMapper().readValue(uploadData, new TypeReference<List<Etikett>>() {
+                    }));
+        } catch (Exception e) {
+            play.Logger.warn("Cannot import data from " + url + ".");
+        }
+    }
 
-	@Override
-	public void onStop(Application app) {
-		play.Logger.info("Application shutdown...");
-	}
+    @Override
+    public void onStop(Application app) {
+        play.Logger.info("Application shutdown...");
+    }
 
-	public Promise<SimpleResult> onHandlerNotFound(RequestHeader request) {
-		return Promise.<SimpleResult> pure(notFound("Action not found " + request.uri()));
-	}
+    public Promise<SimpleResult> onHandlerNotFound(RequestHeader request) {
+        return Promise.<SimpleResult> pure(notFound("Action not found " + request.uri()));
+    }
 
-	@SuppressWarnings("rawtypes")
-	public Action onRequest(Request request, Method actionMethod) {
-		play.Logger.debug("\n" + request.toString() + "\n\t" + mapToString(request.headers()) + "\n\t"
-				+ request.body().toString());
-		return super.onRequest(request, actionMethod);
-	}
+    @SuppressWarnings("rawtypes")
+    public Action onRequest(Request request, Method actionMethod) {
+        play.Logger.debug("\n" + request.toString() + "\n\t" + mapToString(request.headers()) + "\n\t"
+                + request.body().toString());
+        return super.onRequest(request, actionMethod);
+    }
 
-	private String mapToString(Map<String, String[]> map) {
-		StringBuilder sb = new StringBuilder();
-		Iterator<Entry<String, String[]>> iter = map.entrySet().iterator();
-		while (iter.hasNext()) {
-			Entry<String, String[]> entry = iter.next();
-			sb.append(entry.getKey());
-			sb.append('=').append('"');
-			sb.append(Arrays.toString(entry.getValue()));
-			sb.append('"');
-			if (iter.hasNext()) {
-				sb.append("\n\t'");
-			}
-		}
-		return sb.toString();
+    private String mapToString(Map<String, String[]> map) {
+        StringBuilder sb = new StringBuilder();
+        Iterator<Entry<String, String[]>> iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Entry<String, String[]> entry = iter.next();
+            sb.append(entry.getKey());
+            sb.append('=').append('"');
+            sb.append(Arrays.toString(entry.getValue()));
+            sb.append('"');
+            if (iter.hasNext()) {
+                sb.append("\n\t'");
+            }
+        }
+        return sb.toString();
 
-	}
+    }
 }

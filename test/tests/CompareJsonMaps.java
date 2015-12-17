@@ -34,133 +34,133 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 @SuppressWarnings("javadoc")
 public final class CompareJsonMaps {
 
-	Stack<String> stack = new Stack<>();
-	static final String JSON_LD_CONTEXT = "[@context";
-	private static boolean IGNORE_CONTEXT = true;
-	private static String filename1;
-	private static String filename2;
+    Stack<String> stack = new Stack<>();
+    static final String JSON_LD_CONTEXT = "[@context";
+    private static boolean IGNORE_CONTEXT = true;
+    private static String filename1;
+    private static String filename2;
 
-	public static void main(String... args) {
-		if (args.length < 2)
-			play.Logger.info("Usage: <filename1> <filename2> {<false> if @context should be taken into acount}");
-		filename1 = args[0];
-		filename2 = args[1];
-		play.Logger.info("\n" + filename1 + " may be referenced in the logs as 'actual'\n" + filename2
-				+ " may be referenced as 'expected'");
-		if (args.length >= 3 && args[2].equals("false"))
-			IGNORE_CONTEXT = false;
-		try {
-			if (new CompareJsonMaps().compare(new ObjectMapper().readValue(new File(args[0]), JsonNode.class),
-					new ObjectMapper().readValue(new File(args[1]), JsonNode.class)))
-				play.Logger.info("OK. The content is equal.");
-			else
-				play.Logger.info("Sadeness. The content differs.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    public static void main(String... args) {
+        if (args.length < 2)
+            play.Logger.info("Usage: <filename1> <filename2> {<false> if @context should be taken into acount}");
+        filename1 = args[0];
+        filename2 = args[1];
+        play.Logger.info("\n" + filename1 + " may be referenced in the logs as 'actual'\n" + filename2
+                + " may be referenced as 'expected'");
+        if (args.length >= 3 && args[2].equals("false"))
+            IGNORE_CONTEXT = false;
+        try {
+            if (new CompareJsonMaps().compare(new ObjectMapper().readValue(new File(args[0]), JsonNode.class),
+                    new ObjectMapper().readValue(new File(args[1]), JsonNode.class)))
+                play.Logger.info("OK. The content is equal.");
+            else
+                play.Logger.info("Sadeness. The content differs.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public boolean compare(final JsonNode actual, final JsonNode expected) {
-		// generated data to map
-		final HashMap<String, String> actualMap = new HashMap<>();
-		extractFlatMapFromJsonNode(actual, actualMap);
-		// expected data to map
-		final HashMap<String, String> expectedMap = new HashMap<>();
-		extractFlatMapFromJsonNode(expected, expectedMap);
-		play.Logger.debug("\n##### remove good entries ###");
-		Iterator<String> it = actualMap.keySet().iterator();
-		it = expectedMap.keySet().iterator();
-		for (final Entry<String, String> e : expectedMap.entrySet()) {
-			play.Logger.debug("Trying to remove " + e.getKey() + "...");
-			if (!actualMap.containsKey(e.getKey())) {
-				play.Logger.warn("At least this element is missing in actual: " + e.getKey());
-				return false;
-			}
-			if (e.getKey().endsWith("Order]")) {
-				handleOrderedValues(actualMap, e);
-			} else {
-				handleUnorderedValues(actualMap, e);
-			}
-		}
-		if (!actualMap.isEmpty()) {
-			play.Logger.warn("These elements were not expected or the values are not proper:");
-			actualMap.forEach((key, val) -> play.Logger.warn("KEY=" + key + " VALUE=" + val));
-		}
-		return actualMap.size() == 0;
-	}
+    public boolean compare(final JsonNode actual, final JsonNode expected) {
+        // generated data to map
+        final HashMap<String, String> actualMap = new HashMap<>();
+        extractFlatMapFromJsonNode(actual, actualMap);
+        // expected data to map
+        final HashMap<String, String> expectedMap = new HashMap<>();
+        extractFlatMapFromJsonNode(expected, expectedMap);
+        play.Logger.debug("\n##### remove good entries ###");
+        Iterator<String> it = actualMap.keySet().iterator();
+        it = expectedMap.keySet().iterator();
+        for (final Entry<String, String> e : expectedMap.entrySet()) {
+            play.Logger.debug("Trying to remove " + e.getKey() + "...");
+            if (!actualMap.containsKey(e.getKey())) {
+                play.Logger.warn("At least this element is missing in actual: " + e.getKey());
+                return false;
+            }
+            if (e.getKey().endsWith("Order]")) {
+                handleOrderedValues(actualMap, e);
+            } else {
+                handleUnorderedValues(actualMap, e);
+            }
+        }
+        if (!actualMap.isEmpty()) {
+            play.Logger.warn("These elements were not expected or the values are not proper:");
+            actualMap.forEach((key, val) -> play.Logger.warn("KEY=" + key + " VALUE=" + val));
+        }
+        return actualMap.size() == 0;
+    }
 
-	private static void removeContext(Iterator<String> it) {
-		while (it.hasNext()) {
-			String se = it.next();
-			if (IGNORE_CONTEXT && se.startsWith(JSON_LD_CONTEXT))
-				it.remove();
-		}
-	}
+    private static void removeContext(Iterator<String> it) {
+        while (it.hasNext()) {
+            String se = it.next();
+            if (IGNORE_CONTEXT && se.startsWith(JSON_LD_CONTEXT))
+                it.remove();
+        }
+    }
 
-	private static void handleUnorderedValues(final HashMap<String, String> actualMap, final Entry<String, String> e) {
-		if (checkIfAllValuesAreContainedUnordered(actualMap.get(e.getKey()), e.getValue())) {
-			actualMap.remove(e.getKey());
-			play.Logger.debug("Removed " + e.getKey());
-		} else {
-			play.Logger.debug("Missing/wrong: " + e.getKey() + ", will fail");
-		}
-	}
+    private static void handleUnorderedValues(final HashMap<String, String> actualMap, final Entry<String, String> e) {
+        if (checkIfAllValuesAreContainedUnordered(actualMap.get(e.getKey()), e.getValue())) {
+            actualMap.remove(e.getKey());
+            play.Logger.debug("Removed " + e.getKey());
+        } else {
+            play.Logger.debug("Missing/wrong: " + e.getKey() + ", will fail");
+        }
+    }
 
-	private static void handleOrderedValues(final HashMap<String, String> actualMap, final Entry<String, String> e) {
-		play.Logger.debug("Test if proper order for: " + e.getKey());
-		if (actualMap.containsKey(e.getKey())) {
-			play.Logger.trace("Existing as expected: " + e.getKey());
-			if (e.getValue().equals(actualMap.get(e.getKey()))) {
-				play.Logger.trace("Equality:\n" + e.getValue() + "\n" + actualMap.get(e.getKey()));
-				actualMap.remove(e.getKey());
-			} else
-				play.Logger.debug("...but not equal! Will fail");
-		} else {
-			play.Logger.warn("Missing: " + e.getKey() + " , will fail");
-		}
-	}
+    private static void handleOrderedValues(final HashMap<String, String> actualMap, final Entry<String, String> e) {
+        play.Logger.debug("Test if proper order for: " + e.getKey());
+        if (actualMap.containsKey(e.getKey())) {
+            play.Logger.trace("Existing as expected: " + e.getKey());
+            if (e.getValue().equals(actualMap.get(e.getKey()))) {
+                play.Logger.trace("Equality:\n" + e.getValue() + "\n" + actualMap.get(e.getKey()));
+                actualMap.remove(e.getKey());
+            } else
+                play.Logger.debug("...but not equal! Will fail");
+        } else {
+            play.Logger.warn("Missing: " + e.getKey() + " , will fail");
+        }
+    }
 
-	/**
-	 * Construct a map with json paths as keys with aggregated values form json
-	 * nodes.
-	 * 
-	 * @param jnode
-	 *            the JsonNode which should be transformed into a map
-	 * @param map
-	 *            the map constructed out of the JsonNode
-	 */
-	public void extractFlatMapFromJsonNode(final JsonNode jnode, final HashMap<String, String> map) {
-		if (jnode.getNodeType().equals(JsonNodeType.OBJECT)) {
-			final Iterator<Map.Entry<String, JsonNode>> it = jnode.fields();
-			while (it.hasNext()) {
-				final Map.Entry<String, JsonNode> entry = it.next();
-				stack.push(entry.getKey());
-				extractFlatMapFromJsonNode(entry.getValue(), map);
-				stack.pop();
-			}
-		} else if (jnode.isArray()) {
-			final Iterator<JsonNode> it = jnode.iterator();
-			while (it.hasNext()) {
-				extractFlatMapFromJsonNode(it.next(), map);
-			}
-		} else if (jnode.isValueNode()) {
-			String value = jnode.toString();
-			if (map.containsKey(stack.toString()))
-				value = map.get(stack.toString()).concat("," + jnode.toString());
-			map.put(stack.toString(), value);
-			play.Logger.trace("Stored this path as key into map:" + stack.toString(), value);
-		}
-	}
+    /**
+     * Construct a map with json paths as keys with aggregated values form json
+     * nodes.
+     * 
+     * @param jnode
+     *            the JsonNode which should be transformed into a map
+     * @param map
+     *            the map constructed out of the JsonNode
+     */
+    public void extractFlatMapFromJsonNode(final JsonNode jnode, final HashMap<String, String> map) {
+        if (jnode.getNodeType().equals(JsonNodeType.OBJECT)) {
+            final Iterator<Map.Entry<String, JsonNode>> it = jnode.fields();
+            while (it.hasNext()) {
+                final Map.Entry<String, JsonNode> entry = it.next();
+                stack.push(entry.getKey());
+                extractFlatMapFromJsonNode(entry.getValue(), map);
+                stack.pop();
+            }
+        } else if (jnode.isArray()) {
+            final Iterator<JsonNode> it = jnode.iterator();
+            while (it.hasNext()) {
+                extractFlatMapFromJsonNode(it.next(), map);
+            }
+        } else if (jnode.isValueNode()) {
+            String value = jnode.toString();
+            if (map.containsKey(stack.toString()))
+                value = map.get(stack.toString()).concat("," + jnode.toString());
+            map.put(stack.toString(), value);
+            play.Logger.trace("Stored this path as key into map:" + stack.toString(), value);
+        }
+    }
 
-	/*
-	 * Values may be an unorderd set.
-	 */
-	private static boolean checkIfAllValuesAreContainedUnordered(final String actual, final String expected) {
-		play.Logger.trace("\nActual   value: " + actual + "\nExpected value: " + expected);
-		return valuesToList(actual).containsAll(valuesToList(expected));
-	}
+    /*
+     * Values may be an unorderd set.
+     */
+    private static boolean checkIfAllValuesAreContainedUnordered(final String actual, final String expected) {
+        play.Logger.trace("\nActual   value: " + actual + "\nExpected value: " + expected);
+        return valuesToList(actual).containsAll(valuesToList(expected));
+    }
 
-	private static List<String> valuesToList(final String values) {
-		return Arrays.asList(values.substring(1, values.length() - 1).split("\",\""));
-	}
+    private static List<String> valuesToList(final String values) {
+        return Arrays.asList(values.substring(1, values.length() - 1).split("\",\""));
+    }
 }
