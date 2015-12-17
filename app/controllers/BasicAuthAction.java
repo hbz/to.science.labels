@@ -33,7 +33,7 @@ public class BasicAuthAction extends Action<BasicAuth> {
 
     private static final String AUTHORIZATION = "authorization";
     private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
-    private static final String REALM = "Basic realm=\"Please enter passwortd for admin user\"";
+    private static final String REALM = "Basic realm=\"Please enter password for admin user\"";
 
     @Override
     public F.Promise<SimpleResult> call(Http.Context context) throws Throwable {
