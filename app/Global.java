@@ -60,6 +60,7 @@ public class Global extends GlobalSettings {
 
     }
 
+    @SuppressWarnings("unchecked")
     private void readStringFromUrl(String url) {
         try {
             String uploadData = CharStreams

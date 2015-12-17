@@ -13,9 +13,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
@@ -68,8 +65,6 @@ public final class CompareJsonMaps {
         final HashMap<String, String> expectedMap = new HashMap<>();
         extractFlatMapFromJsonNode(expected, expectedMap);
         play.Logger.debug("\n##### remove good entries ###");
-        Iterator<String> it = actualMap.keySet().iterator();
-        it = expectedMap.keySet().iterator();
         for (final Entry<String, String> e : expectedMap.entrySet()) {
             play.Logger.debug("Trying to remove " + e.getKey() + "...");
             if (!actualMap.containsKey(e.getKey())) {
@@ -87,14 +82,6 @@ public final class CompareJsonMaps {
             actualMap.forEach((key, val) -> play.Logger.warn("KEY=" + key + " VALUE=" + val));
         }
         return actualMap.size() == 0;
-    }
-
-    private static void removeContext(Iterator<String> it) {
-        while (it.hasNext()) {
-            String se = it.next();
-            if (IGNORE_CONTEXT && se.startsWith(JSON_LD_CONTEXT))
-                it.remove();
-        }
     }
 
     private static void handleUnorderedValues(final HashMap<String, String> actualMap, final Entry<String, String> e) {

@@ -20,7 +20,6 @@ package controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -160,6 +159,7 @@ public class Application extends MyController {
     /**
      * @return http status
      */
+    @SuppressWarnings("unchecked")
     @BasicAuth
     public static Promise<Result> addData() {
         return new ModifyAction().call(() -> {

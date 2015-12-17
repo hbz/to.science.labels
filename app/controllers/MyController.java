@@ -69,7 +69,7 @@ public class MyController extends Controller {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
         mapper.setSerializationInclusion(Include.NON_NULL);
-        mapper.getSerializerProvider().setNullKeySerializer(new JsonSerializer() {
+        mapper.getSerializerProvider().setNullKeySerializer(new JsonSerializer<Object>() {
             @Override
             public void serialize(Object obj, JsonGenerator jsonGenerator, SerializerProvider sp)
                     throws IOException, JsonProcessingException {
