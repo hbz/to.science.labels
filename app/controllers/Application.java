@@ -84,11 +84,14 @@ public class Application extends MyController {
                     return ok(entry.uri);
                 case "RefType":
                     return ok(entry.referenceType);
+                case "Container":
+                    return ok(entry.container);
                 }
                 return ok(entry.label);
             }
             return status(500);
         });
+
     }
 
     /**
@@ -174,12 +177,15 @@ public class Application extends MyController {
                 if (data != null) {
                     File file = data.getFile();
                     try (FileInputStream uploadData = new FileInputStream(file)) {
-                        if (!"Json".equals(format)) {
+                        if ("Rdf-Turtle".equals(format)) {
                             Globals.profile.addRdfData(uploadData);
-                        } else {
+                        } else if ("Json".equals(format)) {
                             Globals.profile.addJsonData((List<Etikett>) new ObjectMapper().readValue(uploadData,
                                     new TypeReference<List<Etikett>>() {
                             }));
+                        } else if ("Json-Context".equals(format)) {
+                            Globals.profile.addJsonContextData(
+                                    (Map<String, Object>) new ObjectMapper().readValue(uploadData, Map.class));
                         }
                         flash("info", "File uploaded");
                         return redirect(routes.Application.getColumn(null, null));

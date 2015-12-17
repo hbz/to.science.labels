@@ -203,4 +203,27 @@ public class ApplicationProfile {
         contextObject.put("@context", cmap);
         return contextObject;
     }
+
+    public void addJsonContextData(Map<String, Object> contextMap) {
+        List<Etikett> result = new ArrayList<Etikett>();
+        Map<String, Object> c = (Map<String, Object>) contextMap.get("@context");
+        for (String fieldName : c.keySet()) {
+            play.Logger.debug("" + fieldName);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> contextEntry = (Map<String, Object>) c.get(fieldName);
+            Etikett e = new Etikett((String) contextEntry.get("@id"));
+            e.name = fieldName;
+            e.label = (String) contextEntry.get("label");
+            e.referenceType = "String";
+            String type = (String) contextEntry.get("@type");
+            if (type != null) {
+                e.referenceType = type;
+            }
+            e.container = (String) contextEntry.get("@container");
+            e.icon = (String) contextEntry.get("icon");
+            result.add(e);
+            play.Logger.debug("" + e);
+        }
+        addJsonData(result);
+    }
 }
