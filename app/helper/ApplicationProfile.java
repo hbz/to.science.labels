@@ -190,16 +190,12 @@ public class ApplicationProfile {
             pmap.put("@id", l.uri);
             pmap.put("label", l.label);
             pmap.put("icon", l.icon);
-            if ("@list".equals(l.referenceType)) {
-                pmap.put("@container", l.referenceType);
-            } else if ("@set".equals(l.referenceType)) {
-                pmap.put("@container", l.referenceType);
-            } else if ("@language".equals(l.referenceType)) {
-                pmap.put("@container", l.referenceType);
-            } else if ("@index".equals(l.referenceType)) {
-                pmap.put("@container", l.referenceType);
-            } else if (!"String".equals(l.referenceType)) {
+
+            if (!"String".equals(l.referenceType)) {
                 pmap.put("@type", l.referenceType);
+            }
+            if (l.container != null) {
+                pmap.put("@container", l.container);
             }
             cmap.put(l.name, pmap);
         }

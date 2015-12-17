@@ -5948,10 +5948,11 @@
 		"referenceType":"String"
 	},
 	{
-		"uri":"http://purl.org/lobid/lv#contributorOrder",
-		"label":"contributorOrder",
-		"name":"contributorOrder",
-		"referenceType":"@list"
+		"uri":"http://purl.org/ontology/bibo/contributorList",
+		"label":"contributorList",
+		"name":"contributorList",
+		"referenceType":"@id",
+		"container":"@list"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#fulltextOnline",
@@ -6030,7 +6031,8 @@
 		"uri":"http://purl.org/lobid/lv#subjectOrder",
 		"label":"subjectOrdered",
 		"name":"subjectOrder",
-		"referenceType":"@list"
+		"referenceType":"String",
+		"container":"@list"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#titleKeyword",

@@ -71,6 +71,12 @@ public class Etikett extends Model {
      */
     public String referenceType = "class";
 
+    /**
+     * Describes if the given is expected to occur as a \@set or a \@list. Can
+     * be null;
+     */
+    public String container = null;
+
     public String toString() {
         try {
             return new ObjectMapper().writeValueAsString(this);
@@ -81,12 +87,13 @@ public class Etikett extends Model {
 
     /**
      * @param e
-     *            attrbutes from e will be copied to this etikett
+     *            attributes from e will be copied to this etikett
      */
     public void copy(Etikett e) {
         icon = e.icon;
         label = e.label;
         name = e.name;
         referenceType = e.referenceType;
+        container = e.container;
     }
 }
