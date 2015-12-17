@@ -38,7 +38,7 @@ public class Etikett extends Model {
      *            is used as primary key in table
      */
     public Etikett(String subj) {
-	uri = subj;
+        uri = subj;
     }
 
     /**
@@ -71,22 +71,29 @@ public class Etikett extends Model {
      */
     public String referenceType = "class";
 
+    /**
+     * Describes if the given is expected to occur as a \@set or a \@list. Can
+     * be null;
+     */
+    public String container = null;
+
     public String toString() {
-	try {
-	    return new ObjectMapper().writeValueAsString(this);
-	} catch (Exception e) {
-	    return "To String failed " + e.getMessage();
-	}
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (Exception e) {
+            return "To String failed " + e.getMessage();
+        }
     }
 
     /**
      * @param e
-     *            attrbutes from e will be copied to this etikett
+     *            attributes from e will be copied to this etikett
      */
     public void copy(Etikett e) {
-	icon = e.icon;
-	label = e.label;
-	name = e.name;
-	referenceType = e.referenceType;
+        icon = e.icon;
+        label = e.label;
+        name = e.name;
+        referenceType = e.referenceType;
+        container = e.container;
     }
 }

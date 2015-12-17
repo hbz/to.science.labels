@@ -43,168 +43,187 @@ import play.mvc.Http;
  */
 public class ApplicationProfile {
 
-	/**
-	 * prefLabel predicate will be analysed
-	 */
-	public final static String prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
+    /**
+     * prefLabel predicate will be analysed
+     */
+    public final static String prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
 
-	/**
-	 * icon predicate will be analyzed
-	 */
-	public final static String icon = "http://www.w3.org/1999/xhtml/vocab#icon";
+    /**
+     * icon predicate will be analyzed
+     */
+    public final static String icon = "http://www.w3.org/1999/xhtml/vocab#icon";
 
-	/**
-	 * name predicate will be analyzed
-	 */
-	public final static String name = "http://hbz-nrw.de/regal#jsonName";
+    /**
+     * name predicate will be analyzed
+     */
+    public final static String name = "http://hbz-nrw.de/regal#jsonName";
 
-	/**
-	 * type predicate will be analyzed
-	 */
-	public final static String referenceType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+    /**
+     * type predicate will be analyzed
+     */
+    public final static String referenceType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 
-	/**
-	 * @param fileName
-	 *            add data from a file
-	 */
-	public void addRdfData(String fileName) {
-		try (InputStream in = Play.application().resourceAsStream(fileName)) {
-			addRdfData(in);
-		} catch (Exception e) {
-			e.printStackTrace();
-			play.Logger.info("config file " + fileName + " not found.");
-		}
-	}
+    /**
+     * @param fileName
+     *            add data from a file
+     */
+    public void addRdfData(String fileName) {
+        try (InputStream in = Play.application().resourceAsStream(fileName)) {
+            addRdfData(in);
+        } catch (Exception e) {
+            e.printStackTrace();
+            play.Logger.info("config file " + fileName + " not found.");
+        }
+    }
 
-	/**
-	 * @param in
-	 *            an input stream with rdf in turtle format
-	 */
-	public void addRdfData(InputStream in) {
-		Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
-		Iterator<Statement> statements = g.iterator();
-		Map<String, Etikett> collect = new HashMap<String, Etikett>();
-		while (statements.hasNext()) {
-			Statement st = statements.next();
-			String subj = st.getSubject().stringValue();
-			String obj = st.getObject().stringValue();
-			String pred = st.getPredicate().stringValue();
-			Etikett e = collect.get(subj);
-			if (e == null) {
-				e = new Etikett(subj);
-			}
-			if (prefLabel.equals(pred)) {
-				e.label = obj;
-			} else if (icon.equals(pred)) {
-				e.icon = obj;
-			} else if (name.equals(pred)) {
-				e.name = obj;
-			} else if (referenceType.equals(pred)) {
-				e.referenceType = obj;
-			}
-			collect.put(subj, e);
-		}
+    /**
+     * @param in
+     *            an input stream with rdf in turtle format
+     */
+    public void addRdfData(InputStream in) {
+        Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
+        Iterator<Statement> statements = g.iterator();
+        Map<String, Etikett> collect = new HashMap<String, Etikett>();
+        while (statements.hasNext()) {
+            Statement st = statements.next();
+            String subj = st.getSubject().stringValue();
+            String obj = st.getObject().stringValue();
+            String pred = st.getPredicate().stringValue();
+            Etikett e = collect.get(subj);
+            if (e == null) {
+                e = new Etikett(subj);
+            }
+            if (prefLabel.equals(pred)) {
+                e.label = obj;
+            } else if (icon.equals(pred)) {
+                e.icon = obj;
+            } else if (name.equals(pred)) {
+                e.name = obj;
+            } else if (referenceType.equals(pred)) {
+                e.referenceType = obj;
+            }
+            collect.put(subj, e);
+        }
 
-		Ebean.save(collect.values());
-	}
+        Ebean.save(collect.values());
+    }
 
-	/**
-	 * @return all Values from etikett store
-	 */
-	public Collection<? extends Etikett> getValues() {
-		return Ebean.find(Etikett.class).findList();
-	}
+    /**
+     * @return all Values from etikett store
+     */
+    public Collection<? extends Etikett> getValues() {
+        return Ebean.find(Etikett.class).findList();
+    }
 
-	/**
-	 * @param urlAddress
-	 * @return data associated with the url
-	 */
-	public Etikett findEtikett(String urlAddress) {
-		Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
-		if (result == null) {
-			if ("admin".equals((String) Http.Context.current().args.get("role"))) {
-				result = createLabel(urlAddress);
-				if (result.label != null) {
-					result.save();
-				}
-			} else {
-				result = new Etikett(urlAddress);
-			}
-		}
-		return result;
-	}
+    /**
+     * @param urlAddress
+     * @return data associated with the url
+     */
+    public Etikett findEtikett(String urlAddress) {
+        Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
+        if (result == null) {
+            if ("admin".equals((String) Http.Context.current().args.get("role"))) {
+                result = createLabel(urlAddress);
+                if (result.label != null) {
+                    result.save();
+                }
+            } else {
+                result = new Etikett(urlAddress);
+            }
+        }
+        return result;
+    }
 
-	public Etikett getValue(String urlAddress) {
-		Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
-		return result;
-	}
+    public Etikett getValue(String urlAddress) {
+        Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
+        return result;
+    }
 
-	private Etikett createLabel(String urlAddress) {
-		Etikett etikett = new Etikett(urlAddress);
-		etikett.label = lookUpLabel(urlAddress);
-		return etikett;
-	}
+    private Etikett createLabel(String urlAddress) {
+        Etikett etikett = new Etikett(urlAddress);
+        etikett.label = lookUpLabel(urlAddress);
+        return etikett;
+    }
 
-	private String lookUpLabel(String urlAddress) {
-		if (urlAddress.startsWith(GndLabelResolver.id)) {
-			return GndLabelResolver.lookup(urlAddress);
-		} else {
-			return DefaultLabelResolver.lookup(urlAddress);
-		}
-	}
+    private String lookUpLabel(String urlAddress) {
+        if (urlAddress.startsWith(GndLabelResolver.id)) {
+            return GndLabelResolver.lookup(urlAddress);
+        } else {
+            return DefaultLabelResolver.lookup(urlAddress);
+        }
+    }
 
-	/**
-	 * @param uploadData
-	 *            items in the list will override existing items with same uri
-	 *            <a href="https://ebean-orm.github.io/docs/introduction"> See
-	 *            ebean docu on save delete </a>
-	 */
-	public void addJsonData(List<Etikett> uploadData) {
-		play.Logger.debug("Insert " + uploadData.size() + " new labels.");
-		for (Etikett e : uploadData) {
-			addJsonData(e);
-		}
+    /**
+     * @param uploadData
+     *            items in the list will override existing items with same uri
+     *            <a href="https://ebean-orm.github.io/docs/introduction"> See
+     *            ebean docu on save delete </a>
+     */
+    public void addJsonData(List<Etikett> uploadData) {
+        play.Logger.debug("Insert " + uploadData.size() + " new labels.");
+        for (Etikett e : uploadData) {
+            addJsonData(e);
+        }
 
-	}
+    }
 
-	public void addJsonData(Etikett e) {
-		Etikett cur = null;
-		if (e != null) {
-			cur = Ebean.find(Etikett.class).where().eq("uri", e.uri).findUnique();
-		}
-		if (cur == null) {
-			cur = new Etikett(e.uri);
-		}
-		cur.copy(e);
-		Ebean.save(cur);
-	}
+    public void addJsonData(Etikett e) {
+        Etikett cur = null;
+        if (e != null) {
+            cur = Ebean.find(Etikett.class).where().eq("uri", e.uri).findUnique();
+        }
+        if (cur == null) {
+            cur = new Etikett(e.uri);
+        }
+        cur.copy(e);
+        Ebean.save(cur);
+    }
 
-	public static Map<String, Object> getContext() {
-		List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
-		Map<String, Object> pmap;
-		Map<String, Object> cmap = new HashMap<String, Object>();
-		for (Etikett l : ls) {
-			if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
-				continue;
-			pmap = new HashMap<String, Object>();
-			pmap.put("@id", l.uri);
-			pmap.put("label", l.label);
-			pmap.put("icon", l.icon);
-			if ("@list".equals(l.referenceType)) {
-				pmap.put("@container", l.referenceType);
-			} else if ("@set".equals(l.referenceType)) {
-				pmap.put("@container", l.referenceType);
-			} else if ("@language".equals(l.referenceType)) {
-				pmap.put("@container", l.referenceType);
-			} else if ("@index".equals(l.referenceType)) {
-				pmap.put("@container", l.referenceType);
-			} else if (!"String".equals(l.referenceType)) {
-				pmap.put("@type", l.referenceType);
-			}
-			cmap.put(l.name, pmap);
-		}
-		Map<String, Object> contextObject = new HashMap<String, Object>();
-		contextObject.put("@context", cmap);
-		return contextObject;
-	}
+    public static Map<String, Object> getContext() {
+        List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
+        Map<String, Object> pmap;
+        Map<String, Object> cmap = new HashMap<String, Object>();
+        for (Etikett l : ls) {
+            if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
+                continue;
+            pmap = new HashMap<String, Object>();
+            pmap.put("@id", l.uri);
+            pmap.put("label", l.label);
+            pmap.put("icon", l.icon);
+
+            if (!"String".equals(l.referenceType)) {
+                pmap.put("@type", l.referenceType);
+            }
+            if (l.container != null) {
+                pmap.put("@container", l.container);
+            }
+            cmap.put(l.name, pmap);
+        }
+        Map<String, Object> contextObject = new HashMap<String, Object>();
+        contextObject.put("@context", cmap);
+        return contextObject;
+    }
+
+    public void addJsonContextData(Map<String, Object> contextMap) {
+        List<Etikett> result = new ArrayList<Etikett>();
+        Map<String, Object> c = (Map<String, Object>) contextMap.get("@context");
+        for (String fieldName : c.keySet()) {
+            play.Logger.debug("" + fieldName);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> contextEntry = (Map<String, Object>) c.get(fieldName);
+            Etikett e = new Etikett((String) contextEntry.get("@id"));
+            e.name = fieldName;
+            e.label = (String) contextEntry.get("label");
+            e.referenceType = "String";
+            String type = (String) contextEntry.get("@type");
+            if (type != null) {
+                e.referenceType = type;
+            }
+            e.container = (String) contextEntry.get("@container");
+            e.icon = (String) contextEntry.get("icon");
+            result.add(e);
+            play.Logger.debug("" + e);
+        }
+        addJsonData(result);
+    }
 }

@@ -44,18 +44,17 @@ public class RdfUtils {
      *            see sesame docu
      * @return a Graph representing the rdf in the input stream
      */
-    public static Graph readRdfToGraph(InputStream inputStream, RDFFormat inf,
-	    String baseUrl) {
-	try {
-	    RDFParser rdfParser = Rio.createParser(inf);
-	    org.openrdf.model.Graph myGraph = new TreeModel();
-	    StatementCollector collector = new StatementCollector(myGraph);
-	    rdfParser.setRDFHandler(collector);
-	    rdfParser.parse(inputStream, baseUrl);
-	    return myGraph;
-	} catch (Exception e) {
-	    throw new RuntimeException(e);
-	}
+    public static Graph readRdfToGraph(InputStream inputStream, RDFFormat inf, String baseUrl) {
+        try {
+            RDFParser rdfParser = Rio.createParser(inf);
+            org.openrdf.model.Graph myGraph = new TreeModel();
+            StatementCollector collector = new StatementCollector(myGraph);
+            rdfParser.setRDFHandler(collector);
+            rdfParser.parse(inputStream, baseUrl);
+            return myGraph;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -68,41 +67,35 @@ public class RdfUtils {
      * @return a Rdf-Graph
      * @throws IOException
      */
-    public static Graph readRdfToGraph(URL url, RDFFormat inf, String accept)
-	    throws IOException {
-	try (InputStream in = urlToInputStream(url, accept)) {
-	    return readRdfToGraph(in, inf, url.toString());
-	}
+    public static Graph readRdfToGraph(URL url, RDFFormat inf, String accept) throws IOException {
+        try (InputStream in = urlToInputStream(url, accept)) {
+            return readRdfToGraph(in, inf, url.toString());
+        }
     }
 
     private static InputStream urlToInputStream(URL url, String accept) {
-	HttpURLConnection con = null;
-	InputStream inputStream = null;
-	try {
-	    con = (HttpURLConnection) url.openConnection();
-	    con.setInstanceFollowRedirects(false);
-	    con.setRequestProperty("Accept", accept);
-	    con.connect();
-	    int responseCode = con.getResponseCode();
-	    play.Logger.debug("Request for " + accept + " from "
-		    + url.toExternalForm());
-	    play.Logger.debug("Get a " + responseCode + " from "
-		    + url.toExternalForm());
-	    if (responseCode == HttpURLConnection.HTTP_MOVED_PERM
-		    || responseCode == HttpURLConnection.HTTP_MOVED_TEMP
-		    || responseCode == 307 || responseCode == 303) {
-		String redirectUrl = con.getHeaderField("Location");
-		play.Logger.debug("Redirect to Location: " + redirectUrl);
-		return urlToInputStream(
-			new URL(url.getProtocol() + "://" + url.getHost()
-				+ redirectUrl), accept);
-	    }
-	    inputStream = con.getInputStream();
-	    return inputStream;
-	} catch (IOException e) {
-	    play.Logger.debug("", e);
-	    throw new RuntimeException(e);
-	}
+        HttpURLConnection con = null;
+        InputStream inputStream = null;
+        try {
+            con = (HttpURLConnection) url.openConnection();
+            con.setInstanceFollowRedirects(false);
+            con.setRequestProperty("Accept", accept);
+            con.connect();
+            int responseCode = con.getResponseCode();
+            play.Logger.debug("Request for " + accept + " from " + url.toExternalForm());
+            play.Logger.debug("Get a " + responseCode + " from " + url.toExternalForm());
+            if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP
+                    || responseCode == 307 || responseCode == 303) {
+                String redirectUrl = con.getHeaderField("Location");
+                play.Logger.debug("Redirect to Location: " + redirectUrl);
+                return urlToInputStream(new URL(url.getProtocol() + "://" + url.getHost() + redirectUrl), accept);
+            }
+            inputStream = con.getInputStream();
+            return inputStream;
+        } catch (IOException e) {
+            play.Logger.debug("", e);
+            throw new RuntimeException(e);
+        }
 
     }
 }

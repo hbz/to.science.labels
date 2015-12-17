@@ -9,6 +9,7 @@ create table etikett (
   icon                      varchar(255),
   name                      varchar(255),
   reference_type            varchar(255),
+  container                 varchar(255),
   constraint pk_etikett primary key (uri))
 ;
 

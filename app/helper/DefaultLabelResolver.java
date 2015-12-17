@@ -43,38 +43,35 @@ public class DefaultLabelResolver {
      * @return a label
      */
     public static String lookup(String uri) {
-	try {
-	    for (Statement s : RdfUtils.readRdfToGraph(new URL(uri),
-		    RDFFormat.NTRIPLES, "text/plain")) {
-		boolean isLiteral = s.getObject() instanceof Literal;
-		if (!(s.getSubject() instanceof BNode)) {
-		    if (isLiteral) {
-			ValueFactory v = new ValueFactoryImpl();
-			Statement newS = v.createStatement(s.getSubject(), s
-				.getPredicate(), v.createLiteral(Normalizer
-				.normalize(s.getObject().stringValue(),
-					Normalizer.Form.NFKC)));
-			String label = findLabel(newS, uri);
-			if (label != null)
-			    return label;
-		    }
-		}
-	    }
-	} catch (Exception e) {
-	    play.Logger.warn("Not able to include data from" + uri, e);
-	}
-	return null;
+        try {
+            for (Statement s : RdfUtils.readRdfToGraph(new URL(uri), RDFFormat.NTRIPLES, "text/plain")) {
+                boolean isLiteral = s.getObject() instanceof Literal;
+                if (!(s.getSubject() instanceof BNode)) {
+                    if (isLiteral) {
+                        ValueFactory v = new ValueFactoryImpl();
+                        Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
+                                Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
+                        String label = findLabel(newS, uri);
+                        if (label != null)
+                            return label;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            play.Logger.warn("Not able to include data from" + uri, e);
+        }
+        return null;
     }
 
     private static String findLabel(Statement s, String uri) {
-	if (!uri.equals(s.getSubject().stringValue()))
-	    return null;
-	if (prefLabel.equals(s.getPredicate().stringValue())) {
-	    return s.getObject().stringValue();
-	}
-	if (title.equals(s.getPredicate().stringValue())) {
-	    return s.getObject().stringValue();
-	}
-	return null;
+        if (!uri.equals(s.getSubject().stringValue()))
+            return null;
+        if (prefLabel.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
+        }
+        if (title.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
+        }
+        return null;
     }
 }
