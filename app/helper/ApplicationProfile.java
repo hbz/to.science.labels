@@ -64,6 +64,11 @@ public class ApplicationProfile {
     public final static String referenceType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 
     /**
+     * Uri used for skos concepts
+     */
+    public final static String skosConcept = "http://www.w3.org/2004/02/skos/core#Concept";
+
+    /**
      * @param fileName
      *            add data from a file
      */
@@ -100,6 +105,9 @@ public class ApplicationProfile {
             } else if (name.equals(pred)) {
                 e.name = obj;
             } else if (referenceType.equals(pred)) {
+                if (skosConcept.equals(obj)) {
+                    obj = "class";
+                }
                 e.referenceType = obj;
             }
             collect.put(subj, e);

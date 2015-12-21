@@ -13,18 +13,14 @@ create table etikett (
   constraint pk_etikett primary key (uri))
 ;
 
-create sequence etikett_seq;
-
 
 
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists etikett;
+drop table etikett;
 
-SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists etikett_seq;
+SET FOREIGN_KEY_CHECKS=1;
 
