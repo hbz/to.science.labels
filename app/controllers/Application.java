@@ -51,7 +51,7 @@ public class Application extends MyController {
     public static Result row(String urlAddress) {
 
         if (request().accepts("text/html")) {
-            return asHtml(urlAddress);
+            return allAsHtml(urlAddress);
         } else {
             return asJson(urlAddress);
         }
@@ -116,16 +116,40 @@ public class Application extends MyController {
 
     }
 
-    private static Result asHtml(String urlAddress) {
+    public static Promise<Result> contextAsHtml() {
+        return Promise.promise(() -> {
+            try {
+                response().setHeader("Content-Type", "text/html; charset=utf-8");
+                return ok(index.render("Context entries", new ArrayList<Etikett>(Globals.profile.getContextValues())));
+            } catch (Exception e) {
+                play.Logger.debug("", e);
+                return status(500, message.render("Server encounters internal problem: " + e.getMessage()));
+            }
+        });
+    }
+
+    public static Promise<Result> conceptsAsHtml() {
+        return Promise.promise(() -> {
+            try {
+                response().setHeader("Content-Type", "text/html; charset=utf-8");
+                return ok(index.render("Concept entries", new ArrayList<Etikett>(Globals.profile.getConceptValues())));
+            } catch (Exception e) {
+                play.Logger.debug("", e);
+                return status(500, message.render("Server encounters internal problem: " + e.getMessage()));
+            }
+        });
+    }
+
+    private static Result allAsHtml(String urlAddress) {
         try {
             response().setHeader("Content-Type", "text/html; charset=utf-8");
             if (urlAddress != null) {
                 Etikett entry = Globals.profile.findEtikett(urlAddress);
                 ArrayList<Etikett> result = new ArrayList<Etikett>();
                 result.add(entry);
-                return ok(index.render(result));
+                return ok(index.render("All etiketts", new ArrayList<Etikett>(Globals.profile.getValues())));
             } else {
-                return ok(index.render(new ArrayList<Etikett>(Globals.profile.getValues())));
+                return ok(index.render("All etiketts", new ArrayList<Etikett>(Globals.profile.getValues())));
             }
         } catch (Exception e) {
             play.Logger.debug("", e);
@@ -276,6 +300,30 @@ public class Application extends MyController {
         }
         flash("error", "Missing Parameter url");
         return getColumn(null, null);
+    }
+
+    public static Promise<Result> asRawJsonLdContext() {
+        return Promise.promise(() -> {
+            try {
+                Map<String, Object> contextObject = ApplicationProfile.getRawContext();
+                return ok(json(contextObject));
+            } catch (Exception e) {
+                play.Logger.warn("", e);
+                return redirect(routes.Application.getColumn(null, null));
+            }
+        });
+    }
+
+    public static Promise<Result> asContextAnnotations() {
+        return Promise.promise(() -> {
+            try {
+                Map<String, Object> contextObject = ApplicationProfile.getContextAnnotation();
+                return ok(json(contextObject));
+            } catch (Exception e) {
+                play.Logger.warn("", e);
+                return redirect(routes.Application.getColumn(null, null));
+            }
+        });
     }
 
 }

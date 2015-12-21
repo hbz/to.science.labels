@@ -1,10 +1,12 @@
 @* Copyright 2015 Jan Schnasse, hbz. Licensed under the GNU Affero General Public License *@
- @(theApplicationProfile: List[Etikett])
+ @(heading:String,theApplicationProfile: List[Etikett])
 
 @import play.api.Play.current
 @import models.Etikett
 
-@main("Application Profile") {
+@main("Etikett") {
+
+<h1>@heading</h1>
 <div class="container">
 
 <div class="col-xs-11">
@@ -22,11 +24,9 @@
     <a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
 		<span class="fa fa-pencil"/>
 	</a>
-	
 	<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/delete?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
 		<span class="fa fa-trash-o"/>
 	</a>
-	
 </td>
 </tr>
 }
@@ -36,7 +36,6 @@
 <a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit" class="btn btn-default">
 <span class="fa fa-file-o"/>
 </a>
-
 </div>
 
 </div>

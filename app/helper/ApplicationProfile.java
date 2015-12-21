@@ -239,4 +239,52 @@ public class ApplicationProfile {
         }
         addJsonData(result);
     }
+
+    public Collection<? extends Etikett> getContextValues() {
+        return Ebean.filter(Etikett.class).ne("referenceType", null).filter((List<Etikett>) getValues());
+    }
+
+    public Collection<? extends Etikett> getConceptValues() {
+        return Ebean.filter(Etikett.class).eq("referenceType", null).filter((List<Etikett>) getValues());
+    }
+
+    public static Map<String, Object> getRawContext() {
+        List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
+        Map<String, Object> pmap;
+        Map<String, Object> cmap = new HashMap<String, Object>();
+        for (Etikett l : ls) {
+            if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
+                continue;
+            pmap = new HashMap<String, Object>();
+            pmap.put("@id", l.uri);
+            if (!"String".equals(l.referenceType)) {
+                pmap.put("@type", l.referenceType);
+            }
+            if (l.container != null) {
+                pmap.put("@container", l.container);
+            }
+            cmap.put(l.name, pmap);
+        }
+        Map<String, Object> contextObject = new HashMap<String, Object>();
+        contextObject.put("@context", cmap);
+        return contextObject;
+    }
+
+    public static Map<String, Object> getContextAnnotation() {
+        List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
+        Map<String, Object> pmap;
+        Map<String, Object> cmap = new HashMap<String, Object>();
+        for (Etikett l : ls) {
+            if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
+                continue;
+            pmap = new HashMap<String, Object>();
+            pmap.put("id", l.uri);
+            pmap.put("label", l.label);
+            pmap.put("icon", l.icon);
+            cmap.put(l.name, pmap);
+        }
+        Map<String, Object> contextObject = new HashMap<String, Object>();
+        contextObject.put("context-annotation", cmap);
+        return contextObject;
+    }
 }
