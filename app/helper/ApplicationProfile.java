@@ -106,7 +106,7 @@ public class ApplicationProfile {
                 e.name = obj;
             } else if (referenceType.equals(pred)) {
                 if (skosConcept.equals(obj)) {
-                    obj = "class";
+                    obj = null;
                 }
                 e.referenceType = obj;
             }
@@ -182,6 +182,11 @@ public class ApplicationProfile {
         }
         if (cur == null) {
             cur = new Etikett(e.uri);
+        }
+        if ("class".equals(e.referenceType)) {
+            e.referenceType = null;
+        } else if (skosConcept.equals(e.referenceType)) {
+            e.referenceType = null;
         }
         cur.copy(e);
         Ebean.save(cur);

@@ -69,13 +69,17 @@ public class Etikett extends Model {
     /**
      * The expected type of the resource
      */
-    public String referenceType = "class";
+    public String referenceType = null;
 
     /**
      * Describes if the given is expected to occur as a \@set or a \@list. Can
      * be null;
      */
     public String container = null;
+
+    public Etikett() {
+        // needed for jaxb (@see https://github.com/hbz/lobid-rdf-to-json
+    }
 
     public String toString() {
         try {
