@@ -113,7 +113,7 @@ public class ApplicationProfile {
             collect.put(subj, e);
         }
 
-        Ebean.save(collect.values());
+        addJsonData(collect.values());
     }
 
     /**
@@ -167,7 +167,7 @@ public class ApplicationProfile {
      *            <a href="https://ebean-orm.github.io/docs/introduction"> See
      *            ebean docu on save delete </a>
      */
-    public void addJsonData(List<Etikett> uploadData) {
+    public void addJsonData(Collection<Etikett> uploadData) {
         play.Logger.debug("Insert " + uploadData.size() + " new labels.");
         for (Etikett e : uploadData) {
             addJsonData(e);
