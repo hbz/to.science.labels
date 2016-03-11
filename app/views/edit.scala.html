@@ -1,20 +1,27 @@
-@* Copyright 2015 Jan Schnasse, hbz. Licensed under the GNU Affero General Public License *@
+@* Copyright 2015 Jan Schnasse, hbz. Licensed under the GNU Affero General Public License *@ 
 
-@(myForm: Form[Etikett])
+@(myForm: Form[Etikett]) 
 
-@import play.api.Play.current
-@import models.Etikett
+@import play.api.Play.current 
+@import models.Etikett 
 
 @main("Etikett") {
 
-@helper.form(action = routes.Application.update()) {
-    @helper.inputText(myForm("Icon"))
-    @helper.inputText(myForm("Label"))
-    @helper.inputText(myForm("Name"))
-    @helper.inputText(myForm("Uri"))
-    @helper.inputText(myForm("ReferenceType"))
-    @helper.inputText(myForm("Container"))
-    <input type="submit" value="Add" />
-}
-
-}
+@helper.form(action = routes.Application.update(), 'id -> "myForm") {
+<div class="row">
+	<div class="col-md-5">
+	    @helper.inputText(myForm("Icon"), 'id -> "iconIn", 'size -> 30) 
+	    @helper.inputText(myForm("Label"), 'id -> "labelIn", 'size -> 30) 
+	    @helper.inputText(myForm("Name"), 'id -> "nameIn", 'size -> 30) 
+		@helper.inputText(myForm("Uri"), 'id -> "uriIn", 'size -> 30) 
+		@helper.inputText(myForm("ReferenceType"),'referenceTypeIn -> "icon", 'size -> 30)
+		@helper.inputText(myForm("Container"), 'id -> "containerIn", 'size -> 30)
+	</div>
+	<div class="col-md-7">
+		@helper.textarea(myForm("Comment"), 'id -> "commentIn", 'size -> 30, 'cols -> 35, 'rows->20)
+	</div>
+	<div class="col-md-12">
+		<input type="submit" value="Save" />
+	</div>
+</div>
+} }

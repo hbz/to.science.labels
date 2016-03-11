@@ -17,6 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -51,6 +52,9 @@ public class Etikett extends Model {
      */
     @Id
     public String uri = null;
+
+    @Column(columnDefinition = "TEXT")
+    public String comment = null;
 
     /**
      * a label
@@ -99,5 +103,6 @@ public class Etikett extends Model {
         name = e.name;
         referenceType = e.referenceType;
         container = e.container;
+        comment = e.comment;
     }
 }
