@@ -133,7 +133,7 @@ public class ApplicationProfile {
             if ("admin".equals((String) Http.Context.current().args.get("role"))) {
                 result = createLabel(urlAddress);
                 if (result.label != null) {
-                    result.save();
+                    addJsonData(result);
                 }
             } else {
                 result = new Etikett(urlAddress);
@@ -189,6 +189,9 @@ public class ApplicationProfile {
             e.referenceType = null;
         }
         cur.copy(e);
+
+        if (cur.referenceType.isEmpty())
+            cur.referenceType = null;
         Ebean.save(cur);
     }
 
