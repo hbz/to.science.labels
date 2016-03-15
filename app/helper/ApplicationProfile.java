@@ -32,6 +32,7 @@ import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.PagingList;
 
 import controllers.Globals;
 import play.Play;
@@ -124,6 +125,13 @@ public class ApplicationProfile {
     }
 
     /**
+     * @return all Values from etikett store
+     */
+    public Collection<? extends Etikett> getValues(int from, int size) {
+        return Ebean.find(Etikett.class).setFirstRow(from).setMaxRows(size).findList();
+    }
+
+    /**
      * @param urlAddress
      * @return data associated with the url
      */
@@ -190,7 +198,7 @@ public class ApplicationProfile {
         }
         cur.copy(e);
 
-        if (cur.referenceType.isEmpty())
+        if (cur.referenceType != null && cur.referenceType.isEmpty())
             cur.referenceType = null;
         Ebean.save(cur);
     }

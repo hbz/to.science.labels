@@ -147,7 +147,7 @@ public class Application extends MyController {
                 Etikett entry = Globals.profile.findEtikett(urlAddress);
                 ArrayList<Etikett> result = new ArrayList<Etikett>();
                 result.add(entry);
-                return ok(index.render("All etiketts", new ArrayList<Etikett>(Globals.profile.getValues())));
+                return ok(index.render("All etiketts", result));
             } else {
                 return ok(index.render("All etiketts", new ArrayList<Etikett>(Globals.profile.getValues())));
             }
@@ -279,8 +279,8 @@ public class Application extends MyController {
         } else {
             Etikett u = form.get();
             Globals.profile.addJsonData(u);
+            return redirect(routes.Application.getColumn(u.uri, null));
         }
-        return redirect(routes.Application.getColumn(null, null));
     }
 
     /**
@@ -325,5 +325,4 @@ public class Application extends MyController {
             }
         });
     }
-
 }

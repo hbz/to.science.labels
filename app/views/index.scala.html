@@ -5,10 +5,8 @@
 @import models.Etikett
 
 @main("Etikett") {
-
 <h1>@heading</h1>
 <div class="container">
-
 <div class="col-xs-11">
 <table id="example" class="display" cellspacing="0" width="100%">
 <thead><tr><th>Icon</th><th>Label</th><th>Name</th><th>Uri</th><th>Type</th><th>Container</th><th>Comment</th><th>Action</th></tr></thead>
@@ -20,7 +18,9 @@
 <td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
 <td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=RefType"">@entry.referenceType</a></td>
 <td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Container"">@entry.container</a></td>
-<td><textarea disabled cols="30" rows="5">@entry.comment</textarea></td>
+<td>
+@Html(entry.renderedComment())
+</td>
 <td>
     <a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
 		<span class="fa fa-pencil"/>
@@ -45,7 +45,8 @@
 	$('#example')
 		.removeClass( 'display' )
 		.addClass('table table-striped table-bordered');
+
+   
 </script>
-</body>
 
 }

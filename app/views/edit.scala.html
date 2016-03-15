@@ -18,10 +18,44 @@
 		@helper.inputText(myForm("Container"), 'id -> "containerIn", 'size -> 30)
 	</div>
 	<div class="col-md-7">
-		@helper.textarea(myForm("Comment"), 'id -> "commentIn", 'size -> 30, 'cols -> 35, 'rows->20)
+	 <dt><label for="commentTabs">Comment</label></dt>
+	 <div id="commentTabs">
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#MarkdownTab" aria-controls="MarkdownTab" role="tab" data-toggle="tab">Markdown</a></li>
+	    <li role="presentation"><a href="#PreviewTab" aria-controls="PreviewTab" role="tab" data-toggle="tab">Preview</a></li>
+	  </ul>	 
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+		    <div role="tabpanel" class="tab-pane active" id="MarkdownTab">  	
+		    @helper.textarea(myForm("Comment"), 'id -> "commentIn", 'size -> 30, 'cols -> 35, 'rows->20, 'oninput->"this.editor.update()")  
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="PreviewTab">
+				<div id="preview" style="outline:1px #000 solid;"> </div>
+			</div>
+	  </div>
+	  </div>
 	</div>
 	<div class="col-md-12">
 		<input type="submit" value="Save" />
-	</div>
-</div>
-} }
+    </div>
+	
+</div>	
+<script>
+      function Editor(input, preview) {
+	        this.update = function () {
+	          preview.innerHTML = markdown.toHTML(input.value);
+	        };
+	        input.editor = this;
+	        this.update();
+	      }
+	      var $ = function (id){
+	    	  return document.getElementById(id); 
+	 	  };
+	      new Editor($("commentIn"), $("preview"));
+</script>
+    
+} 
+
+
+}

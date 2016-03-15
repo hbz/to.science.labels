@@ -22,6 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.rjeschke.txtmark.Processor;
 
 import play.db.ebean.Model;
 
@@ -83,6 +84,12 @@ public class Etikett extends Model {
 
     public Etikett() {
         // needed for jaxb (@see https://github.com/hbz/lobid-rdf-to-json
+    }
+
+    public String renderedComment() {
+        if (comment == null || comment.isEmpty())
+            return "";
+        return Processor.process(comment);
     }
 
     public String toString() {
