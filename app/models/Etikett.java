@@ -17,10 +17,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.rjeschke.txtmark.Processor;
 
 import play.db.ebean.Model;
 
@@ -52,6 +54,9 @@ public class Etikett extends Model {
     @Id
     public String uri = null;
 
+    @Column(columnDefinition = "TEXT")
+    public String comment = null;
+
     /**
      * a label
      */
@@ -81,6 +86,12 @@ public class Etikett extends Model {
         // needed for jaxb (@see https://github.com/hbz/lobid-rdf-to-json
     }
 
+    public String renderedComment() {
+        if (comment == null || comment.isEmpty())
+            return "";
+        return Processor.process(comment);
+    }
+
     public String toString() {
         try {
             return new ObjectMapper().writeValueAsString(this);
@@ -99,5 +110,6 @@ public class Etikett extends Model {
         name = e.name;
         referenceType = e.referenceType;
         container = e.container;
+        comment = e.comment;
     }
 }

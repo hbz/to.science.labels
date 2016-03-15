@@ -26,7 +26,8 @@ libraryDependencies ++= Seq(
   "org.openrdf.sesame" % "sesame-repository-sail" % "2.7.10",
   "org.openrdf.sesame" % "sesame-sail-memory" % "2.7.10",
   "org.openrdf.sesame" % "sesame-sail-nativerdf" % "2.7.10",
-   "mysql" % "mysql-connector-java" % "5.1.18"
+   "mysql" % "mysql-connector-java" % "5.1.18",
+   "com.github.rjeschke" % "txtmark" % "0.13"
   )
 
 playJavaSettings
