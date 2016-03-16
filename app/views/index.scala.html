@@ -9,26 +9,37 @@
 <div class="container">
 <div class="col-xs-11">
 <table id="example" class="display" cellspacing="0" width="100%">
-<thead><tr><th>Icon</th><th>Label</th><th>Name</th><th>Uri</th><th>Type</th><th>Container</th><th>Comment</th><th>Action</th></tr></thead>
+<thead><tr><th>Weight</th><th>Label</th><th>Json Conf</th><th>Comment</th><th>Action</th></tr></thead>
 @for(entry <- theApplicationProfile){
 <tr>
-<td><span class="@entry.icon"></span><br/><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Icon">@entry.icon</a></td>
-<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Label">@entry.label</a></td>
-<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Name">@entry.name</a></td>
-<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td>
-<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=RefType"">@entry.referenceType</a></td>
-<td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Container"">@entry.container</a></td>
-<td>
-@Html(entry.renderedComment())
-</td>
-<td>
-    <a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
-		<span class="fa fa-pencil"/>
-	</a>
-	<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/delete?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
-		<span class="fa fa-trash-o"/>
-	</a>
-</td>
+	<td>
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Weight"">@entry.weight</a>
+	</td>
+	<td>
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Label">@entry.label</a>
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Icon" title="@entry.icon" style="text-decoration: none;color: inherit; "><span class="@entry.icon"></span></a>
+	</td>
+	<td>
+		<table cellpadding="10">
+		    <tbody class="group1">  
+		        <tr><th scope="row">Name</th><td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Name">@entry.name</a></td></tr>
+		        <tr><th scope="row">Uri</th><td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td></tr>
+		        <tr><th scope="row">Type</th><td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=RefType"">@entry.referenceType</a></td></tr>
+		        <tr><th scope="row">Container</th><td><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Container"">@entry.container</a></td></tr>
+		    </tbody>
+		</table>
+	</td>
+	<td>
+		@Html(entry.renderedComment())
+	</td>
+	<td>
+	    <a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
+			<span class="fa fa-pencil"/>
+		</a>
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/delete?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
+			<span class="fa fa-trash-o"/>
+		</a>
+	</td>
 </tr>
 }
 </table>
