@@ -86,6 +86,10 @@ public class Application extends MyController {
                     return ok(entry.referenceType);
                 case "Container":
                     return ok(entry.container);
+                case "Comment":
+                    return ok(entry.comment);
+                case "Weight":
+                    return ok(entry.weight);
                 }
                 return ok(entry.label);
             }

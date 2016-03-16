@@ -82,6 +82,11 @@ public class Etikett extends Model {
      */
     public String container = null;
 
+    /**
+     * A weigth for ordering
+     */
+    public String weight = null;
+
     public Etikett() {
         // needed for jaxb (@see https://github.com/hbz/lobid-rdf-to-json
     }
@@ -111,5 +116,6 @@ public class Etikett extends Model {
         referenceType = e.referenceType;
         container = e.container;
         comment = e.comment;
+        weight = e.weight;
     }
 }

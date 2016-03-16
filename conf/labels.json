@@ -639,67 +639,87 @@
 		"uri":"http://d-nb.info/standards/elementset/gnd#dateOfBirth",
 		"label":"Geboren am",
 		"name":"dateOfBirth",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#dateOfDeath",
 		"label":"Gestorben am",
 		"name":"dateOfDeath",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredName",
+		"comment":"",
 		"label":"Name",
+		"icon":"",
 		"name":"preferredName",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredNameEntityForThePerson",
 		"label":"",
 		"name":"preferredNameEntityForThePerson",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheConferenceOrEvent",
 		"label":"",
 		"name":"preferredNameForTheConferenceOrEvent",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheCorporateBody",
+		"comment":"",
 		"label":"",
+		"icon":"",
 		"name":"preferredNameForTheCorporateBody",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheFamily",
 		"label":"",
 		"name":"preferredNameForTheFamily",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredNameForThePerson",
+		"comment":"",
 		"label":"Name",
+		"icon":"",
 		"name":"preferredNameForThePerson",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredNameForThePlaceOrGeographicName",
 		"label":"",
 		"name":"preferredNameForThePlaceOrGeographicName",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheSubjectHeading",
 		"label":"",
 		"name":"preferredNameForTheSubjectHeading",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://d-nb.info/standards/elementset/gnd#preferredNameForTheWork",
 		"label":"",
 		"name":"preferredNameForTheWork",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://data.archiveshub.ac.uk/def/ArchivalResource",
@@ -711,7 +731,8 @@
 		"uri":"http://dbpedia.org/ontology/institution",
 		"label":"Institution",
 		"name":"institution",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://dewey.info/class/0/",
@@ -5155,314 +5176,420 @@
 	},
 	{
 		"uri":"http://downlode.org/Code/RDF/File_Properties/schema#checksum",
+		"comment":"",
 		"label":"Prüfsumme",
 		"icon":"fa fa-barcode",
 		"name":"checksum",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://downlode.org/Code/RDF/File_Properties/schema#generator",
 		"label":"",
 		"name":"generator",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://downlode.org/Code/RDF/File_Properties/schema#size",
 		"label":"Größe",
 		"name":"size",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://geni-orca.renci.org/owl/topology.owl#hasURN",
+		"comment":"",
 		"label":"Urn",
 		"icon":"fa fa-exchange",
 		"name":"hasURN",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#accessScheme",
+		"comment":"",
 		"label":"Sichtbarkeit Daten",
+		"icon":"",
 		"name":"accessScheme",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#contentType",
+		"comment":"",
 		"label":"Repository Typ",
+		"icon":"",
 		"name":"contentType",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#createdBy",
 		"label":"Erstellt von",
 		"name":"createdBy",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#doi",
+		"comment":"",
 		"label":"Regal-Doi",
+		"icon":"",
 		"name":"doi",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#hasData",
 		"label":"Download",
 		"icon":"fa fa-download",
 		"name":"hasData",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#hasTransformer",
+		"comment":"",
 		"label":"Transformer",
+		"icon":"",
 		"name":"hasTransformer",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#importedFrom",
 		"label":"Import",
 		"name":"importedFrom",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#isPartOf",
 		"label":"Bestandteil von",
 		"name":"externalParent",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#lastModifiedBy",
 		"label":"Bearbeitet von",
 		"name":"lastModifiedBy",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#legacyId",
 		"label":"Id Altsystem",
 		"name":"legacyId",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#name",
 		"label":"Interner Name",
 		"name":"name",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#objectTimestamp",
+		"comment":"",
 		"label":"Objekt bearb.",
+		"icon":"",
 		"name":"objectTimestamp",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#parallelEdition",
+		"comment":"",
 		"label":"Titelkopie",
+		"icon":"",
 		"name":"parallelEdition",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://hbz-nrw.de/regal#publishScheme",
+		"comment":"",
 		"label":"Sichtbarkeit Metadaten",
+		"icon":"",
 		"name":"publishScheme",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/iso639-2/deu",
 		"label":"deutsch",
 		"name":"deu",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/act",
+		"comment":"",
 		"label":"Schauspieler",
+		"icon":"",
 		"name":"act",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/aft",
 		"label":"Autor des Nachwortes",
 		"name":"aft",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/aui",
 		"label":"Autor der Einleitung",
 		"name":"aui",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/aus",
+		"comment":"",
 		"label":"Screenwriter",
+		"icon":"",
 		"name":"aus",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/clb",
+		"comment":"",
 		"label":"Mitarbeit",
+		"icon":"",
 		"name":"collaborator",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/cmp",
 		"label":"Komponist",
 		"name":"composer",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/cnd",
 		"label":"Dirigent/in",
 		"name":"conductor",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/cng",
 		"label":"Kamera",
 		"name":"cinematographer",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/col",
+		"comment":"",
 		"label":"Sammler/in",
+		"icon":"",
 		"name":"collector",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/ctb",
+		"comment":"",
 		"label":"Mitwirkende",
+		"icon":"",
 		"name":"contributor_",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/ctg",
 		"label":"Kartographie",
 		"name":"cartographer",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/drt",
+		"comment":"",
 		"label":"Regie",
+		"icon":"",
 		"name":"director",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/dte",
 		"label":"Gewidmet",
 		"name":"dedicatee",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/egr",
+		"comment":"",
 		"label":"Stecher/in",
+		"icon":"",
 		"name":"engraver",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/hnr",
 		"label":"Gefeierte Person",
 		"name":"honoree",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/ill",
 		"label":"Illustration",
 		"name":"illustrator",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/ive",
+		"comment":"",
 		"label":"Interviewte/r",
+		"icon":"",
 		"name":"interviewee",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/ivr",
 		"label":"Interviewer/in",
 		"name":"interviewer",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/mus",
+		"comment":"",
 		"label":"Musik",
+		"icon":"",
 		"name":"musician",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/pht",
 		"label":"Fotografie",
 		"name":"photographer",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/prf",
 		"label":"Interpret",
 		"name":"performer",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/pro",
+		"comment":"",
 		"label":"Produzent",
+		"icon":"",
 		"name":"producer",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/red",
+		"comment":"",
 		"label":"Redaktor",
+		"icon":"",
 		"name":"redaktor",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://id.loc.gov/vocabulary/relators/sng",
 		"label":"Gesang",
 		"name":"singer",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://iflastandards.info/ns/isbd/elements/P1004",
 		"label":"Gesamttitel",
 		"name":"P1004",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://iflastandards.info/ns/isbd/elements/P1006",
+		"comment":"",
 		"label":"Titelzusatz",
+		"icon":"",
 		"name":"P1006",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://iflastandards.info/ns/isbd/elements/P1016",
+		"comment":"",
 		"label":"Ort",
+		"icon":"",
 		"name":"P1016",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://iflastandards.info/ns/isbd/elements/P1053",
+		"comment":"",
 		"label":"Umfang",
+		"icon":"",
 		"name":"P1053",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://iflastandards.info/ns/isbd/terms/mediatype/T1008",
 		"label":"Kombination",
 		"name":"T1008",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://lobid.org/resource/HT001238781",
@@ -5586,65 +5713,95 @@
 	},
 	{
 		"uri":"http://lobid.org/vocab/lobid#fulltextOnline",
+		"comment":"",
 		"label":"Download",
+		"icon":"",
 		"name":"fulltextOnline",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/elements/1.1/contributor",
+		"comment":"",
 		"label":"Mitwirkende",
+		"icon":"",
 		"name":"contributorName",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/elements/1.1/coverage",
+		"comment":"",
 		"label":"Raumsystematik",
+		"icon":"",
 		"name":"coverage",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/elements/1.1/creator",
+		"comment":"",
 		"label":"Autor",
+		"icon":"",
 		"name":"creatorName",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"5"
 	},
 	{
 		"uri":"http://purl.org/dc/elements/1.1/isPartOf",
 		"label":"Bestandteil von",
 		"name":"isPartOfName",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/elements/1.1/publisher",
 		"label":"Herausgeber",
 		"name":"publisher",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/elements/1.1/subject",
+		"comment":"",
 		"label":"Schlagwort",
+		"icon":"",
 		"name":"subjectName",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/abstract",
 		"label":"Inhaltsangabe",
 		"name":"abstract",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/alternative",
+		"comment":"",
 		"label":"Titelzusatz",
+		"icon":"",
 		"name":"alternative",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/bibliographicCitation",
+		"comment":"",
 		"label":"Veröffentlichungs Details",
+		"icon":"",
 		"name":"bibliographicCitation",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/BibliographicResource",
@@ -5654,128 +5811,170 @@
 	},
 	{
 		"uri":"http://purl.org/dc/terms/contributor",
+		"comment":"",
 		"label":"Mitwirkende",
 		"icon":"",
 		"name":"contributor",
 		"referenceType":"@id",
-		"container":"@list"
+		"container":"@list",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/created",
 		"label":"Erstellt am",
 		"name":"created",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/creator",
+		"comment":"",
 		"label":"Autor",
 		"icon":"",
 		"name":"creator",
 		"referenceType":"String",
-		"container":"@list"
+		"container":"@list",
+		"weight":"5"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/description",
 		"label":"Beschreibung",
 		"name":"description",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/format",
 		"label":"Format",
 		"name":"format",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/hasFormat",
 		"label":"Hat Format",
 		"name":"hasFormat",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/hasPart",
 		"label":"Bestandteile",
 		"name":"hasPart",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/hasVersion",
+		"comment":"",
 		"label":"Vgl.",
+		"icon":"",
 		"name":"hasVersion",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/isFormatOf",
 		"label":"Format von",
 		"name":"isFormatOf",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/isPartOf",
 		"label":"Bestandteil von",
 		"name":"parentPid",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/issued",
 		"label":"Erschienen",
 		"name":"issued",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/language",
+		"comment":"",
 		"label":"Sprache",
+		"icon":"",
 		"name":"language",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/medium",
+		"comment":"",
 		"label":"Träger",
+		"icon":"",
 		"name":"medium",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/modified",
+		"comment":"",
 		"label":"Zuletzt bearbeitet",
+		"icon":"",
 		"name":"modified",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/source",
+		"comment":"",
 		"label":"Quelle",
+		"icon":"",
 		"name":"source",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/spatial",
+		"comment":"",
 		"label":"Ortsbezug",
+		"icon":"",
 		"name":"spatial",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/subject",
+		"comment":"",
 		"label":"Schlagwort",
 		"icon":"fa fa-tag",
 		"name":"subject",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/tableOfContents",
 		"label":"Inhaltsverzeichnis",
 		"icon":"fa fa-list",
 		"name":"tableOfContents",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/dc/terms/title",
+		"comment":"",
 		"label":"Titel",
+		"icon":"",
 		"name":"title",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1"
 	},
 	{
 		"uri":"http://purl.org/library/BrailleBook",
@@ -5812,7 +6011,8 @@
 		"label":"Enthalten in",
 		"name":"containedIn",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#EditedVolume",
@@ -5828,24 +6028,29 @@
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#fulltextOnline",
+		"comment":"",
 		"label":"Online-Volltext",
+		"icon":"",
 		"name":"fulltextOnline",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#hbzID",
 		"label":"Katalog Id",
 		"icon":"fa fa-bars",
 		"name":"hbzId",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#inSeries",
 		"label":"In Reihe",
 		"name":"inSeries",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#Legislation",
@@ -5863,109 +6068,150 @@
 		"label":"Mehrbändiges Werk",
 		"name":"multiVolumeWork",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#nameOfContributingCorporateBody",
 		"label":"Körperschaftsname",
 		"name":"contributingCorporateBodyLabel",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#numbering",
+		"comment":"",
 		"label":"Nummer",
+		"icon":"",
 		"name":"numbering",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#nwbibspatial",
+		"comment":"",
 		"label":"Raumsystematik",
+		"icon":"",
 		"name":"nwbibspatial",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#nwbibsubject",
+		"comment":"",
 		"label":"Sachsystematik",
+		"icon":"",
 		"name":"nwbibsubject",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#series",
+		"comment":"",
 		"label":"Reihe",
+		"icon":"",
 		"name":"series",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#subjectChain",
+		"comment":"",
 		"label":"Schlagwortkette",
+		"icon":"",
 		"name":"subjectChain",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#subjectLabel",
+		"comment":"",
 		"label":"Schlagwort",
+		"icon":"",
 		"name":"subjectLabel",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#subjectLocation",
 		"label":"Geokoordinaten",
 		"name":"subjectLocation",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#subjectOrder",
+		"comment":"",
 		"label":"Schlagwortliste",
 		"icon":"",
 		"name":"subjectOrder",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#titleKeyword",
+		"comment":"",
 		"label":"Titelschlagwort",
+		"icon":"",
 		"name":"titleKeyword",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"900"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#urn",
+		"comment":"",
 		"label":"Urn",
 		"icon":"fa fa-exchange",
 		"name":"urn",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#volumeIn",
 		"label":"Gehört zu Band",
 		"name":"volumeIn",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#webPageArchived",
 		"label":"Archivierte Webseite",
 		"name":"webPageArchived",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/lv#zdbID",
+		"comment":"",
 		"label":"ZdbID",
+		"icon":"",
 		"name":"zdbId",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/rpb",
-		"referenceType":"http://www.w3.org/2004/02/skos/core#ConceptScheme"
+		"comment":"",
+		"label":"",
+		"icon":"",
+		"name":"",
+		"referenceType":"http://www.w3.org/2004/02/skos/core#ConceptScheme",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/lobid/rpb#n100000",
@@ -10390,26 +10636,30 @@
 		"uri":"http://purl.org/ontology/bibo/doi",
 		"label":"Doi",
 		"name":"doi",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/edition",
 		"label":"Auflage",
 		"name":"edition",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/editor",
 		"label":"Herausgeber",
 		"name":"editor",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/eissn",
 		"label":"Eissn",
 		"name":"eissn",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/Image",
@@ -10421,19 +10671,22 @@
 		"uri":"http://purl.org/ontology/bibo/isbn",
 		"label":"Isbn",
 		"name":"isbn",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/isbn13",
 		"label":"Isbn13",
 		"name":"isbn13",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/issn",
 		"label":"Issn",
 		"name":"issn",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/Issue",
@@ -10450,7 +10703,8 @@
 		"uri":"http://purl.org/ontology/bibo/lccn",
 		"label":"Lccn",
 		"name":"lccn",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/Map",
@@ -10466,9 +10720,13 @@
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/oclcnum",
+		"comment":"",
 		"label":"Oclc",
+		"icon":"",
 		"name":"oclcnum",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/Periodical",
@@ -10478,9 +10736,12 @@
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/Proceedings",
+		"comment":"Markdown provides backslash escapes for the following characters:\r\n\r\n    \\   backslash\r\n    `   backtick\r\n    *   asterisk\r\n    _   underscore\r\n    {}  curly braces\r\n    []  square brackets\r\n    ()  parentheses\r\n    #   hash mark\r\n\t+\tplus sign\r\n\t-\tminus sign (hyphen)\r\n    .   dot\r\n    !   exclamation mark\r\n\r\n",
 		"label":"Konferenzband/Konferenzbeitrag",
 		"icon":"octicon octicon-three-bars",
-		"name":"proceeding"
+		"name":"proceeding",
+		"container":"",
+		"weight":"2"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/Series",
@@ -10490,9 +10751,13 @@
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/shortTitle",
+		"comment":"",
 		"label":"Kurztitel",
+		"icon":"",
 		"name":"shortTitle",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"600"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/Thesis",
@@ -10502,9 +10767,13 @@
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/translator",
+		"comment":"",
 		"label":"Übersetzer",
+		"icon":"",
 		"name":"translator",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"100"
 	},
 	{
 		"uri":"http://purl.org/ontology/bibo/Volume",
@@ -10513,23 +10782,30 @@
 	},
 	{
 		"uri":"http://purl.org/ontology/daia/label",
+		"comment":"",
 		"label":"Signatur",
+		"icon":"",
 		"name":"callNumber",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/holding#collectedBy",
+		"comment":"",
 		"label":"Gesammelt von",
+		"icon":"",
 		"name":"collectedBy",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/mo/ismn",
 		"label":"Ismn",
 		"name":"ismn",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/ontology/mo/Vinyl",
@@ -10539,22 +10815,28 @@
 	},
 	{
 		"uri":"http://purl.org/ontology/mo/wikipedia",
+		"comment":"",
 		"label":"Wikipedia",
+		"icon":"",
 		"name":"wikipedia",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/vocab/frbr/core#exemplar",
 		"label":"Exemplar",
 		"name":"exemplar",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/vocab/frbr/core#exemplarOf",
 		"label":"Exemplar",
 		"name":"exemplarOf",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://purl.org/vocab/frbr/core#Manifestation",
@@ -10567,73 +10849,97 @@
 		"label":"Besitz",
 		"name":"owner",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdaregistry.info/Elements/u/P60259",
 		"label":"Beilage zu",
 		"name":"isSupplementTo",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdaregistry.info/Elements/u/P60281",
 		"label":"Beilage",
 		"name":"hasSupplement",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdaregistry.info/Elements/u/P60489",
 		"label":"Hochschulschriftenvermerk",
 		"name":"P60489",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdvocab.info/Elements/frequency",
 		"label":"Erscheinungsweise",
 		"name":"frequency",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdvocab.info/Elements/longitudeAndLatitude",
 		"label":"Geokoordinaten",
 		"name":"longitudeAndLatitude",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdvocab.info/Elements/otherTitleInformation",
+		"comment":"",
 		"label":"Titelzusatz weitere",
+		"icon":"",
 		"name":"otherTitleInformation",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"2"
 	},
 	{
 		"uri":"http://rdvocab.info/Elements/placeOfPublication",
+		"comment":"",
 		"label":"Ort",
 		"icon":"fa fa-location-arrow",
 		"name":"placeOfPublication",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdvocab.info/Elements/publicationStatement",
+		"comment":"",
 		"label":"Ort und Jahr",
+		"icon":"",
 		"name":"publicationStatement",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdvocab.info/Elements/statementOfResponsibility",
+		"comment":"",
 		"label":"Verantwortlich",
+		"icon":"",
 		"name":"statementOfResponsibility",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdvocab.info/RDARelationshipsWEMI/workManifested",
+		"comment":"",
 		"label":"Werkebene",
+		"icon":"",
 		"name":"workManifested",
 		"referenceType":"@id",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://rdvocab.info/termList/RDACarrierType/1010",
@@ -10672,114 +10978,157 @@
 	},
 	{
 		"uri":"http://umbel.org/umbel#isLike",
+		"comment":"",
 		"label":"ähnlich zu",
 		"icon":"fa fa-link",
 		"name":"isLike",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.openarchives.org/OAI/2.0/itemID",
+		"comment":"",
 		"label":"Oai Id",
+		"icon":"",
 		"name":"itemID",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.openarchives.org/ore/terms/describes",
 		"label":"beschreibt",
 		"name":"describes",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.openarchives.org/ore/terms/isAggregatedBy",
+		"comment":"",
 		"label":"Teil von",
+		"icon":"",
 		"name":"isAggregatedBy",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.openarchives.org/ore/terms/isDescribedBy",
 		"label":"Beschrieben durch",
 		"name":"isDescribedBy",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.openarchives.org/ore/terms/similarTo",
+		"comment":"",
 		"label":"Vgl.",
+		"icon":"",
 		"name":"similarTo",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.umbel.org/specifications/vocabulary#isLike",
+		"comment":"",
 		"label":"ähnlich zu",
+		"icon":"",
 		"name":"isLike",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+		"comment":"",
 		"label":"Typ",
+		"icon":"",
 		"name":"type",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/2000/01/rdf-schema#inDataset",
 		"label":"",
 		"name":"inDataset",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/2000/01/rdf-schema#label",
 		"label":"Etikett",
 		"icon":"fa fa-tag",
 		"name":"label",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/2000/01/rdf-schema#seeAlso",
+		"comment":"",
 		"label":"Weitere Informationen",
+		"icon":"",
 		"name":"seeAlso",
-		"referenceType":"String"
+		"referenceType":"String",
+		"container":"",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/2001/XMLSchema#",
+		"comment":"",
 		"label":"XML Schema",
+		"icon":"",
 		"name":"xsd",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/2002/07/owl#sameAs",
 		"label":"Identisch zu",
 		"name":"sameAs",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/2004/02/skos/core#note",
 		"label":"Hinweis",
 		"name":"note",
 		"referenceType":"String",
-		"container":"@set"
+		"container":"@set",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/2004/02/skos/core#prefLabel",
 		"label":"Label",
 		"name":"prefLabel",
-		"referenceType":"String"
+		"referenceType":"String",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://www.w3.org/2007/05/powder-s#describedby",
 		"label":"Beschrieben durch",
 		"name":"describedby",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://xmlns.com/foaf/0.1/isPrimaryTopicOf",
 		"label":"Gegenstand von",
 		"name":"isPrimaryTopicOf",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"weight":"1000"
 	},
 	{
 		"uri":"http://xmlns.com/foaf/0.1/primaryTopic",
+		"comment":"",
 		"label":"Vgl.",
+		"icon":"",
 		"name":"primaryTopic",
-		"referenceType":"@id"
+		"referenceType":"@id",
+		"container":"",
+		"weight":"1000"
 	}
 ]

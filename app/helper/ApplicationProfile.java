@@ -214,7 +214,8 @@ public class ApplicationProfile {
             pmap.put("@id", l.uri);
             pmap.put("label", l.label);
             pmap.put("icon", l.icon);
-
+            pmap.put("weight", l.weight);
+            pmap.put("comment", l.comment);
             if (!"String".equals(l.referenceType)) {
                 pmap.put("@type", l.referenceType);
             }
@@ -245,6 +246,8 @@ public class ApplicationProfile {
             }
             e.container = (String) contextEntry.get("@container");
             e.icon = (String) contextEntry.get("icon");
+            e.weight = (String) contextEntry.get("weight");
+            e.comment = (String) contextEntry.get("comment");
             result.add(e);
             play.Logger.debug("" + e);
         }
@@ -292,6 +295,8 @@ public class ApplicationProfile {
             pmap.put("id", l.uri);
             pmap.put("label", l.label);
             pmap.put("icon", l.icon);
+            pmap.put("weight", l.weight);
+            pmap.put("comment", l.comment);
             cmap.put(l.name, pmap);
         }
         Map<String, Object> contextObject = new HashMap<String, Object>();
