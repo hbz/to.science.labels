@@ -32,7 +32,6 @@ import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.PagingList;
 
 import controllers.Globals;
 import play.Play;
@@ -42,7 +41,7 @@ import play.mvc.Http;
  * @author Jan Schnasse
  *
  */
-public class ApplicationProfile {
+public class EtikettMaker {
 
     /**
      * prefLabel predicate will be analysed

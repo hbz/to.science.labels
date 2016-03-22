@@ -26,7 +26,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import helper.ApplicationProfile;
+import helper.EtikettMaker;
 import models.Etikett;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -242,7 +242,7 @@ public class Application extends MyController {
     public static Promise<Result> asJsonLdContext() {
         return Promise.promise(() -> {
             try {
-                Map<String, Object> contextObject = ApplicationProfile.getContext();
+                Map<String, Object> contextObject = EtikettMaker.getContext();
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
@@ -309,7 +309,7 @@ public class Application extends MyController {
     public static Promise<Result> asRawJsonLdContext() {
         return Promise.promise(() -> {
             try {
-                Map<String, Object> contextObject = ApplicationProfile.getRawContext();
+                Map<String, Object> contextObject = EtikettMaker.getRawContext();
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
@@ -321,7 +321,7 @@ public class Application extends MyController {
     public static Promise<Result> asContextAnnotations() {
         return Promise.promise(() -> {
             try {
-                Map<String, Object> contextObject = ApplicationProfile.getContextAnnotation();
+                Map<String, Object> contextObject = EtikettMaker.getContextAnnotation();
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
