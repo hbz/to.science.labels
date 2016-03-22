@@ -21,7 +21,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import controllers.MyController;
-import helper.ApplicationProfile;
+import helper.EtikettMaker;
 
 /**
  *
@@ -45,11 +45,11 @@ public class ApplicationTest {
             try {
                 ObjectMapper mapper = MyController.getMapper();
                 mapper.setSerializationInclusion(Include.NON_EMPTY);
-                ApplicationProfile profile = new ApplicationProfile();
+                EtikettMaker profile = new EtikettMaker();
                 profile.addJsonData((List<Etikett>) mapper.readValue(new FileInputStream("test/resources/labels.json"),
                         new TypeReference<List<Etikett>>() {
                 }));
-                Map<String, Object> actual = ApplicationProfile.getContext();
+                Map<String, Object> actual = EtikettMaker.getContext();
                 Map<String, Object> expected = mapper.setSerializationInclusion(Include.NON_NULL)
                         .readValue(new File("test/resources/context.json"), Map.class);
                 JsonNode actNode = mapper.convertValue(actual, JsonNode.class);

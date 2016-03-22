@@ -32,7 +32,6 @@ import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.PagingList;
 
 import controllers.Globals;
 import play.Play;
@@ -42,7 +41,7 @@ import play.mvc.Http;
  * @author Jan Schnasse
  *
  */
-public class ApplicationProfile {
+public class EtikettMaker {
 
     /**
      * prefLabel predicate will be analysed
@@ -219,7 +218,7 @@ public class ApplicationProfile {
             if (!"String".equals(l.referenceType)) {
                 pmap.put("@type", l.referenceType);
             }
-            if (l.container != null) {
+            if (l.container != null && !l.container.isEmpty()) {
                 pmap.put("@container", l.container);
             }
             cmap.put(l.name, pmap);
@@ -274,7 +273,7 @@ public class ApplicationProfile {
             if (!"String".equals(l.referenceType)) {
                 pmap.put("@type", l.referenceType);
             }
-            if (l.container != null) {
+            if (l.container != null && !l.container.isEmpty()) {
                 pmap.put("@container", l.container);
             }
             cmap.put(l.name, pmap);

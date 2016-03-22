@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package controllers;
 
-import helper.ApplicationProfile;
+import helper.EtikettMaker;
 
 /**
  * @author Jan Schnasse
@@ -27,5 +27,5 @@ public class Globals {
     /**
      * Contains maps to profide labels and icons for urls
      */
-    public static ApplicationProfile profile = new ApplicationProfile();
+    public static EtikettMaker profile = new EtikettMaker();
 }
