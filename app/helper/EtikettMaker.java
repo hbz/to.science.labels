@@ -218,7 +218,7 @@ public class EtikettMaker {
             if (!"String".equals(l.referenceType)) {
                 pmap.put("@type", l.referenceType);
             }
-            if (l.container != null) {
+            if (l.container != null && !l.container.isEmpty()) {
                 pmap.put("@container", l.container);
             }
             cmap.put(l.name, pmap);
@@ -273,7 +273,7 @@ public class EtikettMaker {
             if (!"String".equals(l.referenceType)) {
                 pmap.put("@type", l.referenceType);
             }
-            if (l.container != null) {
+            if (l.container != null && !l.container.isEmpty()) {
                 pmap.put("@container", l.container);
             }
             cmap.put(l.name, pmap);
