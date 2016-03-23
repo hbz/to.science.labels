@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
+import controllers.Globals;
 import controllers.MyController;
 import helper.EtikettMaker;
 
@@ -49,12 +50,14 @@ public class ApplicationTest {
                 profile.addJsonData((List<Etikett>) mapper.readValue(new FileInputStream("test/resources/labels.json"),
                         new TypeReference<List<Etikett>>() {
                 }));
-                Map<String, Object> actual = EtikettMaker.getContext();
+                Map<String, Object> actual = profile.getContext();
                 Map<String, Object> expected = mapper.setSerializationInclusion(Include.NON_NULL)
                         .readValue(new File("test/resources/context.json"), Map.class);
                 JsonNode actNode = mapper.convertValue(actual, JsonNode.class);
                 JsonNode expectNode = mapper.convertValue(expected, JsonNode.class);
-                Files.write(actNode.toString(), new File("/tmp/etikett-test.log"), Charsets.UTF_8);
+                Files.write(actNode.toString(), new File("/tmp/etikett-test.json"), Charsets.UTF_8);
+
+                Files.write(expectNode.toString(), new File("/tmp/etikett-test-expected.json"), Charsets.UTF_8);
                 boolean result = new CompareJsonMaps().compare(actNode, expectNode);
                 org.junit.Assert.assertTrue(result);
             } catch (Exception e) {

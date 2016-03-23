@@ -68,6 +68,15 @@ public class EtikettMaker {
      */
     public final static String skosConcept = "http://www.w3.org/2004/02/skos/core#Concept";
 
+    private String ID_ALIAS = null;
+
+    private String TYPE_ALIAS = null;
+
+    public EtikettMaker() {
+        ID_ALIAS = Play.application().configuration().getString("etikett.alias.id");
+        TYPE_ALIAS = Play.application().configuration().getString("etikett.alias.type");
+    }
+
     /**
      * @param fileName
      *            add data from a file
@@ -202,7 +211,7 @@ public class EtikettMaker {
         Ebean.save(cur);
     }
 
-    public static Map<String, Object> getContext() {
+    public Map<String, Object> getContext() {
         List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
         Map<String, Object> pmap;
         Map<String, Object> cmap = new HashMap<String, Object>();
@@ -223,9 +232,20 @@ public class EtikettMaker {
             }
             cmap.put(l.name, pmap);
         }
+        addAliases(cmap);
         Map<String, Object> contextObject = new HashMap<String, Object>();
         contextObject.put("@context", cmap);
         return contextObject;
+    }
+
+    private void addAliases(Map<String, Object> cmap) {
+        // play.Logger.debug(ID_ALIAS + ":@id , " + TYPE_ALIAS + ":@type");
+        if (ID_ALIAS != null) {
+            cmap.put(ID_ALIAS, "@id");
+        }
+        if (TYPE_ALIAS != null) {
+            cmap.put(TYPE_ALIAS, "@type");
+        }
     }
 
     public void addJsonContextData(Map<String, Object> contextMap) {
@@ -261,7 +281,7 @@ public class EtikettMaker {
         return Ebean.filter(Etikett.class).eq("referenceType", null).filter((List<Etikett>) getValues());
     }
 
-    public static Map<String, Object> getRawContext() {
+    public Map<String, Object> getRawContext() {
         List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
         Map<String, Object> pmap;
         Map<String, Object> cmap = new HashMap<String, Object>();
@@ -278,12 +298,15 @@ public class EtikettMaker {
             }
             cmap.put(l.name, pmap);
         }
+
+        addAliases(cmap);
         Map<String, Object> contextObject = new HashMap<String, Object>();
         contextObject.put("@context", cmap);
+
         return contextObject;
     }
 
-    public static Map<String, Object> getContextAnnotation() {
+    public Map<String, Object> getContextAnnotation() {
         List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
         Map<String, Object> pmap;
         Map<String, Object> cmap = new HashMap<String, Object>();

@@ -242,7 +242,7 @@ public class Application extends MyController {
     public static Promise<Result> asJsonLdContext() {
         return Promise.promise(() -> {
             try {
-                Map<String, Object> contextObject = EtikettMaker.getContext();
+                Map<String, Object> contextObject = Globals.profile.getContext();
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
@@ -309,7 +309,7 @@ public class Application extends MyController {
     public static Promise<Result> asRawJsonLdContext() {
         return Promise.promise(() -> {
             try {
-                Map<String, Object> contextObject = EtikettMaker.getRawContext();
+                Map<String, Object> contextObject = Globals.profile.getRawContext();
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
@@ -321,7 +321,7 @@ public class Application extends MyController {
     public static Promise<Result> asContextAnnotations() {
         return Promise.promise(() -> {
             try {
-                Map<String, Object> contextObject = EtikettMaker.getContextAnnotation();
+                Map<String, Object> contextObject = Globals.profile.getContextAnnotation();
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
