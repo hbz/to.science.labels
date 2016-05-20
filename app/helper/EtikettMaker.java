@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.Etikett;
+import models.Etikett.EtikettType;
 
 import org.openrdf.model.Graph;
 import org.openrdf.model.Statement;
@@ -129,7 +130,30 @@ public class EtikettMaker {
      * @return all Values from etikett store
      */
     public Collection<? extends Etikett> getValues() {
-        return Ebean.find(Etikett.class).findList();
+        Collection<Etikett> result = getStoreValues();
+        result.addAll(getContextValues());
+        return result;
+    }
+
+    /**
+     * @return all manual added values from etikett store
+     */
+    public Collection<Etikett> getStoreValues() {
+        return Ebean.find(Etikett.class).where().eq("type", EtikettType.STORE).findList();
+    }
+
+    /**
+     * @return all on the fly added values from etikett store
+     */
+    public Collection<? extends Etikett> getCacheValues() {
+        return Ebean.find(Etikett.class).where().eq("type", EtikettType.CACHE).findList();
+    }
+
+    /**
+     * @return all context relevant values from etikett store
+     */
+    public Collection<? extends Etikett> getContextValues() {
+        return Ebean.find(Etikett.class).where().eq("type", EtikettType.CONTEXT).findList();
     }
 
     /**
@@ -149,7 +173,7 @@ public class EtikettMaker {
             if ("admin".equals((String) Http.Context.current().args.get("role"))) {
                 result = createLabel(urlAddress);
                 if (result.label != null) {
-                    addJsonData(result);
+                    addJsonDataIntoCache(result);
                 }
             } else {
                 result = new Etikett(urlAddress);
@@ -208,6 +232,33 @@ public class EtikettMaker {
 
         if (cur.referenceType != null && cur.referenceType.isEmpty())
             cur.referenceType = null;
+
+        if ("class".equals(cur.referenceType) || cur.referenceType == null || cur.name == null) {
+            cur.setType(Etikett.EtikettType.STORE);
+        } else {
+            cur.setType(Etikett.EtikettType.CONTEXT);
+        }
+        Ebean.save(cur);
+    }
+
+    private void addJsonDataIntoCache(Etikett e) {
+        Etikett cur = null;
+        if (e != null) {
+            cur = Ebean.find(Etikett.class).where().eq("uri", e.uri).findUnique();
+        }
+        if (cur == null) {
+            cur = new Etikett(e.uri);
+        }
+        if ("class".equals(e.referenceType)) {
+            e.referenceType = null;
+        } else if (skosConcept.equals(e.referenceType)) {
+            e.referenceType = null;
+        }
+        cur.copy(e);
+
+        if (cur.referenceType != null && cur.referenceType.isEmpty())
+            cur.referenceType = null;
+        cur.setType(Etikett.EtikettType.CACHE);
         Ebean.save(cur);
     }
 
@@ -271,14 +322,6 @@ public class EtikettMaker {
             play.Logger.debug("" + e);
         }
         addJsonData(result);
-    }
-
-    public Collection<? extends Etikett> getContextValues() {
-        return Ebean.filter(Etikett.class).ne("referenceType", null).filter((List<Etikett>) getValues());
-    }
-
-    public Collection<? extends Etikett> getConceptValues() {
-        return Ebean.filter(Etikett.class).eq("referenceType", null).filter((List<Etikett>) getValues());
     }
 
     public Map<String, Object> getRawContext() {

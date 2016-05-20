@@ -54,7 +54,8 @@ General Public License *@ @(title: String)(content: Html)
 						data-toggle="dropdown" href="#"> Show <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/context">Context entries</a></li>
-							<li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/concepts">Concept entries</a></li>
+							<li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/store">Configured entries</a></li>
+							<li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/cache">Cached entries</a></li>
 							<li><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")">All etiketts</a></li>
 						</ul></li>
 					<li class="dropdown"><a class="dropdown-toggle"

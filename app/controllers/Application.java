@@ -26,7 +26,6 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import helper.EtikettMaker;
 import models.Etikett;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -53,7 +52,7 @@ public class Application extends MyController {
         if (request().accepts("text/html")) {
             return allAsHtml(urlAddress);
         } else {
-            return asJson(urlAddress);
+            return contextAsJson(urlAddress);
         }
 
     }
@@ -120,6 +119,50 @@ public class Application extends MyController {
 
     }
 
+    /**
+     * @param urlAddress
+     * @return all data as json array
+     */
+    public static Result contextAsJson(String urlAddress) {
+        try {
+            response().setHeader("Content-Type", "application/json; charset=utf-8");
+            if (urlAddress != null) {
+                Etikett entry = Globals.profile.findEtikett(urlAddress);
+                ArrayList<Etikett> result = new ArrayList<Etikett>();
+                result.add(entry);
+                return ok(json(result));
+            } else {
+                return ok(json(new ArrayList<Etikett>(Globals.profile.getContextValues())));
+            }
+        } catch (Exception e) {
+            play.Logger.debug("", e);
+            return status(500, json(e.toString()));
+        }
+
+    }
+
+    /**
+     * @param urlAddress
+     * @return all data as json array
+     */
+    public static Result cacheAsJson(String urlAddress) {
+        try {
+            response().setHeader("Content-Type", "application/json; charset=utf-8");
+            if (urlAddress != null) {
+                Etikett entry = Globals.profile.findEtikett(urlAddress);
+                ArrayList<Etikett> result = new ArrayList<Etikett>();
+                result.add(entry);
+                return ok(json(result));
+            } else {
+                return ok(json(new ArrayList<Etikett>(Globals.profile.getCacheValues())));
+            }
+        } catch (Exception e) {
+            play.Logger.debug("", e);
+            return status(500, json(e.toString()));
+        }
+
+    }
+
     public static Promise<Result> contextAsHtml() {
         return Promise.promise(() -> {
             try {
@@ -136,7 +179,19 @@ public class Application extends MyController {
         return Promise.promise(() -> {
             try {
                 response().setHeader("Content-Type", "text/html; charset=utf-8");
-                return ok(index.render("Concept entries", new ArrayList<Etikett>(Globals.profile.getConceptValues())));
+                return ok(index.render("Configured entries", new ArrayList<Etikett>(Globals.profile.getStoreValues())));
+            } catch (Exception e) {
+                play.Logger.debug("", e);
+                return status(500, message.render("Server encounters internal problem: " + e.getMessage()));
+            }
+        });
+    }
+
+    public static Promise<Result> cacheAsHtml() {
+        return Promise.promise(() -> {
+            try {
+                response().setHeader("Content-Type", "text/html; charset=utf-8");
+                return ok(index.render("Cache entries", new ArrayList<Etikett>(Globals.profile.getCacheValues())));
             } catch (Exception e) {
                 play.Logger.debug("", e);
                 return status(500, message.render("Server encounters internal problem: " + e.getMessage()));
@@ -151,9 +206,9 @@ public class Application extends MyController {
                 Etikett entry = Globals.profile.findEtikett(urlAddress);
                 ArrayList<Etikett> result = new ArrayList<Etikett>();
                 result.add(entry);
-                return ok(index.render("All etiketts", result));
+                return ok(index.render("Show etikett", result));
             } else {
-                return ok(index.render("All etiketts", new ArrayList<Etikett>(Globals.profile.getValues())));
+                return redirect(routes.Application.contextAsHtml());
             }
         } catch (Exception e) {
             play.Logger.debug("", e);
@@ -195,9 +250,7 @@ public class Application extends MyController {
     public static Promise<Result> addData() {
         return new ModifyAction().call(() -> {
             try {
-
                 MultipartFormData body = request().body().asMultipartFormData();
-
                 DynamicForm requestData = Form.form().bindFromRequest();
                 String format = requestData.get("format-cb");
                 play.Logger.debug(format);
@@ -216,15 +269,15 @@ public class Application extends MyController {
                                     (Map<String, Object>) new ObjectMapper().readValue(uploadData, Map.class));
                         }
                         flash("info", "File uploaded");
-                        return redirect(routes.Application.getColumn(null, null));
+                        return redirect(routes.Application.contextAsHtml());
                     }
                 } else {
                     flash("error", "Missing file");
-                    return redirect(routes.Application.getColumn(null, null));
+                    return redirect(routes.Application.contextAsHtml());
                 }
             } catch (Exception e) {
                 play.Logger.warn("", e);
-                return redirect(routes.Application.getColumn(null, null));
+                return redirect(routes.Application.contextAsHtml());
             }
         });
     }
@@ -246,7 +299,7 @@ public class Application extends MyController {
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
-                return redirect(routes.Application.getColumn(null, null));
+                return redirect(routes.Application.contextAsHtml());
             }
         });
     }
@@ -283,7 +336,7 @@ public class Application extends MyController {
         } else {
             Etikett u = form.get();
             Globals.profile.addJsonData(u);
-            return redirect(routes.Application.getColumn(u.uri, null));
+            return redirect(routes.Application.contextAsHtml());
         }
     }
 

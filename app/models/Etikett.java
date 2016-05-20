@@ -19,11 +19,13 @@ package models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.rjeschke.txtmark.Processor;
 
+import models.Etikett.EtikettType;
 import play.db.ebean.Model;
 
 /**
@@ -34,6 +36,10 @@ import play.db.ebean.Model;
  */
 @Entity
 public class Etikett extends Model {
+
+    public enum EtikettType {
+        CACHE, CONTEXT, STORE
+    }
 
     /**
      * @param subj
@@ -86,6 +92,8 @@ public class Etikett extends Model {
      * A weigth for ordering
      */
     public String weight = null;
+    @Enumerated
+    public EtikettType type;
 
     public Etikett() {
         // needed for jaxb (@see https://github.com/hbz/lobid-rdf-to-json
@@ -117,5 +125,78 @@ public class Etikett extends Model {
         container = e.container;
         comment = e.comment;
         weight = e.weight;
+        type = e.type;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getReferenceType() {
+        return referenceType;
+    }
+
+    public void setReferenceType(String referenceType) {
+        this.referenceType = referenceType;
+    }
+
+    public String getContainer() {
+        return container;
+    }
+
+    public void setContainer(String container) {
+        this.container = container;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public EtikettType getType() {
+        return type;
+    }
+
+    public void setType(EtikettType type) {
+        this.type = type;
     }
 }
