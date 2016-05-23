@@ -169,17 +169,30 @@ public class EtikettMaker {
      */
     public Etikett findEtikett(String urlAddress) {
         Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
-        if (result == null) {
-            if ("admin".equals((String) Http.Context.current().args.get("role"))) {
-                result = createLabel(urlAddress);
-                if (result.label != null) {
-                    addJsonDataIntoCache(result);
-                }
+        if (result != null) {
+            return result;
+        } else {
+            result = getLabelFromUrlAddress(urlAddress);
+            if (result != null) {
+                addJsonDataIntoCache(result);
+                return result;
             } else {
                 result = new Etikett(urlAddress);
+                result.label = urlAddress;
+                return result;
             }
         }
-        return result;
+    }
+
+    private Etikett getLabelFromUrlAddress(String urlAddress) {
+        Etikett result;
+        if ("admin".equals((String) Http.Context.current().args.get("role"))) {
+            result = createLabel(urlAddress);
+            if (result.label != null) {
+                return result;
+            }
+        }
+        return null;
     }
 
     public Etikett getValue(String urlAddress) {
