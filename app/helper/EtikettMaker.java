@@ -209,7 +209,10 @@ public class EtikettMaker {
     private String lookUpLabel(String urlAddress) {
         if (urlAddress.startsWith(GndLabelResolver.id)) {
             return GndLabelResolver.lookup(urlAddress);
+        } else if (urlAddress.startsWith(GeonamesLabelResolver.id)) {
+            return GeonamesLabelResolver.lookup(urlAddress);
         } else {
+
             return DefaultLabelResolver.lookup(urlAddress);
         }
     }
