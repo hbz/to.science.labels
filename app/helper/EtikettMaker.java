@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package helper;
 
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -201,9 +202,13 @@ public class EtikettMaker {
     }
 
     private Etikett createLabel(String urlAddress) {
-        Etikett etikett = new Etikett(urlAddress);
-        etikett.label = lookUpLabel(urlAddress);
-        return etikett;
+        try {
+            Etikett etikett = new Etikett(urlAddress);
+            etikett.label = lookUpLabel(URLDecoder.decode(urlAddress, "UTF-8"));
+            return etikett;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String lookUpLabel(String urlAddress) {
@@ -211,10 +216,10 @@ public class EtikettMaker {
             return GndLabelResolver.lookup(urlAddress);
         } else if (urlAddress.startsWith(GeonamesLabelResolver.id)) {
             return GeonamesLabelResolver.lookup(urlAddress);
-        } else {
-
-            return DefaultLabelResolver.lookup(urlAddress);
+        } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)) {
+            return OpenStreetMapLabelResolver.lookup(urlAddress);
         }
+        return DefaultLabelResolver.lookup(urlAddress);
     }
 
     /**
