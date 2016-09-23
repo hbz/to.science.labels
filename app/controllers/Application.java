@@ -19,6 +19,7 @@ package controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,11 @@ import play.mvc.Call;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import views.html.*;
+import views.html.delete;
+import views.html.edit;
+import views.html.index;
+import views.html.message;
+import views.html.upload;
 
 /**
  * @author Jan Schnasse
@@ -64,7 +69,7 @@ public class Application extends MyController {
      *            the name of the column
      * @return a string with the content of the column
      */
-    public static Promise<Result> getColumn(String urlAddress, String column) {
+    public static Promise<Result> getColumn(String urlAddress, String column, String lang) {
         return Promise.promise(() -> {
             if (column == null) {
                 return row(urlAddress);
@@ -75,8 +80,22 @@ public class Application extends MyController {
                 switch (column) {
                 case "Icon":
                     return ok(entry.icon);
-                case "Label":
-                    return ok(entry.label);
+                case "Label": {
+                    if (lang == null) {
+                        return ok(entry.label);
+                    } else {
+                        entry.setMultiLangSerialized(entry.getMultiLangSerialized());
+                        if (entry.getMultilangLabel() == null) {
+                            return ok(entry.label + " (No label in '" + lang + "' available.)");
+                        }
+                        String label = entry.getMultilangLabel().get(lang);
+                        if (label != null && !label.isEmpty()) {
+                            return ok(label);
+                        } else {
+                            return ok(entry.label + " (No label in '" + lang + "' available.)");
+                        }
+                    }
+                }
                 case "Name":
                     return ok(entry.name);
                 case "Uri":
@@ -253,17 +272,18 @@ public class Application extends MyController {
                 MultipartFormData body = request().body().asMultipartFormData();
                 DynamicForm requestData = Form.form().bindFromRequest();
                 String format = requestData.get("format-cb");
+                String language = requestData.get("lang");
                 play.Logger.debug(format);
                 FilePart data = body.getFile("data");
                 if (data != null) {
                     File file = data.getFile();
                     try (FileInputStream uploadData = new FileInputStream(file)) {
                         if ("Rdf-Turtle".equals(format)) {
-                            Globals.profile.addRdfData(uploadData);
+                            Globals.profile.addRdfData(uploadData, language);
                         } else if ("Json".equals(format)) {
                             Globals.profile.addJsonData((List<Etikett>) new ObjectMapper().readValue(uploadData,
                                     new TypeReference<List<Etikett>>() {
-                            }));
+                                    }));
                         } else if ("Json-Context".equals(format)) {
                             Globals.profile.addJsonContextData(
                                     (Map<String, Object>) new ObjectMapper().readValue(uploadData, Map.class));
@@ -350,13 +370,13 @@ public class Application extends MyController {
 
             if (e == null) {
                 flash("info", "Delete not possible. Resource does not exist.");
-                return getColumn(null, null);
+                return getColumn(null, null, null);
             }
             e.delete();
-            return getColumn(null, null);
+            return getColumn(null, null, null);
         }
         flash("error", "Missing Parameter url");
-        return getColumn(null, null);
+        return getColumn(null, null, null);
     }
 
     public static Promise<Result> asRawJsonLdContext() {
@@ -366,7 +386,7 @@ public class Application extends MyController {
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
-                return redirect(routes.Application.getColumn(null, null));
+                return redirect(routes.Application.getColumn(null, null, null));
             }
         });
     }
@@ -378,8 +398,9 @@ public class Application extends MyController {
                 return ok(json(contextObject));
             } catch (Exception e) {
                 play.Logger.warn("", e);
-                return redirect(routes.Application.getColumn(null, null));
+                return redirect(routes.Application.getColumn(null, null, null));
             }
         });
     }
+
 }

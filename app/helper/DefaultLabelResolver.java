@@ -23,6 +23,7 @@ import java.text.Normalizer;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
+import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.RDFFormat;
@@ -42,7 +43,7 @@ public class DefaultLabelResolver {
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public static String lookup(String uri) {
+    public static String lookup(String uri, String language) {
         try {
             for (Statement s : RdfUtils.readRdfToGraph(new URL(uri), RDFFormat.NTRIPLES, "text/plain")) {
                 boolean isLiteral = s.getObject() instanceof Literal;
@@ -51,7 +52,7 @@ public class DefaultLabelResolver {
                         ValueFactory v = new ValueFactoryImpl();
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
-                        String label = findLabel(newS, uri);
+                        String label = findLabel(newS, uri, language);
                         if (label != null)
                             return label;
                     }
@@ -63,11 +64,24 @@ public class DefaultLabelResolver {
         return null;
     }
 
-    private static String findLabel(Statement s, String uri) {
+    static String findLabel(Statement s, String uri, String language) {
         if (!uri.equals(s.getSubject().stringValue()))
             return null;
         if (prefLabel.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
+            Value rdfO = s.getObject();
+            if (rdfO instanceof Literal) {
+                Literal rdfOL = (Literal) rdfO;
+                play.Logger.debug(
+                        "Found " + rdfOL.getLanguage() + " label for " + uri + " : " + s.getObject().stringValue());
+                if (language.equals(rdfOL.getLanguage())) {
+                    return s.getObject().stringValue();
+                } else if ("de".equals(rdfOL.getLanguage())) {
+                    return s.getObject().stringValue();
+                } else if ("en".equals(rdfOL.getLanguage())) {
+                    return s.getObject().stringValue();
+                }
+            }
+
         }
         if (title.equals(s.getPredicate().stringValue())) {
             return s.getObject().stringValue();

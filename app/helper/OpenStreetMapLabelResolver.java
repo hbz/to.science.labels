@@ -17,7 +17,7 @@ public class OpenStreetMapLabelResolver {
             String query = url.getQuery();
             for (String pair : query.split("&")) {
                 String[] keyValue = pair.split("=");
-                int idx = pair.indexOf("=");
+                // int idx = pair.indexOf("=");
                 map.put(URLDecoder.decode(keyValue[0], "UTF-8"), URLDecoder.decode(keyValue[1], "UTF-8"));
             }
             return map.get("mlat") + "," + map.get("mlon");

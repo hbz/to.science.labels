@@ -86,14 +86,14 @@ bc.. sudo update-rc.d etikett defaults 99 20
 p. Create/Configure Mysql Table
 
 bc.. mysql -u root -p
-CREATE DATABASE etikett_test;
-CREATE USER 'etikett_test'@'localhost' IDENTIFIED BY 'etikett_test';
-GRANT ALL ON etikett_test.* TO 'etikett_test'@'localhost';
+CREATE DATABASE etikett  DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+CREATE USER 'etikett'@'localhost' IDENTIFIED BY 'etikett';
+GRANT ALL ON etikett.* TO 'etikett'@'localhost';
 
 p. Set /opt/etikett/conf/application.conf
 
 bc.. db.default.driver=com.mysql.jdbc.Driver
-db.default.url="jdbc:mysql://localhost/etikett"
+db.default.url="jdbc:mysql://localhost/etikett?characterEncoding=UTF-8"
 db.default.user=etikett_test
 db.default.password="etikett_test"
 

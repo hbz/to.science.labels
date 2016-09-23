@@ -1,9 +1,8 @@
 @* Copyright 2015 Jan Schnasse, hbz. Licensed under the GNU Affero General Public License *@
 
 @main("Etikett") {
-
-Upload a Turtle Rdf Skos File
-@helper.form(action = routes.Application.addData, 'enctype -> "multipart/form-data") {
+@helper.form(action = routes.UnauthorizedCalls.postConvert, 'enctype -> "multipart/form-data") {
+   
     <label class="form-control-label" for="file">File</label>
     <input id="file" type="file" name="data">
     
@@ -21,15 +20,15 @@ Upload a Turtle Rdf Skos File
     <fieldset> 
 		<select name="lang" id="select-input" class="input-widget">
 		<option value="" selected>Default (no language)</option>
-		<option value="de" selected>German</option>
-		<option value="en" selected>English</option>
-		<option value="ru" selected>Russian</option>
+		<option value="de" >German</option>
+		<option value="en" >English</option>
+		<option value="ru" >Russian</option>
 		</select>
     </fieldset>
+ 
     <p>
-        <input type="submit" name="Upload" value="Upload">
+        <input type="submit" name="Convert" value="Convert">
     </p>
     
 }
-
 }

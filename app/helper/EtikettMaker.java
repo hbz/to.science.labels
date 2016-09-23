@@ -26,16 +26,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import models.Etikett;
-import models.Etikett.EtikettType;
-
 import org.openrdf.model.Graph;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
 
 import controllers.Globals;
+import models.Etikett;
+import models.Etikett.EtikettType;
 import play.Play;
 import play.mvc.Http;
 
@@ -83,9 +83,9 @@ public class EtikettMaker {
      * @param fileName
      *            add data from a file
      */
-    public void addRdfData(String fileName) {
+    public void addRdfData(String fileName, String language) {
         try (InputStream in = Play.application().resourceAsStream(fileName)) {
-            addRdfData(in);
+            addRdfData(in, language);
         } catch (Exception e) {
             e.printStackTrace();
             play.Logger.info("config file " + fileName + " not found.");
@@ -96,7 +96,12 @@ public class EtikettMaker {
      * @param in
      *            an input stream with rdf in turtle format
      */
-    public void addRdfData(InputStream in) {
+    public void addRdfData(InputStream in, String language) {
+        addJsonData(convertRdfData(in, language));
+    }
+
+    public List<Etikett> convertRdfData(InputStream in, String language) {
+        List<Etikett> result = new ArrayList<>();
         Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
         Iterator<Statement> statements = g.iterator();
         Map<String, Etikett> collect = new HashMap<String, Etikett>();
@@ -110,7 +115,13 @@ public class EtikettMaker {
                 e = new Etikett(subj);
             }
             if (prefLabel.equals(pred)) {
-                e.label = obj;
+                Literal oL = (Literal) st.getObject();
+                if (language.equals(oL.getLanguage())) {
+                    e.label = obj;
+                } else if (oL.getLanguage() == null && language.isEmpty()) {
+                    e.label = obj;
+                }
+                e.addMultilangLabel(oL.getLanguage(), obj);
             } else if (icon.equals(pred)) {
                 e.icon = obj;
             } else if (name.equals(pred)) {
@@ -123,8 +134,8 @@ public class EtikettMaker {
             }
             collect.put(subj, e);
         }
-
-        addJsonData(collect.values());
+        result.addAll(collect.values());
+        return result;
     }
 
     /**
@@ -171,6 +182,7 @@ public class EtikettMaker {
     public Etikett findEtikett(String urlAddress) {
         Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
         if (result != null) {
+            play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
             return result;
         } else {
             result = getLabelFromUrlAddress(urlAddress);
@@ -219,7 +231,7 @@ public class EtikettMaker {
         } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)) {
             return OpenStreetMapLabelResolver.lookup(urlAddress);
         }
-        return DefaultLabelResolver.lookup(urlAddress);
+        return DefaultLabelResolver.lookup(urlAddress, "en");
     }
 
     /**
@@ -321,7 +333,13 @@ public class EtikettMaker {
     }
 
     public void addJsonContextData(Map<String, Object> contextMap) {
+        List<Etikett> result = convertJsonContextData(contextMap);
+        addJsonData(result);
+    }
+
+    public List<Etikett> convertJsonContextData(Map<String, Object> contextMap) {
         List<Etikett> result = new ArrayList<Etikett>();
+        @SuppressWarnings("unchecked")
         Map<String, Object> c = (Map<String, Object>) contextMap.get("@context");
         for (String fieldName : c.keySet()) {
             play.Logger.debug("" + fieldName);
@@ -342,7 +360,7 @@ public class EtikettMaker {
             result.add(e);
             play.Logger.debug("" + e);
         }
-        addJsonData(result);
+        return result;
     }
 
     public Map<String, Object> getRawContext() {

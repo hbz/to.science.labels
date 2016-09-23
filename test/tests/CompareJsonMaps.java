@@ -33,6 +33,7 @@ public final class CompareJsonMaps {
 
     Stack<String> stack = new Stack<>();
     static final String JSON_LD_CONTEXT = "[@context";
+    @SuppressWarnings("unused")
     private static boolean IGNORE_CONTEXT = true;
     private static String filename1;
     private static String filename2;

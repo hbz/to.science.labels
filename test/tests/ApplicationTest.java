@@ -9,8 +9,6 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map;
 
-import models.Etikett;
-
 import org.junit.Test;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -20,9 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-import controllers.Globals;
 import controllers.MyController;
 import helper.EtikettMaker;
+import models.Etikett;
 
 /**
  *
@@ -49,7 +47,7 @@ public class ApplicationTest {
                 EtikettMaker profile = new EtikettMaker();
                 profile.addJsonData((List<Etikett>) mapper.readValue(new FileInputStream("test/resources/labels.json"),
                         new TypeReference<List<Etikett>>() {
-                }));
+                        }));
                 Map<String, Object> actual = profile.getContext();
                 Map<String, Object> expected = mapper.setSerializationInclusion(Include.NON_NULL)
                         .readValue(new File("test/resources/context.json"), Map.class);

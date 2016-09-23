@@ -17,15 +17,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package models;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.rjeschke.txtmark.Processor;
 
-import models.Etikett.EtikettType;
 import play.db.ebean.Model;
 
 /**
@@ -95,6 +103,28 @@ public class Etikett extends Model {
     @Enumerated
     public EtikettType type;
 
+    @Transient
+    public Map<String, String> multilangLabel = new HashMap<>();
+    @JsonIgnore
+    @Column(columnDefinition = "TEXT")
+    public String multiLangSerialized;
+
+    /**
+     * @param e
+     *            attributes from e will be copied to this etikett
+     */
+    public void copy(Etikett e) {
+        icon = e.icon;
+        label = e.label;
+        name = e.name;
+        referenceType = e.referenceType;
+        container = e.container;
+        comment = e.comment;
+        weight = e.weight;
+        type = e.type;
+        multiLangSerialized = e.multiLangSerialized;
+    }
+
     public Etikett() {
         // needed for jaxb (@see https://github.com/hbz/lobid-rdf-to-json
     }
@@ -111,21 +141,6 @@ public class Etikett extends Model {
         } catch (Exception e) {
             return "To String failed " + e.getMessage();
         }
-    }
-
-    /**
-     * @param e
-     *            attributes from e will be copied to this etikett
-     */
-    public void copy(Etikett e) {
-        icon = e.icon;
-        label = e.label;
-        name = e.name;
-        referenceType = e.referenceType;
-        container = e.container;
-        comment = e.comment;
-        weight = e.weight;
-        type = e.type;
     }
 
     public String getUri() {
@@ -199,4 +214,39 @@ public class Etikett extends Model {
     public void setType(EtikettType type) {
         this.type = type;
     }
+
+    @JsonIgnore
+    public String getMultiLangSerialized() {
+        return multiLangSerialized;
+    }
+
+    public void setMultiLangSerialized(String multiLangSerialized) {
+        this.multiLangSerialized = multiLangSerialized;
+        try {
+            multilangLabel = new ObjectMapper().readValue(new ByteArrayInputStream(multiLangSerialized.getBytes()),
+                    new TypeReference<HashMap<String, String>>() {
+                    });
+        } catch (Exception e) {
+            play.Logger.warn("", e);
+        }
+    }
+
+    public void addMultilangLabel(String lang, String label) {
+        multilangLabel.put(lang, label);
+        setMultilangLabel(multilangLabel);
+    }
+
+    public void setMultilangLabel(Map<String, String> multilangLabel) {
+        this.multilangLabel = multilangLabel;
+        try {
+            multiLangSerialized = new ObjectMapper().writeValueAsString(multilangLabel);
+        } catch (JsonProcessingException e) {
+            play.Logger.warn("", e);
+        }
+    }
+
+    public Map<String, String> getMultilangLabel() {
+        return multilangLabel;
+    }
+
 }
