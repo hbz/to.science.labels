@@ -20,6 +20,7 @@ package helper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.openrdf.model.Graph;
@@ -87,8 +88,15 @@ public class RdfUtils {
             if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP
                     || responseCode == 307 || responseCode == 303) {
                 String redirectUrl = con.getHeaderField("Location");
-                play.Logger.debug("Redirect to Location: " + redirectUrl);
-                return urlToInputStream(new URL(url.getProtocol() + "://" + url.getHost() + redirectUrl), accept);
+                try {
+                    URL newUrl = new URL(redirectUrl);
+                    play.Logger.debug("Redirect to Location: " + newUrl);
+                    return urlToInputStream(newUrl, accept);
+                } catch (MalformedURLException e) {
+                    URL newUrl = new URL(url.getProtocol() + "://" + url.getHost() + redirectUrl);
+                    play.Logger.debug("Redirect to Location: " + newUrl);
+                    return urlToInputStream(newUrl, accept);
+                }
             }
             inputStream = con.getInputStream();
             return inputStream;
