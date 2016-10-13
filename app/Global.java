@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.CharStreams;
+
+import controllers.Globals;
 import models.Etikett;
 import play.Application;
 import play.GlobalSettings;
@@ -36,12 +41,6 @@ import play.mvc.Action;
 import play.mvc.Http.Request;
 import play.mvc.Http.RequestHeader;
 import play.mvc.SimpleResult;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.io.CharStreams;
-
-import controllers.Globals;
 
 /**
  * @author Jan Schnasse

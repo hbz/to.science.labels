@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -62,6 +63,18 @@ public class ApplicationTest {
                 e.printStackTrace();
             }
 
+        });
+    }
+
+    @Test
+    public void testDefaultResolver() {
+        running(fakeApplication(play.test.Helpers.inMemoryDatabase()), () -> {
+            String label = EtikettMaker.lookUpLabel("http://aims.fao.org/aos/agrovoc/c_92373", "en");
+            Assert.assertTrue("Mississippi River".equals(label));
+            label = EtikettMaker.lookUpLabel("http://aims.fao.org/aos/agrovoc/c_92373", "de");
+            Assert.assertTrue("Mississippi <fluss>".equals(label));
+            label = EtikettMaker.lookUpLabel("http://d-nb.info/gnd/141568992");
+            Assert.assertTrue("Twain, Mark".equals(label));
         });
     }
 

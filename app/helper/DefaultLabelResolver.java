@@ -19,14 +19,16 @@ package helper;
 
 import java.net.URL;
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Statement;
-import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
  * @author Jan Schnasse
@@ -45,46 +47,52 @@ public class DefaultLabelResolver {
      */
     public static String lookup(String uri, String language) {
         try {
-            for (Statement s : RdfUtils.readRdfToGraph(new URL(uri), RDFFormat.NTRIPLES, "text/plain")) {
-                boolean isLiteral = s.getObject() instanceof Literal;
-                if (!(s.getSubject() instanceof BNode)) {
-                    if (isLiteral) {
-                        ValueFactory v = new ValueFactoryImpl();
-                        Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
-                                Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
-                        String label = findLabel(newS, uri, language);
-                        if (label != null)
-                            return label;
-                    }
+            return lookup(uri, language, RDFFormat.RDFXML, "application/rdf+xml");
+        } catch (Exception e) {
+            return lookup(uri, language, RDFFormat.NTRIPLES, "text/plain");
+        }
+    }
+
+    private static String lookup(String uri, String language, RDFFormat format, String accept) {
+        List<String> collectLabels = new ArrayList<>();
+        try {
+            Collection<Statement> statements = RdfUtils.readRdfToGraph(new URL(uri), format, accept);
+            List<Statement> prefLabels = statements.stream().filter((s) -> {
+                boolean isLabel = prefLabel.equals(s.getPredicate().stringValue());
+                boolean isSubjectOfInterest = uri.equals(s.getSubject().stringValue());
+                return isLabel && isSubjectOfInterest;
+            }).collect(Collectors.toList());
+            for (Statement s : prefLabels) {
+                if (s.getObject() instanceof Literal) {
+                    Literal literal = normalizeLiteral((Literal) s.getObject());
+                    collectLabels.add(literal.stringValue());
+                    String label = getLabelInLanguage(literal, language);
+                    if (label != null)
+                        return label;
                 }
             }
         } catch (Exception e) {
-            play.Logger.warn("Not able to include data from" + uri, e);
+            throw new RuntimeException(e);
         }
-        return null;
+        return collectLabels.toString();
     }
 
-    static String findLabel(Statement s, String uri, String language) {
-        if (!uri.equals(s.getSubject().stringValue()))
-            return null;
-        if (prefLabel.equals(s.getPredicate().stringValue())) {
-            Value rdfO = s.getObject();
-            if (rdfO instanceof Literal) {
-                Literal rdfOL = (Literal) rdfO;
-                play.Logger.debug(
-                        "Found " + rdfOL.getLanguage() + " label for " + uri + " : " + s.getObject().stringValue());
-                if (language.equals(rdfOL.getLanguage())) {
-                    return s.getObject().stringValue();
-                } else if ("de".equals(rdfOL.getLanguage())) {
-                    return s.getObject().stringValue();
-                } else if ("en".equals(rdfOL.getLanguage())) {
-                    return s.getObject().stringValue();
-                }
-            }
-
+    private static Literal normalizeLiteral(Literal l) {
+        ValueFactory v = SimpleValueFactory.getInstance();
+        Literal newLiteral;
+        if (l.getLanguage().isPresent()) {
+            String l_lang = l.getLanguage().get();
+            newLiteral = v.createLiteral(Normalizer.normalize(l.stringValue(), Normalizer.Form.NFKC), l_lang);
+        } else {
+            newLiteral = v.createLiteral(Normalizer.normalize(l.stringValue(), Normalizer.Form.NFKC));
         }
-        if (title.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
+        return newLiteral;
+    }
+
+    static String getLabelInLanguage(Literal rdfOL, String language) {
+        String l = rdfOL.getLanguage().get();
+        if (language.equals(l)) {
+            return rdfOL.stringValue();
         }
         return null;
     }

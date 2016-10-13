@@ -20,12 +20,12 @@ package helper;
 import java.net.URL;
 import java.text.Normalizer;
 
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Statement;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
  * @author Jan Schnasse
@@ -60,7 +60,7 @@ public class GndLabelResolver {
                 boolean isLiteral = s.getObject() instanceof Literal;
                 if (!(s.getSubject() instanceof BNode)) {
                     if (isLiteral) {
-                        ValueFactory v = new ValueFactoryImpl();
+                        ValueFactory v = SimpleValueFactory.getInstance();
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
                         String label = findLabel(newS, uri);

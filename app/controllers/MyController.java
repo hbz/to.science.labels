@@ -20,12 +20,6 @@ package controllers;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import play.libs.F.Promise;
-import play.mvc.Controller;
-import play.mvc.Http;
-import play.mvc.Result;
-import views.html.message;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,6 +27,12 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
+
+import play.libs.F.Promise;
+import play.mvc.Controller;
+import play.mvc.Http;
+import play.mvc.Result;
+import views.html.message;
 
 /**
  * @author Jan Schnasse

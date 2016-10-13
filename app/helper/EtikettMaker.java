@@ -26,10 +26,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.openrdf.model.Graph;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Statement;
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
 
@@ -102,7 +101,7 @@ public class EtikettMaker {
 
     public List<Etikett> convertRdfData(InputStream in, String language) {
         List<Etikett> result = new ArrayList<>();
-        Graph g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
+        Collection<Statement> g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
         Iterator<Statement> statements = g.iterator();
         Map<String, Etikett> collect = new HashMap<String, Etikett>();
         while (statements.hasNext()) {
@@ -121,7 +120,7 @@ public class EtikettMaker {
                 } else if (oL.getLanguage() == null && language.isEmpty()) {
                     e.label = obj;
                 }
-                e.addMultilangLabel(oL.getLanguage(), obj);
+                e.addMultilangLabel(oL.getLanguage().get(), obj);
             } else if (icon.equals(pred)) {
                 e.icon = obj;
             } else if (name.equals(pred)) {
@@ -223,7 +222,11 @@ public class EtikettMaker {
         }
     }
 
-    private String lookUpLabel(String urlAddress) {
+    public static String lookUpLabel(String urlAddress) {
+        return lookUpLabel(urlAddress, "en");
+    }
+
+    public static String lookUpLabel(String urlAddress, String lang) {
         if (urlAddress.startsWith(GndLabelResolver.id)) {
             return GndLabelResolver.lookup(urlAddress);
         } else if (urlAddress.startsWith(GeonamesLabelResolver.id)) {
@@ -231,7 +234,7 @@ public class EtikettMaker {
         } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)) {
             return OpenStreetMapLabelResolver.lookup(urlAddress);
         }
-        return DefaultLabelResolver.lookup(urlAddress, "en");
+        return DefaultLabelResolver.lookup(urlAddress, lang);
     }
 
     /**

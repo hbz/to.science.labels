@@ -16,7 +16,6 @@
  */
 package controllers;
 
-import controllers.MyController;
 import play.Play;
 
 /**
