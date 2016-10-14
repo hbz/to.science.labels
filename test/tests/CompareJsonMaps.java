@@ -65,9 +65,9 @@ public final class CompareJsonMaps {
         // expected data to map
         final HashMap<String, String> expectedMap = new HashMap<>();
         extractFlatMapFromJsonNode(expected, expectedMap);
-        play.Logger.debug("\n##### remove good entries ###");
+        play.Logger.trace("\n##### remove good entries ###");
         for (final Entry<String, String> e : expectedMap.entrySet()) {
-            play.Logger.debug("Trying to remove " + e.getKey() + "...");
+            play.Logger.trace("Trying to remove " + e.getKey() + "...");
             if (!actualMap.containsKey(e.getKey())) {
                 play.Logger.warn("At least this element is missing in actual: " + e.getKey());
                 return false;
@@ -88,9 +88,9 @@ public final class CompareJsonMaps {
     private static void handleUnorderedValues(final HashMap<String, String> actualMap, final Entry<String, String> e) {
         if (checkIfAllValuesAreContainedUnordered(actualMap.get(e.getKey()), e.getValue())) {
             actualMap.remove(e.getKey());
-            play.Logger.debug("Removed " + e.getKey());
+            play.Logger.trace("Removed " + e.getKey());
         } else {
-            play.Logger.debug("Missing/wrong: " + e.getKey() + ", will fail");
+            play.Logger.trace("Missing/wrong: " + e.getKey() + ", will fail");
         }
     }
 

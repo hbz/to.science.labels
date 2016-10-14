@@ -115,12 +115,15 @@ public class EtikettMaker {
             }
             if (prefLabel.equals(pred)) {
                 Literal oL = (Literal) st.getObject();
-                if (language.equals(oL.getLanguage())) {
-                    e.label = obj;
-                } else if (oL.getLanguage() == null && language.isEmpty()) {
+                if (oL.getLanguage().isPresent()) {
+                    if (language.equals(oL.getLanguage().get())) {
+                        e.label = obj;
+                    }
+                    e.addMultilangLabel(oL.getLanguage().get(), obj);
+                } else {
+                    // last incoming label will win
                     e.label = obj;
                 }
-                e.addMultilangLabel(oL.getLanguage().get(), obj);
             } else if (icon.equals(pred)) {
                 e.icon = obj;
             } else if (name.equals(pred)) {
@@ -346,22 +349,23 @@ public class EtikettMaker {
         Map<String, Object> c = (Map<String, Object>) contextMap.get("@context");
         for (String fieldName : c.keySet()) {
             play.Logger.debug("" + fieldName);
-            @SuppressWarnings("unchecked")
-            Map<String, Object> contextEntry = (Map<String, Object>) c.get(fieldName);
-            Etikett e = new Etikett((String) contextEntry.get("@id"));
-            e.name = fieldName;
-            e.label = (String) contextEntry.get("label");
-            e.referenceType = "String";
-            String type = (String) contextEntry.get("@type");
-            if (type != null) {
-                e.referenceType = type;
+            if (c.get(fieldName) instanceof Map<?, ?>) {
+                Map<String, Object> contextEntry = (Map<String, Object>) c.get(fieldName);
+                Etikett e = new Etikett((String) contextEntry.get("@id"));
+                e.name = fieldName;
+                e.label = (String) contextEntry.get("label");
+                e.referenceType = "String";
+                String type = (String) contextEntry.get("@type");
+                if (type != null) {
+                    e.referenceType = type;
+                }
+                e.container = (String) contextEntry.get("@container");
+                e.icon = (String) contextEntry.get("icon");
+                e.weight = (String) contextEntry.get("weight");
+                e.comment = (String) contextEntry.get("comment");
+                result.add(e);
+                play.Logger.debug("" + e);
             }
-            e.container = (String) contextEntry.get("@container");
-            e.icon = (String) contextEntry.get("icon");
-            e.weight = (String) contextEntry.get("weight");
-            e.comment = (String) contextEntry.get("comment");
-            result.add(e);
-            play.Logger.debug("" + e);
         }
         return result;
     }

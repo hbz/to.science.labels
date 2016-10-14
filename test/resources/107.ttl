@@ -1,0 +1,13 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<http://aims.fao.org/aos/agrovoc/c_10175>
+    <http://art.uniroma2.it/ontologies/vocbench#hasStatus> "Published" ;
+    <http://purl.org/dc/terms/created> "2011-11-20T20:31:09Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+    <http://purl.org/dc/terms/modified> "2014-07-03T18:19:23Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+    <http://rdfs.org/ns/void#inDataset> <http://aims.fao.org/aos/agrovoc/void.ttl#Agrovoc> ;
+    a <http://www.w3.org/2004/02/skos/core#Concept> ;
+    <http://www.w3.org/2004/02/skos/core#broader> <http://aims.fao.org/aos/agrovoc/c_7427> ;
+    <http://www.w3.org/2004/02/skos/core#inScheme> <http://aims.fao.org/aos/agrovoc> ;
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Armazenamento das colheitas"@pt, "Erntegutlagerung"@de, "Immagazzinamento dei raccolti"@it, "Magazynowanie ziemiopłodów"@pl, "Stockage des récoltes"@fr, "crop storage"@en, "skladovanie plodín"@sk, "skladování plodin"@cs, "termés raktározása"@hu, "ürün depolama"@tr, "хранение урожая"@ru, "ذخيره‌سازي محصولات زراعی"@fa, "फसल भण्डारण"@hi, "การเก็บรักษาพืชผล"@th, "ການເກັບຮັກສາພືດຜົນ"@lo, "作物貯蔵"@ja, "收获储藏"@zh, "작물저장"@ko ;
+    <http://www.w3.org/2008/05/skos-xl#prefLabel> <http://aims.fao.org/aos/agrovoc/xl_cs_1299518348358>, <http://aims.fao.org/aos/agrovoc/xl_de_1299518348375>, <http://aims.fao.org/aos/agrovoc/xl_en_1299518348393>, <http://aims.fao.org/aos/agrovoc/xl_fa_1299518348422>, <http://aims.fao.org/aos/agrovoc/xl_fr_1299518348447>, <http://aims.fao.org/aos/agrovoc/xl_hi_1299518348471>, <http://aims.fao.org/aos/agrovoc/xl_hu_1299518348495>, <http://aims.fao.org/aos/agrovoc/xl_it_1299518348520>, <http://aims.fao.org/aos/agrovoc/xl_ja_1299518348548>, <http://aims.fao.org/aos/agrovoc/xl_ko_1299518348576>, <http://aims.fao.org/aos/agrovoc/xl_lo_1299518348622>, <http://aims.fao.org/aos/agrovoc/xl_pl_1299518348656>, <http://aims.fao.org/aos/agrovoc/xl_pt_1299518348692>, <http://aims.fao.org/aos/agrovoc/xl_ru_1299518349022>, <http://aims.fao.org/aos/agrovoc/xl_sk_1299518349058>, <http://aims.fao.org/aos/agrovoc/xl_th_1299518349153>, <http://aims.fao.org/aos/agrovoc/xl_tr_10175_1321792269251>, <http://aims.fao.org/aos/agrovoc/xl_zh_1299518349190> .
+

@@ -6,6 +6,7 @@ import static play.test.Helpers.running;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
+import controllers.Globals;
 import controllers.MyController;
 import helper.EtikettMaker;
 import models.Etikett;
@@ -75,6 +77,63 @@ public class ApplicationTest {
             Assert.assertTrue("Mississippi <fluss>".equals(label));
             label = EtikettMaker.lookUpLabel("http://d-nb.info/gnd/141568992");
             Assert.assertTrue("Twain, Mark".equals(label));
+        });
+    }
+
+    @Test
+    public void testOnTheFlySkosConversion_de() {
+        running(fakeApplication(play.test.Helpers.inMemoryDatabase()), () -> {
+            try (InputStream in = new FileInputStream("test/resources/107.ttl")) {
+                List<Etikett> result = Globals.profile.convertRdfData(in, "de");
+                String expected = "[{\"uri\":\"http://aims.fao.org/aos/agrovoc/c_10175\",\"label\":\"Erntegutlagerung\",\"multilangLabel\":{\"de\":\"Erntegutlagerung\",\"hi\":\"फसल भण्डारण\",\"ru\":\"хранение урожая\",\"lo\":\"ການເກັບຮັກສາພືດຜົນ\",\"pt\":\"Armazenamento das colheitas\",\"ko\":\"작물저장\",\"en\":\"crop storage\",\"it\":\"Immagazzinamento dei raccolti\",\"fr\":\"Stockage des récoltes\",\"hu\":\"termés raktározása\",\"zh\":\"收获储藏\",\"cs\":\"skladování plodin\",\"th\":\"การเก็บรักษาพืชผล\",\"ja\":\"作物貯蔵\",\"sk\":\"skladovanie plodín\",\"fa\":\"ذخيره‌سازي محصولات زراعی\",\"pl\":\"Magazynowanie ziemiopłodów\",\"tr\":\"ürün depolama\"}}]";
+                play.Logger.debug(MyController.getMapper().writerWithDefaultPrettyPrinter().writeValueAsString(result));
+                Assert.assertTrue(expected.equals(MyController.getMapper().writeValueAsString(result)));
+            } catch (Exception e) {
+                play.Logger.warn("", e);
+            }
+        });
+    }
+
+    @Test
+    public void testOnTheFlySkosConversion_en() {
+        running(fakeApplication(play.test.Helpers.inMemoryDatabase()), () -> {
+            try (InputStream in = new FileInputStream("test/resources/107.ttl")) {
+                List<Etikett> result = Globals.profile.convertRdfData(in, "en");
+                String expected = "[{\"uri\":\"http://aims.fao.org/aos/agrovoc/c_10175\",\"label\":\"crop storage\",\"multilangLabel\":{\"de\":\"Erntegutlagerung\",\"hi\":\"फसल भण्डारण\",\"ru\":\"хранение урожая\",\"lo\":\"ການເກັບຮັກສາພືດຜົນ\",\"pt\":\"Armazenamento das colheitas\",\"ko\":\"작물저장\",\"en\":\"crop storage\",\"it\":\"Immagazzinamento dei raccolti\",\"fr\":\"Stockage des récoltes\",\"hu\":\"termés raktározása\",\"zh\":\"收获储藏\",\"cs\":\"skladování plodin\",\"th\":\"การเก็บรักษาพืชผล\",\"ja\":\"作物貯蔵\",\"sk\":\"skladovanie plodín\",\"fa\":\"ذخيره‌سازي محصولات زراعی\",\"pl\":\"Magazynowanie ziemiopłodów\",\"tr\":\"ürün depolama\"}}]";
+                play.Logger.debug(MyController.getMapper().writerWithDefaultPrettyPrinter().writeValueAsString(result));
+                Assert.assertTrue(expected.equals(MyController.getMapper().writeValueAsString(result)));
+            } catch (Exception e) {
+                play.Logger.warn("", e);
+            }
+        });
+    }
+
+    @Test
+    public void testOnTheFlyJsonContextConversion() {
+        running(fakeApplication(play.test.Helpers.inMemoryDatabase()), () -> {
+            try (InputStream in = new FileInputStream("test/resources/context.json")) {
+                @SuppressWarnings("unchecked")
+                List<Etikett> result = Globals.profile
+                        .convertJsonContextData((Map<String, Object>) new ObjectMapper().readValue(in, Map.class));
+                play.Logger.debug(MyController.getMapper().writerWithDefaultPrettyPrinter().writeValueAsString(result));
+            } catch (Exception e) {
+                play.Logger.warn("", e);
+            }
+        });
+    }
+
+    @Test
+    public void testOnTheFlyJsonConversion() {
+        running(fakeApplication(play.test.Helpers.inMemoryDatabase()), () -> {
+            try (InputStream in = new FileInputStream("test/resources/labels.json")) {
+                @SuppressWarnings("unchecked")
+                List<Etikett> result = ((List<Etikett>) new ObjectMapper().readValue(in,
+                        new TypeReference<List<Etikett>>() {
+                        }));
+                play.Logger.debug(MyController.getMapper().writerWithDefaultPrettyPrinter().writeValueAsString(result));
+            } catch (Exception e) {
+                play.Logger.warn("", e);
+            }
         });
     }
 
