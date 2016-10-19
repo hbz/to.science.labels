@@ -81,7 +81,7 @@ public class RdfUtils {
         }
     }
 
-    private static InputStream urlToInputStream(URL url, String accept) {
+    static InputStream urlToInputStream(URL url, String accept) {
         HttpURLConnection con = null;
         InputStream inputStream = null;
         try {

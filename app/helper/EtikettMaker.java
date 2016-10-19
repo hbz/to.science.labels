@@ -236,6 +236,8 @@ public class EtikettMaker {
             return GeonamesLabelResolver.lookup(urlAddress);
         } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)) {
             return OpenStreetMapLabelResolver.lookup(urlAddress);
+        } else if (urlAddress.startsWith(OrcidLabelResolver.id)) {
+            return OrcidLabelResolver.lookup(urlAddress);
         }
         return DefaultLabelResolver.lookup(urlAddress, lang);
     }
