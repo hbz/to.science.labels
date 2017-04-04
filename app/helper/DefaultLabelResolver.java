@@ -49,7 +49,11 @@ public class DefaultLabelResolver {
         try {
             return lookup(uri, language, RDFFormat.RDFXML, "application/rdf+xml");
         } catch (Exception e) {
-            return lookup(uri, language, RDFFormat.NTRIPLES, "text/plain");
+            try {
+                return lookup(uri, language, RDFFormat.NTRIPLES, "text/plain");
+            } catch (Exception e2) {
+                return lookup(uri, language, RDFFormat.JSONLD, "application/json");
+            }
         }
     }
 
