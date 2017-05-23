@@ -31,6 +31,8 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import controllers.Globals;
 import models.Etikett;
@@ -163,6 +165,12 @@ public class EtikettMaker {
         return Ebean.find(Etikett.class).where().eq("type", EtikettType.CACHE).findList();
     }
 
+    public Collection<? extends Etikett> deleteCacheValues() {
+        Collection<? extends Etikett> result = getCacheValues();
+        Ebean.delete(result);
+        return result;
+    }
+
     /**
      * @return all context relevant values from etikett store
      */
@@ -241,7 +249,11 @@ public class EtikettMaker {
         } else if (urlAddress.startsWith(LobidLabelResolver.id)) {
             return LobidLabelResolver.lookup(urlAddress);
         }
-        return DefaultLabelResolver.lookup(urlAddress, lang);
+        String result = DefaultLabelResolver.lookup(urlAddress, lang);
+        if (urlAddress.equals(result)) {
+            result = TitleLabelResolver.lookup(urlAddress, lang);
+        }
+        return result;
     }
 
     /**
@@ -417,5 +429,18 @@ public class EtikettMaker {
         Map<String, Object> contextObject = new HashMap<String, Object>();
         contextObject.put("context-annotation", cmap);
         return contextObject;
+    }
+
+    /**
+     * @param object
+     *            a java object
+     * @return a json serialization of the object as string
+     */
+    public static String json(Object object) {
+        try {
+            return new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(object);
+        } catch (Exception e) {
+            return "To String failed " + e.getMessage();
+        }
     }
 }

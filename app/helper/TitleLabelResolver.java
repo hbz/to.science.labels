@@ -35,7 +35,7 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  *
  */
 @SuppressWarnings("javadoc")
-public class DefaultLabelResolver {
+public class TitleLabelResolver {
     public final static String prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
     public final static String title = "http://purl.org/dc/terms/title";
     final public static String id = "";
@@ -62,7 +62,7 @@ public class DefaultLabelResolver {
         try {
             Collection<Statement> statements = RdfUtils.readRdfToGraph(new URL(uri), format, accept);
             List<Statement> prefLabels = statements.stream().filter((s) -> {
-                boolean isLabel = prefLabel.equals(s.getPredicate().stringValue());
+                boolean isLabel = title.equals(s.getPredicate().stringValue());
                 boolean isSubjectOfInterest = uri.equals(s.getSubject().stringValue());
                 return isLabel && isSubjectOfInterest;
             }).collect(Collectors.toList());
@@ -80,7 +80,9 @@ public class DefaultLabelResolver {
         }
         if (collectLabels.isEmpty())
             return uri;
-        return collectLabels.toString();
+        if (collectLabels.size() == 1)
+            return collectLabels.get(0);
+        return EtikettMaker.json(collectLabels);
     }
 
     private static Literal normalizeLiteral(Literal l) {
@@ -96,10 +98,14 @@ public class DefaultLabelResolver {
     }
 
     static String getLabelInLanguage(Literal rdfOL, String language) {
-        String l = rdfOL.getLanguage().get();
-        if (language.equals(l)) {
-            return rdfOL.stringValue();
+        try {
+            String l = rdfOL.getLanguage().get();
+            if (language.equals(l)) {
+                return rdfOL.stringValue();
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
         }
-        return null;
     }
 }

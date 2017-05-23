@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -396,6 +397,17 @@ public class Application extends MyController {
             try {
                 Map<String, Object> contextObject = Globals.profile.getContextAnnotation();
                 return ok(json(contextObject));
+            } catch (Exception e) {
+                play.Logger.warn("", e);
+                return redirect(routes.Application.getColumn(null, null, null));
+            }
+        });
+    }
+
+    public static Promise<Result> deleteCache() {
+        return Promise.promise(() -> {
+            try {
+                return ok(json(Globals.profile.deleteCacheValues()));
             } catch (Exception e) {
                 play.Logger.warn("", e);
                 return redirect(routes.Application.getColumn(null, null, null));
