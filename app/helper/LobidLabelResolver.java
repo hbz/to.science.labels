@@ -21,6 +21,7 @@ public class LobidLabelResolver {
     public static String lookup(String uri) {
         try {
             for (Statement s : RdfUtils.readRdfToGraph(new URL(uri), RDFFormat.JSONLD, "application/json")) {
+
                 boolean isLiteral = s.getObject() instanceof Literal;
                 if (!(s.getSubject() instanceof BNode)) {
                     if (isLiteral) {
@@ -40,8 +41,11 @@ public class LobidLabelResolver {
     }
 
     private static String findLabel(Statement s, String uri) {
-        if (!uri.equals(s.getSubject().stringValue()))
-            return null;
+        if (!uri.equals(s.getSubject().stringValue())) {
+            if (!new String(uri + "#!").equals(s.getSubject().stringValue())) {
+                return null;
+            }
+        }
         if ("http://purl.org/dc/terms/title".equals(s.getPredicate().stringValue())) {
             return s.getObject().stringValue();
         }
