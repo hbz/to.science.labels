@@ -9,7 +9,7 @@
 <div class="container">
 <div class="col-xs-11">
 <table id="weights" class="display" cellspacing="0" width="100%">
-<thead><tr><th>Weight</th><th>Label</th><th>Json Conf</th><th>Comment</th><th>Action</th></tr></thead>
+<thead><tr><th>Weight</th><th>Label</th><th>Json Conf</th><th>Action</th></tr></thead>
 @for(entry <- theApplicationProfile){
 <tr class="etikett">
 	<td class="weight">
@@ -30,15 +30,9 @@
 		</table>
 	</td>
 	<td>
-		@Html(entry.renderedComment())
-	</td>
-	<td>
-	    <a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
-			<span class="fa fa-pencil"/>
-		</a>
-		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/delete?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
-			<span class="fa fa-trash-o"/>
-		</a>
+	<button class="my-button-up" ><span class="fa fa-arrow-up"></span></button>
+    <button class="my-button-down"><span class="fa fa-arrow-down"></span></button>
+	   
 	</td>
 </tr>
 }
@@ -61,25 +55,41 @@
 		.removeClass( 'display' )
 		.addClass('table table-striped table-bordered');
 
-	$( "table tbody" ).sortable( {
+	$('#weights tbody').sortable( {
 		update: function( event, ui ) {
-	    $(this).children().each(function(index) {
-				$(this).find('td').first().html(index + 1)
-	    });
-	  }
-	});
+			 $(this).children().each(function(index) {
+					$(this).find('td').first().html(index + 1);
+			});
+	    }
+	  });
 	
+	$('.my-button-up').click(function() {
+		var $el = $(this).parents("tr");
+		if ($el.not(':first-child')) {
+			$el.prev().before($el);
+			updateIndex($el);
+		}
+	});
+	$('.my-button-down').click(function() {
+		var $el = $(this).parents("tr");
+		if ($el.not(':last-child')) {
+			$el.next().after($el);
+			updateIndex($el);
+		}
+	});
+	function updateIndex($el) {
+		$('#weights>tbody').children().each(function(index) {
+				$(this).find('td').first().html(index + 1);
+		});
+	} 
 	function saveAll(){
 		fillHiddenForm();
 		submitHiddenForm();
 	}
 	
 	function fillHiddenForm(){
-		console.log("Create hidden form");
 		$('#hiddenForm').remove();
 		$('body').append('<form id="hiddenForm" action="@play.api.Play.configuration.getString("application.context").getOrElse("")/updateWeights" method="POST">');
-
-		console.log("Fill hidden form.");
 		var count =0;
 		$('#weights .etikett').each(function(){
 			var w;
@@ -91,14 +101,12 @@
 		    $(this).find('td .uri').each(function(){
 		    	 u=$(this).text().trim(); 
 		    })
-		    console.log("Found "+u+" with weight "+w+" at index "+ count);
 			$('#hiddenForm').append('<input id="uri['+count+']" name="uri" value="'+u+'"/>' )
 			$('#hiddenForm').append('<input id="weight['+count+']" name="weight" value="'+w+'"/>' )
 		})
 	}
 	
 	function submitHiddenForm(){
-		console.log("Submit hidden form.");
 		$('#hiddenForm').submit();	
 	}
 	

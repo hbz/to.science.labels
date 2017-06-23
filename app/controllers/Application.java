@@ -431,8 +431,6 @@ public class Application extends MyController {
 
     public static Promise<Result> updateWeights() {
         return Promise.promise(() -> {
-            MultipartFormData body = request().body().asMultipartFormData();
-
             List<String> uris = Arrays.asList(request().body().asFormUrlEncoded().get("uri"));
             List<String> weights = Arrays.asList(request().body().asFormUrlEncoded().get("weight"));
             Collection<Etikett> uploadData = new ArrayList<>();
