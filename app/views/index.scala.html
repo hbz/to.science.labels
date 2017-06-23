@@ -9,11 +9,11 @@
 <div class="container">
 <div class="col-xs-11">
 <table id="example" class="display" cellspacing="0" width="100%">
-<thead><tr><th>Weight</th><th>Label</th><th>Json Conf</th><th>Comment</th><th>Action</th></tr></thead>
+<thead><tr><th>Weight<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/editWeights"><span class="fa fa-cog"></span>  </th><th>Label</th><th>Json Conf</th><th>Comment</th><th>Action</th></tr></thead>
 @for(entry <- theApplicationProfile){
 <tr>
 	<td>
-		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Weight"">@entry.weight</a>
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Weight"">@entry.weight</a></a>
 	</td>
 	<td>
 		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Label">@entry.label</a>
@@ -56,8 +56,6 @@
 	$('#example')
 		.removeClass( 'display' )
 		.addClass('table table-striped table-bordered');
-
-   
 </script>
 
 }

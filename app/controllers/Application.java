@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ import views.html.edit;
 import views.html.index;
 import views.html.message;
 import views.html.upload;
+import views.html.editWeights;
 
 /**
  * @author Jan Schnasse
@@ -413,6 +415,44 @@ public class Application extends MyController {
                 return redirect(routes.Application.getColumn(null, null, null));
             }
         });
+    }
+
+    public static Promise<Result> editWeights() {
+        return Promise.promise(() -> {
+            try {
+                response().setHeader("Content-Type", "text/html; charset=utf-8");
+                return ok(editWeights.render("Edit Weights", getContextEntriesSortedByWeight()));
+            } catch (Exception e) {
+                play.Logger.debug("", e);
+                return status(500, message.render("Server encounters internal problem: " + e.getMessage()));
+            }
+        });
+    }
+
+    public static Promise<Result> updateWeights() {
+        return Promise.promise(() -> {
+            MultipartFormData body = request().body().asMultipartFormData();
+
+            List<String> uris = Arrays.asList(request().body().asFormUrlEncoded().get("uri"));
+            List<String> weights = Arrays.asList(request().body().asFormUrlEncoded().get("weight"));
+            Collection<Etikett> uploadData = new ArrayList<>();
+            for (int i = 0; i < uris.size(); i++) {
+                String uri = uris.get(i);
+                String weight = weights.get(i);
+                Etikett e = Globals.profile.getValue(uri);
+                e.setWeight(weight);
+                uploadData.add(e);
+            }
+            Globals.profile.addJsonData(uploadData);
+            return redirect(routes.Application.contextAsHtml());
+
+        });
+    }
+
+    private static List<Etikett> getContextEntriesSortedByWeight() {
+        List<Etikett> result = new ArrayList<Etikett>(Globals.profile.getContextValues());
+        result.sort((a, b) -> Integer.parseInt(a.getWeight()) - Integer.parseInt(b.getWeight()));
+        return result;
     }
 
 }

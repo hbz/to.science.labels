@@ -1,0 +1,107 @@
+@* Copyright 2015 Jan Schnasse, hbz. Licensed under the GNU Affero General Public License *@
+ @(heading:String,theApplicationProfile: List[Etikett])
+
+@import play.api.Play.current
+@import models.Etikett
+
+@main("Etikett") {
+<h1>@heading</h1>
+<div class="container">
+<div class="col-xs-11">
+<table id="weights" class="display" cellspacing="0" width="100%">
+<thead><tr><th>Weight</th><th>Label</th><th>Json Conf</th><th>Comment</th><th>Action</th></tr></thead>
+@for(entry <- theApplicationProfile){
+<tr class="etikett">
+	<td class="weight">
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Weight"">@entry.weight</a>
+	</td>
+	<td  class="etikettlabel">
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Label">@entry.label</a>
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Icon" title="@entry.icon" style="text-decoration: none;color: inherit; "><span class="@entry.icon"></span></a>
+	</td>
+	<td>
+		<table cellpadding="10">
+		    <tbody class="group1">  
+		        <tr><th scope="row">Name</th><td class="name"><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Name">@entry.name</a></td></tr>
+		        <tr><th scope="row">Uri</th><td class="uri"><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)">@entry.uri</a></td></tr>
+		        <tr><th scope="row">Type</th><td class="referenceType"><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=RefType"">@entry.referenceType</a></td></tr>
+		        <tr><th scope="row">Container</th><td class="container"><a href="@play.api.Play.configuration.getString("application.context").getOrElse("")?url=@Application.EncodeURL(entry.uri)&column=Container"">@entry.container</a></td></tr>
+		    </tbody>
+		</table>
+	</td>
+	<td>
+		@Html(entry.renderedComment())
+	</td>
+	<td>
+	    <a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/edit?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
+			<span class="fa fa-pencil"/>
+		</a>
+		<a href="@play.api.Play.configuration.getString("application.context").getOrElse("")/delete?url=@Application.EncodeURL(entry.uri)" class="btn btn-default">
+			<span class="fa fa-trash-o"/>
+		</a>
+	</td>
+</tr>
+}
+</table>
+</div>
+<div class="col-xs-1"> 
+<button id="saveAll" onclick="saveAll()" class="btn btn-success">SAVE
+</button>
+</div>
+
+</div>
+
+<form id="hiddenForm" action="@play.api.Play.configuration.getString("application.context").getOrElse("")/updateWeights" method="POST">
+
+</form>
+
+<script type="text/javascript">
+	// For demo to fit into DataTables site builder...
+	$('#weights')
+		.removeClass( 'display' )
+		.addClass('table table-striped table-bordered');
+
+	$( "table tbody" ).sortable( {
+		update: function( event, ui ) {
+	    $(this).children().each(function(index) {
+				$(this).find('td').first().html(index + 1)
+	    });
+	  }
+	});
+	
+	function saveAll(){
+		fillHiddenForm();
+		submitHiddenForm();
+	}
+	
+	function fillHiddenForm(){
+		console.log("Create hidden form");
+		$('#hiddenForm').remove();
+		$('body').append('<form id="hiddenForm" action="@play.api.Play.configuration.getString("application.context").getOrElse("")/updateWeights" method="POST">');
+
+		console.log("Fill hidden form.");
+		var count =0;
+		$('#weights .etikett').each(function(){
+			var w;
+			var u;
+			count+=1;
+			$(this).find('td.weight').each(function(){
+			      w=$(this).text().trim(); 
+		    })
+		    $(this).find('td .uri').each(function(){
+		    	 u=$(this).text().trim(); 
+		    })
+		    console.log("Found "+u+" with weight "+w+" at index "+ count);
+			$('#hiddenForm').append('<input id="uri['+count+']" name="uri" value="'+u+'"/>' )
+			$('#hiddenForm').append('<input id="weight['+count+']" name="weight" value="'+w+'"/>' )
+		})
+	}
+	
+	function submitHiddenForm(){
+		console.log("Submit hidden form.");
+		$('#hiddenForm').submit();	
+	}
+	
+</script>
+
+}
