@@ -190,21 +190,29 @@ public class EtikettMaker {
      * @return data associated with the url
      */
     public Etikett findEtikett(String urlAddress) {
-        Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
-        if (result != null) {
-            play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
-            return result;
-        } else {
-            result = getLabelFromUrlAddress(urlAddress);
+        try {
+            Etikett result = getValue(urlAddress);
             if (result != null) {
-                addJsonDataIntoCache(result);
+                play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
             } else {
-                result = new Etikett(urlAddress);
-                result.label = urlAddress;
-                return result;
+                result = getLabelFromUrlAddress(urlAddress);
+                if (result != null) {
+                    addJsonDataIntoDBCache(result);
+                    return result;
+                }
             }
+        } catch (Exception e) {
+            play.Logger.warn("", e);
         }
+        Etikett result = new Etikett(urlAddress);
+        result.label = urlAddress;
+        return result;
+
+    }
+
+    public Etikett getValue(String urlAddress) {
+        return Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
     }
 
     private Etikett getLabelFromUrlAddress(String urlAddress) {
@@ -216,11 +224,6 @@ public class EtikettMaker {
             }
         }
         return null;
-    }
-
-    public Etikett getValue(String urlAddress) {
-        Etikett result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
-        return result;
     }
 
     private Etikett createLabel(String urlAddress) {
@@ -296,7 +299,7 @@ public class EtikettMaker {
         Ebean.save(cur);
     }
 
-    private void addJsonDataIntoCache(Etikett e) {
+    private void addJsonDataIntoDBCache(Etikett e) {
         Etikett cur = null;
         if (e != null) {
             cur = Ebean.find(Etikett.class).where().eq("uri", e.uri).findUnique();
@@ -311,8 +314,9 @@ public class EtikettMaker {
         }
         cur.copy(e);
 
-        if (cur.referenceType != null && cur.referenceType.isEmpty())
+        if (cur.referenceType != null && cur.referenceType.isEmpty()) {
             cur.referenceType = null;
+        }
         cur.setType(Etikett.EtikettType.CACHE);
         Ebean.save(cur);
     }
