@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Statement;
@@ -145,28 +147,36 @@ public class EtikettMaker {
     /**
      * @return all Values from etikett store
      */
-    public Collection<? extends Etikett> getValues() {
+    public List<Etikett> getValues() {
         Collection<Etikett> result = getStoreValues();
         result.addAll(getContextValues());
-        return result;
+        return result.stream().sorted((a, b) -> {
+            return a.getUri().compareTo(b.getUri());
+        }).collect(Collectors.toList());
     }
 
     /**
      * @return all manual added values from etikett store
      */
-    public Collection<Etikett> getStoreValues() {
-        return Ebean.find(Etikett.class).where().eq("type", EtikettType.STORE).findList();
+    public List<Etikett> getStoreValues() {
+        return Ebean.find(Etikett.class).where().eq("type", EtikettType.STORE).findList().stream().sorted((a, b) -> {
+            return a.getUri().compareTo(b.getUri());
+        }).collect(Collectors.toList());
     }
 
     /**
      * @return all on the fly added values from etikett store
      */
-    public Collection<? extends Etikett> getCacheValues() {
-        return Ebean.find(Etikett.class).where().eq("type", EtikettType.CACHE).findList();
+    public List<Etikett> getCacheValues() {
+        return Ebean.find(Etikett.class).where().eq("type", EtikettType.CACHE).findList().stream().sorted((a, b) -> {
+            return a.getUri().compareTo(b.getUri());
+        }).collect(Collectors.toList());
     }
 
-    public Collection<? extends Etikett> deleteCacheValues() {
-        Collection<? extends Etikett> result = getCacheValues();
+    public List<Etikett> deleteCacheValues() {
+        List<Etikett> result = getCacheValues().stream().sorted((a, b) -> {
+            return a.getUri().compareTo(b.getUri());
+        }).collect(Collectors.toList());
         Ebean.delete(result);
         return result;
     }
@@ -174,15 +184,14 @@ public class EtikettMaker {
     /**
      * @return all context relevant values from etikett store
      */
-    public Collection<? extends Etikett> getContextValues() {
-        return Ebean.find(Etikett.class).where().eq("type", EtikettType.CONTEXT).findList();
+    public List<Etikett> getContextValues() {
+        return Ebean.find(Etikett.class).where().eq("type", EtikettType.CONTEXT).findList().stream().sorted((a, b) -> {
+            return a.getName().compareTo(b.getName());
+        }).collect(Collectors.toList());
     }
 
-    /**
-     * @return all Values from etikett store
-     */
-    public Collection<? extends Etikett> getValues(int from, int size) {
-        return Ebean.find(Etikett.class).setFirstRow(from).setMaxRows(size).findList();
+    public Etikett getValue(String urlAddress) {
+        return Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
     }
 
     /**
@@ -209,10 +218,6 @@ public class EtikettMaker {
         result.label = urlAddress;
         return result;
 
-    }
-
-    public Etikett getValue(String urlAddress) {
-        return Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
     }
 
     private Etikett getLabelFromUrlAddress(String urlAddress) {
@@ -322,9 +327,9 @@ public class EtikettMaker {
     }
 
     public Map<String, Object> getContext() {
-        List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
+        List<Etikett> ls = getContextValues();
         Map<String, Object> pmap;
-        Map<String, Object> cmap = new HashMap<String, Object>();
+        Map<String, Object> cmap = new TreeMap<String, Object>();
         for (Etikett l : ls) {
             if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
                 continue;
@@ -343,7 +348,7 @@ public class EtikettMaker {
             cmap.put(l.name, pmap);
         }
         addAliases(cmap);
-        Map<String, Object> contextObject = new HashMap<String, Object>();
+        Map<String, Object> contextObject = new TreeMap<String, Object>();
         contextObject.put("@context", cmap);
         return contextObject;
     }
@@ -393,7 +398,7 @@ public class EtikettMaker {
     public Map<String, Object> getRawContext() {
         List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
         Map<String, Object> pmap;
-        Map<String, Object> cmap = new HashMap<String, Object>();
+        Map<String, Object> cmap = new TreeMap<String, Object>();
         for (Etikett l : ls) {
             if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
                 continue;
@@ -418,7 +423,7 @@ public class EtikettMaker {
     public Map<String, Object> getContextAnnotation() {
         List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
         Map<String, Object> pmap;
-        Map<String, Object> cmap = new HashMap<String, Object>();
+        Map<String, Object> cmap = new TreeMap<String, Object>();
         for (Etikett l : ls) {
             if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
                 continue;

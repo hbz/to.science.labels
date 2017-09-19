@@ -86,6 +86,7 @@ public class MyController extends Controller {
             setJsonHeader();
             mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
             mapper.setSerializationInclusion(Include.NON_NULL);
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
             mapper.getSerializerProvider().setNullKeySerializer(new JsonSerializer() {
                 @Override
                 public void serialize(Object obj, JsonGenerator jsonGenerator, SerializerProvider sp)
