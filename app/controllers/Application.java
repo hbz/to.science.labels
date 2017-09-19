@@ -452,5 +452,4 @@ public class Application extends MyController {
         result.sort((a, b) -> Integer.parseInt(a.getWeight()) - Integer.parseInt(b.getWeight()));
         return result;
     }
-
 }
