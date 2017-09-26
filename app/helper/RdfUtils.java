@@ -86,6 +86,7 @@ public class RdfUtils {
         InputStream inputStream = null;
         try {
             con = (HttpURLConnection) url.openConnection();
+            con.setRequestProperty("User-Agent", "Etikett Webservice");
             con.setInstanceFollowRedirects(false);
             con.setRequestProperty("Accept", accept);
             con.connect();
