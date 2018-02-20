@@ -242,7 +242,7 @@ public class EtikettMaker {
     }
 
     public static String lookUpLabel(String urlAddress) {
-        return lookUpLabel(urlAddress, "en");
+        return lookUpLabel(urlAddress, null);
     }
 
     public static String lookUpLabel(String urlAddress, String lang) {

@@ -99,6 +99,8 @@ public class TitleLabelResolver {
 
     static String getLabelInLanguage(Literal rdfOL, String language) {
         try {
+            if (language == null)
+                return rdfOL.stringValue();
             String l = rdfOL.getLanguage().get();
             if (language.equals(l)) {
                 return rdfOL.stringValue();
