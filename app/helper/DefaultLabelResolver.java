@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package helper;
 
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +30,8 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.rio.RDFFormat;
+
+import com.google.common.net.UrlEscapers;
 
 /**
  * @author Jan Schnasse
@@ -60,10 +63,12 @@ public class DefaultLabelResolver {
     private static String lookup(String uri, String language, RDFFormat format, String accept) {
         List<String> collectLabels = new ArrayList<>();
         try {
-            Collection<Statement> statements = RdfUtils.readRdfToGraph(new URL(uri), format, accept);
+            String ecodedUri = UrlEscapers.urlFragmentEscaper().escape(uri).replaceAll(" ", "%20").replaceAll(",",
+                    "%2C");
+            Collection<Statement> statements = RdfUtils.readRdfToGraph(new URL(ecodedUri), format, accept);
             List<Statement> prefLabels = statements.stream().filter((s) -> {
                 boolean isLabel = prefLabel.equals(s.getPredicate().stringValue());
-                boolean isSubjectOfInterest = uri.equals(s.getSubject().stringValue());
+                boolean isSubjectOfInterest = ecodedUri.equals(s.getSubject().stringValue());
                 return isLabel && isSubjectOfInterest;
             }).collect(Collectors.toList());
             for (Statement s : prefLabels) {
