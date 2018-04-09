@@ -9,6 +9,8 @@ etikett helps you to render URIs. URI rendering is a common use case when dealin
 
 With etikett one can establish unified rdf handling to similar applications. 
 
+!{width:800px;}screen.png!
+
 h1. Requirements
 
 h2. Java 8
