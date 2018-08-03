@@ -1,4 +1,4 @@
-h1. etikett 
+# etikett 
 
 !https://travis-ci.org/hbz/etikett.svg?branch=master!:https://travis-ci.org/hbz/etikett
 
@@ -11,13 +11,13 @@ With etikett one can establish unified rdf handling to similar applications.
 
 !{width:800px;}screen.png!
 
-h1. Requirements
+# Requirements
 
-h2. Java 8
+## Java 8
 
-bc.. echo $JAVA_HOME //check if java 8 assigned
+`echo $JAVA_HOME //check if java 8 assigned`
 
-h2. Typesafe Activator
+## Typesafe Activator
 
 ```
 
@@ -27,9 +27,9 @@ unzip typesafe-activator-1.3.2-minimal.zip
 sudo mv activator-1.3.2-minimal /opt
 ```
 
-h1. Run
+# Run
 
-h2. Download
+## Download
 
 ```
 cd /tmp
@@ -37,7 +37,7 @@ git clone https://github.com/hbz/etikett
 cd etikett
 ```
 
-h2. Run
+## Run
 
 This will start the application in developer mode. Some test data is loaded at startup
 
@@ -45,23 +45,23 @@ This will start the application in developer mode. Some test data is loaded at s
 
 Go to http://localhost:9000/tools/etikett
 
-h2. Editing and Uploading
+## Editing and Uploading
 
 To edit/delete/upload data password authentification is required. Default user is admin. Default password is admin. To change the default password edit the application.conf:
 
 `etikett.admin-password="admin"`
 
-h2. Manual Test
+## Manual Test
 
 List all
 
 `curl "http://localhost:9000/tools/etikett" -H"accept: application/json"`
 
-p. Or list info for a single uri
+Or list info for a single uri
 
 `curl "http://localhost:9000/tools/etikett?url=http%3A%2F%2Fpurl.orms%2Fissued" -H"accept: application/json"`
 
-h1. Install on Ubuntu
+# Install on Ubuntu
 
 ``` 
 cd /tmp/etikett
@@ -73,7 +73,7 @@ mv etikett-0.1.0-SNAPSHOT /opt/etikett
 ```
 
 
-p. edit startscript
+edit startscript
 
 ```
 
@@ -82,7 +82,7 @@ sudo chmod u+x /etc/init.d/etikett
 sudo editor /etc/init.d/etikett
 ```
 
-p. set the following vars
+set the following vars
 
 ```
 
@@ -117,11 +117,11 @@ db.default.user=etikett_test
 db.default.password="etikett_test"
 ```
 
-p. start
+start
 
 `sudo service etikett start`
 
-h1. Update
+# Update
 
 ```
 rm -rf /tmp/etikett
@@ -138,7 +138,7 @@ rm -rf /opt/etikett/*
 mv /tmp/etikett-0.1.0-SNAPSHOT/* /opt/etikett/
 sudo service etikett start
 ```
-h1. Etikett internals
+# Etikett internals
 
 
 Just for documentation here is how etikett stores it's data interally as in 08.2018
@@ -197,7 +197,7 @@ alternative": {
 ```
 
 
-h1. License
+# License
 
 GNU AFFERO GENERAL PUBLIC LICENSE 
 Version 3, 19 November 2007
