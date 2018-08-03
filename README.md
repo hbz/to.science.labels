@@ -151,15 +151,25 @@ Current status:
 **'*'** are mandatory, all others are optional
 
 **uri***: The rdf predicate 
+
 **label**: A label you might want to use for display 
+
 **name***: the name of the json element 
+
 **icon**: use this to add an icon font 
+
 **reference_type**: the json-ld type (default is String)
+
 **container**: the json-ld container 
+
 **comment**: a comment you might want to add 
+
 **weight:** a weight you can use to display elements in the correct order
+
 **type**: internal type of Etikett. Must be one of CACHE, CONTEXT, STORE
+
 **multilangLabel**: of course you can specify labels in multiple languages 
+
 
 Example:
 
