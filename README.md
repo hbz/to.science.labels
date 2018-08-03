@@ -145,16 +145,16 @@ Just for documentation here is how etikett stores it's data interally as in 08.2
 
 Current status:
 
-|    uri*    |    label    |    name*    | icon |    reference_type (default is String)    |    container    |    comment    |    weight    | type | multilangLabel |
+|    uri*    |    label*    |    name*    | icon |    reference_type (default is String)    |    container    |    comment    |    weight    | type | multilangLabel |
 |-----------|-----------|-----------|-----------|------------|-----------|-----------|-----------|-----------|-----------|
 
 **'*'** are mandatory, all others are optional
 
 **uri***: The rdf predicate 
 
-**label**: A label you might want to use for display 
+**label**: A label you might want to use for display. Labels can also be used to generate enhanced documents that provide labels for certain uris. 
 
-**name***: the name of the json element 
+**name***: the name of the json element. This field can also be used to introduce shortenings to a json context 
 
 **icon**: use this to add an icon font 
 
