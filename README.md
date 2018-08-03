@@ -1,6 +1,6 @@
 # etikett 
 
-!https://travis-ci.org/hbz/etikett.svg?branch=master!:https://travis-ci.org/hbz/etikett
+[![travis status](https://travis-ci.org/hbz/etikett.svg?branch=master)](https://travis-ci.org/hbz/etikett)
 
 etikett helps you to render URIs. URI rendering is a common use case when dealing with rdf data. 
  
@@ -9,7 +9,7 @@ etikett helps you to render URIs. URI rendering is a common use case when dealin
 
 With etikett one can establish unified rdf handling to similar applications. 
 
-!{width:800px;}screen.png!
+![etikett screenshot](screen.png)
 
 # Requirements
 
