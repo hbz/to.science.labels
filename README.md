@@ -205,7 +205,15 @@ alternative": {
     "@container": "@set"
 }
 ```
+# Etikett for displaying Json-Ld
 
+The content of an etikett database can be used to display Json-Ld documents to the enduser. The procedure is as follows.
+1. Use the etikett database to generate an annotated Json-Ld-Context for your json documents
+2. Iterate through the Json-Ld-Context in order to display all fields in the correct order (weight). Instead of showing URIs or Json-Field-Names show the labels from the annotated context.
+3. Take the reference_type of field into account to provide proper renderings for multiple fields of fields with references to other objects (type:@id).
+
+# Etikett for Json-LD serialization
+If your database uses rdf as internal storage format you can use etikett together with our [JsonConverter](https://github.com/edoweb/regal-api/blob/master/app/de/hbz/lobid/helper/JsonConverter.java) to generate nice indexable and humanreadable Json-Ld documents. Just pass the content of your etikett database to the converter and it will look up labels for the containing uris and generate a Json-Document that is directly usable for tools like elasticsearch etc.
 
 # License
 
