@@ -9,10 +9,10 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 public class OrcidLabelResolver {
-    final public static String id = "http://orcid.org";
+    final public static String id = "https://orcid.org";
+    final public static String http_id = "https://orcid.org";
 
     public static String lookup(String uri) {
-        play.Logger.info(uri);
         try (InputStream in = RdfUtils.urlToInputStream(new URL(uri), "application/json")) {
             String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
             JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
