@@ -252,7 +252,7 @@ public class EtikettMaker {
             return GeonamesLabelResolver.lookup(urlAddress);
         } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)) {
             return OpenStreetMapLabelResolver.lookup(urlAddress);
-        } else if (urlAddress.startsWith(OrcidLabelResolver.id)) {
+        } else if (urlAddress.startsWith(OrcidLabelResolver.id) || urlAddress.startsWith(OrcidLabelResolver.http_id)) {
             return OrcidLabelResolver.lookup(urlAddress);
         } else if (urlAddress.startsWith(LobidLabelResolver.id)) {
             return LobidLabelResolver.lookup(urlAddress);
