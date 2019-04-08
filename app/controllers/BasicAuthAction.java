@@ -16,6 +16,8 @@
  */
 package controllers;
 
+import java.util.Base64;
+
 import play.Play;
 import play.libs.F;
 import play.mvc.Action;
@@ -49,7 +51,7 @@ public class BasicAuthAction extends Action<BasicAuth> {
         }
 
         String auth = authHeader.substring(6);
-        byte[] decodedAuth = new sun.misc.BASE64Decoder().decodeBuffer(auth);
+        byte[] decodedAuth = Base64.getDecoder().decode(auth);
         String[] credString = new String(decodedAuth, "UTF-8").split(":");
 
         if (credString == null || credString.length != 2) {

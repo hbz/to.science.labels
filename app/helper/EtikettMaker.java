@@ -256,7 +256,10 @@ public class EtikettMaker {
             return OrcidLabelResolver.lookup(urlAddress);
         } else if (urlAddress.startsWith(LobidLabelResolver.id)) {
             return LobidLabelResolver.lookup(urlAddress);
+        } else if (urlAddress.startsWith(CrossrefLabelResolver.id)) {
+            return CrossrefLabelResolver.lookup(urlAddress);
         }
+        play.Logger.debug("Use Default Resolver");
         String result = DefaultLabelResolver.lookup(urlAddress, lang);
         if (urlAddress.equals(result)) {
             result = TitleLabelResolver.lookup(urlAddress, lang);
