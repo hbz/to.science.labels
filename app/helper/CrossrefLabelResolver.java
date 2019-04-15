@@ -12,6 +12,7 @@ import com.google.common.io.CharStreams;
 public class CrossrefLabelResolver {
 
     final public static String id = "http://dx.doi.org/10.13039";
+    final public static String id2 = "https://dx.doi.org/10.13039";
 
     public static String lookup(String uri) {
         play.Logger.debug("Use Crossref Resolver!");

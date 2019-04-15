@@ -9,8 +9,8 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 public class OrcidLabelResolver {
-    final public static String id = "https://orcid.org";
-    final public static String http_id = "https://orcid.org";
+    final public static String id = "http://orcid.org";
+    final public static String id2 = "https://orcid.org";
 
     public static String lookup(String uri) {
         try (InputStream in = URLUtil.urlToInputStream(new URL(uri), URLUtil.mapOf("Accept", "application/json"))) {

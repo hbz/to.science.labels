@@ -246,17 +246,20 @@ public class EtikettMaker {
     }
 
     public static String lookUpLabel(String urlAddress, String lang) {
-        if (urlAddress.startsWith(GndLabelResolver.id)) {
+        if (urlAddress.startsWith(GndLabelResolver.id) || urlAddress.startsWith(GndLabelResolver.id2)) {
             return GndLabelResolver.lookup(urlAddress);
-        } else if (urlAddress.startsWith(GeonamesLabelResolver.id)) {
+        } else if (urlAddress.startsWith(GeonamesLabelResolver.id)
+                || urlAddress.startsWith(GeonamesLabelResolver.id2)) {
             return GeonamesLabelResolver.lookup(urlAddress);
-        } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)) {
+        } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)
+                || urlAddress.startsWith(OpenStreetMapLabelResolver.id2)) {
             return OpenStreetMapLabelResolver.lookup(urlAddress);
-        } else if (urlAddress.startsWith(OrcidLabelResolver.id) || urlAddress.startsWith(OrcidLabelResolver.http_id)) {
+        } else if (urlAddress.startsWith(OrcidLabelResolver.id) || urlAddress.startsWith(OrcidLabelResolver.id2)) {
             return OrcidLabelResolver.lookup(urlAddress);
-        } else if (urlAddress.startsWith(LobidLabelResolver.id)) {
+        } else if (urlAddress.startsWith(LobidLabelResolver.id) || urlAddress.startsWith(LobidLabelResolver.id2)) {
             return LobidLabelResolver.lookup(urlAddress);
-        } else if (urlAddress.startsWith(CrossrefLabelResolver.id)) {
+        } else if (urlAddress.startsWith(CrossrefLabelResolver.id)
+                || urlAddress.startsWith(CrossrefLabelResolver.id2)) {
             return CrossrefLabelResolver.lookup(urlAddress);
         }
         play.Logger.debug("Use Default Resolver");
