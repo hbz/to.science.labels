@@ -76,43 +76,9 @@ public class RdfUtils {
      * @throws IOException
      */
     public static Collection<Statement> readRdfToGraph(URL url, RDFFormat inf, String accept) throws IOException {
-        try (InputStream in = urlToInputStream(url, accept)) {
+        try (InputStream in = URLUtil.urlToInputStream(url, URLUtil.mapOf("Accept", accept))) {
             return readRdfToGraph(in, inf, url.toString());
         }
     }
 
-    static InputStream urlToInputStream(URL url, String accept) {
-        HttpURLConnection con = null;
-        InputStream inputStream = null;
-        try {
-
-            con = (HttpURLConnection) url.openConnection();
-            con.setRequestProperty("User-Agent", "Etikett Webservice");
-            con.setInstanceFollowRedirects(false);
-            con.setRequestProperty("Accept", accept);
-            con.connect();
-            int responseCode = con.getResponseCode();
-            play.Logger.debug("Request for " + accept + " from " + url.toExternalForm());
-            play.Logger.debug("Get a " + responseCode + " from " + url.toExternalForm());
-            if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP
-                    || responseCode == 307 || responseCode == 303) {
-                String redirectUrl = con.getHeaderField("Location");
-                try {
-                    URL newUrl = new URL(redirectUrl);
-                    play.Logger.debug("Redirect to Location: " + newUrl);
-                    return urlToInputStream(newUrl, accept);
-                } catch (MalformedURLException e) {
-                    URL newUrl = new URL(url.getProtocol() + "://" + url.getHost() + redirectUrl);
-                    play.Logger.debug("Redirect to Location: " + newUrl);
-                    return urlToInputStream(newUrl, accept);
-                }
-            }
-            inputStream = con.getInputStream();
-            return inputStream;
-        } catch (IOException e) {
-            play.Logger.debug("", e);
-            throw new RuntimeException(e);
-        }
-
-    }
 }

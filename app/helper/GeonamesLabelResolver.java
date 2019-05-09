@@ -14,7 +14,9 @@ public class GeonamesLabelResolver {
 
     private static Object namespace = "http://www.geonames.org/ontology#";
     private static Object geographicName = namespace + "name";
+
     final public static String id = "http://www.geonames.org/";
+    final public static String id2 = "https://www.geonames.org/";
 
     /**
      * @param uri

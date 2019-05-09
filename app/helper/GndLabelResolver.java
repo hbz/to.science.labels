@@ -47,6 +47,7 @@ public class GndLabelResolver {
     final public static String preferredNameForTheWork = namespace + "preferredNameForTheWork";
 
     final public static String id = "http://d-nb.info/gnd/";
+    final public static String id2 = "https://d-nb.info/gnd/";
 
     /**
      * @param uri

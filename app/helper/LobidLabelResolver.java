@@ -12,6 +12,7 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 
 public class LobidLabelResolver {
     final public static String id = "http://lobid.org/resources";
+    final public static String id2 = "https://lobid.org/resources";
 
     /**
      * @param uri
