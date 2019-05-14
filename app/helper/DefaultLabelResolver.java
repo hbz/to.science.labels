@@ -75,9 +75,11 @@ public class DefaultLabelResolver {
                 if (s.getObject() instanceof Literal) {
                     Literal literal = normalizeLiteral((Literal) s.getObject());
                     collectLabels.add(literal.stringValue());
+                    play.Logger.debug(literal.stringValue());
                     String label = getLabelInLanguage(literal, language);
-                    if (label != null)
+                    if (label != null) {
                         return label;
+                    }
                 }
             }
         } catch (Exception e) {
