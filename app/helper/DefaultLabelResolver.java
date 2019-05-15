@@ -17,18 +17,29 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package helper;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.eclipse.rdf4j.common.iteration.Iterations;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.query.BindingSet;
+import org.eclipse.rdf4j.query.QueryLanguage;
+import org.eclipse.rdf4j.query.TupleQuery;
+import org.eclipse.rdf4j.query.TupleQueryResult;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 import com.google.common.net.UrlEscapers;
@@ -61,36 +72,58 @@ public class DefaultLabelResolver {
     }
 
     private static String lookup(String uri, String language, RDFFormat format, String accept) {
-        List<String> collectLabels = new ArrayList<>();
+        String label = lookupLabelInCorrectLanguage(uri, language, format, accept);
+        if (label != null) {
+            return label;
+        }
+        label = lookupLabelInAnyLanguage(uri, format, accept);
+        if (label != null) {
+            return label;
+        }
+        return uri;
+    }
+
+    private static String lookupLabelInAnyLanguage(String uri, RDFFormat format, String accept) {
+        String queryString = String.format("SELECT ?s ?o {?s <%s> ?o . }", prefLabel);
+        return lookupLabel(uri, format, accept, queryString);
+    }
+
+    private static String lookupLabelInCorrectLanguage(String uri, String language, RDFFormat format, String accept) {
+        if (language == null) {
+            return null;
+        }
+        String queryString = String.format("SELECT ?s ?o {?s <%s> ?o . FILTER(LANGMATCHES(lang(?o),'%s'))}", prefLabel,
+                language);
+        return lookupLabel(uri, format, accept, queryString);
+    }
+
+    private static String lookupLabel(String uri, RDFFormat format, String accept, String queryString) {
         try {
-            String ecodedUri = UrlEscapers.urlFragmentEscaper().escape(uri).replaceAll(" ", "%20").replaceAll(",",
-                    "%2C");
-            Collection<Statement> statements = RdfUtils.readRdfToGraph(new URL(ecodedUri), format, accept);
-            List<Statement> prefLabels = statements.stream().filter((s) -> {
-                boolean isLabel = prefLabel.equals(s.getPredicate().stringValue());
-                boolean isSubjectOfInterest = ecodedUri.equals(s.getSubject().stringValue());
-                return isLabel && isSubjectOfInterest;
-            }).collect(Collectors.toList());
-            for (Statement s : prefLabels) {
-                if (s.getObject() instanceof Literal) {
-                    Literal literal = normalizeLiteral((Literal) s.getObject());
-                    collectLabels.add(literal.stringValue());
-                    play.Logger.debug(literal.stringValue());
-                    String label = getLabelInLanguage(literal, language);
-                    if (label != null) {
-                        return label;
+            Map<String, String> args = new HashMap<>();
+            args.put("accept", accept);
+            RepositoryConnection con = RdfUtils
+                    .readRdfInputStreamToRepository(URLUtil.urlToInputStream(new URL(uri), args), format);
+            TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, queryString);
+            try (TupleQueryResult qresult = tupleQuery.evaluate()) {
+                StringBuilder result = new StringBuilder();
+                while (qresult.hasNext()) {
+                    BindingSet bindingSet = qresult.next();
+                    Value object = bindingSet.getValue("o");
+                    if (object instanceof Literal) {
+                        return normalizeLiteral((Literal) object);
                     }
                 }
+                return null;
+            } catch (Exception e) {
+                play.Logger.debug("", e);
+                return null;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if (collectLabels.isEmpty())
-            return uri;
-        return collectLabels.toString();
     }
 
-    private static Literal normalizeLiteral(Literal l) {
+    private static String normalizeLiteral(Literal l) {
         ValueFactory v = SimpleValueFactory.getInstance();
         Literal newLiteral;
         if (l.getLanguage().isPresent()) {
@@ -99,16 +132,6 @@ public class DefaultLabelResolver {
         } else {
             newLiteral = v.createLiteral(Normalizer.normalize(l.stringValue(), Normalizer.Form.NFKC));
         }
-        return newLiteral;
-    }
-
-    static String getLabelInLanguage(Literal rdfOL, String language) {
-        if (language == null)
-            return rdfOL.stringValue();
-        String l = rdfOL.getLanguage().get();
-        if (language.equals(l)) {
-            return rdfOL.stringValue();
-        }
-        return null;
+        return newLiteral.stringValue().trim();
     }
 }

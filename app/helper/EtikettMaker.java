@@ -270,7 +270,6 @@ public class EtikettMaker {
                 || urlAddress.startsWith(CrossrefLabelResolver.id2)) {
             return CrossrefLabelResolver.lookup(urlAddress);
         }
-        play.Logger.debug("Use Default Resolver");
         String result = DefaultLabelResolver.lookup(urlAddress, lang);
         if (urlAddress.equals(result)) {
             result = TitleLabelResolver.lookup(urlAddress, lang);
