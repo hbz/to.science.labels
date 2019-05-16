@@ -26,6 +26,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.repository.Repository;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.repository.sail.SailRepository;
 import org.eclipse.rdf4j.rio.LanguageHandler;
 import org.eclipse.rdf4j.rio.ParserConfig;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -33,6 +36,7 @@ import org.eclipse.rdf4j.rio.RDFParser;
 import org.eclipse.rdf4j.rio.Rio;
 import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
 import org.eclipse.rdf4j.rio.helpers.StatementCollector;
+import org.eclipse.rdf4j.sail.memory.MemoryStore;
 
 /**
  * @author Jan Schnasse schnasse@hbz-nrw.de
@@ -78,6 +82,20 @@ public class RdfUtils {
     public static Collection<Statement> readRdfToGraph(URL url, RDFFormat inf, String accept) throws IOException {
         try (InputStream in = URLUtil.urlToInputStream(url, URLUtil.mapOf("Accept", accept))) {
             return readRdfToGraph(in, inf, url.toString());
+        }
+    }
+
+    public static RepositoryConnection readRdfInputStreamToRepository(InputStream is, RDFFormat inf) {
+        RepositoryConnection con = null;
+        try {
+            Repository myRepository = new SailRepository(new MemoryStore());
+            myRepository.initialize();
+            con = myRepository.getConnection();
+            String baseURI = "";
+            con.add(is, baseURI, inf);
+            return con;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

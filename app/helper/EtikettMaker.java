@@ -242,7 +242,15 @@ public class EtikettMaker {
     }
 
     public static String lookUpLabel(String urlAddress) {
-        return lookUpLabel(urlAddress, null);
+        return lookUpLabel(urlAddress, getDefaultLanguage());
+    }
+
+    private static String getDefaultLanguage() {
+        String language = Play.application().configuration().getString("etikett.language");
+        if (language == null || language.isEmpty()) {
+            language = null;
+        }
+        return language;
     }
 
     public static String lookUpLabel(String urlAddress, String lang) {
@@ -262,7 +270,6 @@ public class EtikettMaker {
                 || urlAddress.startsWith(CrossrefLabelResolver.id2)) {
             return CrossrefLabelResolver.lookup(urlAddress);
         }
-        play.Logger.debug("Use Default Resolver");
         String result = DefaultLabelResolver.lookup(urlAddress, lang);
         if (urlAddress.equals(result)) {
             result = TitleLabelResolver.lookup(urlAddress, lang);
