@@ -22,7 +22,7 @@ public class OpenStreetMapLabelResolver {
                 // int idx = pair.indexOf("=");
                 map.put(URLDecoder.decode(keyValue[0], "UTF-8"), URLDecoder.decode(keyValue[1], "UTF-8"));
             }
-            return map.get("mlat") + "," + map.get("mlon");
+            return map.get("mlat").trim() + "," + map.get("mlon").trim();
         } catch (Exception e) {
             play.Logger.debug("Failed to find label for " + uri, e);
         }

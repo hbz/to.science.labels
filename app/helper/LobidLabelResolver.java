@@ -13,15 +13,23 @@ public class LobidLabelResolver {
      */
     public static String lookup(String uri, String language) {
         try {
-            return SparqlLookup.lookup(uri, uri, "http://purl.org/dc/terms/title", language, RDFFormat.JSONLD,
-                    "application/json");
-        } catch (Exception e) {
-            try {
-                return SparqlLookup.lookup(uri, uri + "#!", "http://purl.org/dc/terms/title", language,
+            String rdfAddress = uri;
+
+            /**
+             * Lobid uses http uris
+             * 
+             */
+            String rdfUri = uri.replaceAll("https", "http");
+
+            String label = SparqlLookup.lookup(uri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
+                    RDFFormat.JSONLD, "application/json");
+            if (rdfAddress.equals(label)) {
+                label = SparqlLookup.lookup(uri, "<" + rdfUri + ">", "http://purl.org/dc/terms/title", language,
                         RDFFormat.JSONLD, "application/json");
-            } catch (Exception e2) {
-                return uri;
             }
+            return label;
+        } catch (Exception e) {
+            return uri;
         }
     }
 }

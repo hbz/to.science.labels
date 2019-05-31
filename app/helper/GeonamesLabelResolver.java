@@ -9,7 +9,7 @@ public class GeonamesLabelResolver {
 
     public static String lookup(String uri, String language) {
         try {
-            return SparqlLookup.lookup(uri + "/about.rdf", uri, "http://www.geonames.org/ontology#name", language,
+            return SparqlLookup.lookup(uri + "/about.rdf", "?s", "http://www.geonames.org/ontology#name", language,
                     RDFFormat.RDFXML, "application/rdf+xml");
         } catch (Exception e) {
             return uri;

@@ -25,12 +25,12 @@ public class SparqlLookup {
         if (label != null) {
             return label;
         }
-        return uri;
+        return rdfAddress;
     }
 
     private static String lookupLabelInAnyLanguage(String rdfAddress, String uri, String labelPredicate,
             RDFFormat format, String accept) {
-        String queryString = String.format("SELECT ?s ?o {<%s> <%s> ?o . }", uri, labelPredicate);
+        String queryString = String.format("SELECT ?s ?o {%s <%s> ?o . }", uri, labelPredicate);
         return SparqlLookup.sparqlLabelLookup(rdfAddress, format, accept, queryString);
     }
 
@@ -39,7 +39,7 @@ public class SparqlLookup {
         if (language == null) {
             return null;
         }
-        String queryString = String.format("SELECT ?s ?o {<%s> <%s> ?o . FILTER(LANGMATCHES(lang(?o),'%s'))}", uri,
+        String queryString = String.format("SELECT ?s ?o {%s <%s> ?o . FILTER(LANGMATCHES(lang(?o),'%s'))}", uri,
                 labelPredicate, language);
         return SparqlLookup.sparqlLabelLookup(rdfAddress, format, accept, queryString);
     }

@@ -55,8 +55,8 @@ public class DefaultLabelResolver {
      */
     public static String lookup(String uri, String language, RDFFormat format, String accept) {
         try {
-            return SparqlLookup.lookup(uri, uri, "http://www.w3.org/2004/02/skos/core#prefLabel", language, format,
-                    accept);
+            return SparqlLookup.lookup(uri, "<" + uri + ">", "http://www.w3.org/2004/02/skos/core#prefLabel", language,
+                    format, accept);
         } catch (Exception e) {
             throw new RuntimeException("No label found for " + uri + "!");
         }

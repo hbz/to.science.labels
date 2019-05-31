@@ -67,7 +67,8 @@ public class TitleLabelResolver {
      */
     public static String lookup(String uri, String language, RDFFormat format, String accept) {
         try {
-            return SparqlLookup.lookup(uri, uri, "http://purl.org/dc/terms/title", language, format, accept);
+            return SparqlLookup.lookup(uri, "<" + uri + ">", "http://purl.org/dc/terms/title", language, format,
+                    accept);
         } catch (Exception e) {
             throw new RuntimeException("No label found for " + uri + "!");
         }
