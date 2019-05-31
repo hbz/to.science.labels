@@ -22,7 +22,7 @@ public class CrossrefLabelResolver {
             String label = hit.at("/prefLabel/Label/literalForm/content").asText();
             return label;
         } catch (Exception e) {
-            play.Logger.warn("", e);
+            play.Logger.warn("Failed to find label for " + uri, e);
         }
         return null;
     }

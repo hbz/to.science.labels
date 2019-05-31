@@ -23,7 +23,7 @@ public class OpenStreetMapLabelResolver {
             }
             return map.get("mlat") + "," + map.get("mlon");
         } catch (Exception e) {
-            play.Logger.debug("", e);
+            play.Logger.debug("Failed to find label for " + uri, e);
         }
         return uri;
     }

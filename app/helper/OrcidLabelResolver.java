@@ -20,7 +20,7 @@ public class OrcidLabelResolver {
                     + hit.at("/person/name/given-names/value").asText();
             return label;
         } catch (Exception e) {
-            play.Logger.warn("", e);
+            play.Logger.debug("Failed to find label for " + uri, e);
         }
         return uri;
     }

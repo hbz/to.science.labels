@@ -40,7 +40,7 @@ public class GeonamesLabelResolver {
                 }
             }
         } catch (Exception e) {
-            play.Logger.warn("Not able to include data from" + uri);
+            play.Logger.debug("Failed to find label for " + uri, e);
         }
         return null;
     }

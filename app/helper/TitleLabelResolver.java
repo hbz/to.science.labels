@@ -76,6 +76,7 @@ public class TitleLabelResolver {
                 }
             }
         } catch (Exception e) {
+            play.Logger.debug("Failed to find label for " + uri, e);
             throw new RuntimeException(e);
         }
         if (collectLabels.isEmpty())
