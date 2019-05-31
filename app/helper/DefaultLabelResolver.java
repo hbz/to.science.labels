@@ -98,14 +98,12 @@ public class DefaultLabelResolver {
     }
 
     private static String lookupLabel(String uri, RDFFormat format, String accept, String queryString) {
-        try {
-            Map<String, String> args = new HashMap<>();
-            args.put("accept", accept);
-            RepositoryConnection con = RdfUtils
-                    .readRdfInputStreamToRepository(URLUtil.urlToInputStream(new URL(uri), args), format);
+        Map<String, String> args = new HashMap<>();
+        args.put("accept", accept);
+        try (RepositoryConnection con = RdfUtils
+                .readRdfInputStreamToRepository(URLUtil.urlToInputStream(new URL(uri), args), format);) {
             TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, queryString);
             try (TupleQueryResult qresult = tupleQuery.evaluate()) {
-                StringBuilder result = new StringBuilder();
                 while (qresult.hasNext()) {
                     BindingSet bindingSet = qresult.next();
                     Value object = bindingSet.getValue("o");
@@ -115,7 +113,7 @@ public class DefaultLabelResolver {
                 }
                 return null;
             } catch (Exception e) {
-                play.Logger.debug("", e);
+                play.Logger.debug("Failed to find label for " + uri, e);
                 return null;
             }
         } catch (Exception e) {
