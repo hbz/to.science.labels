@@ -47,7 +47,7 @@ public class TestLanguageParsing {
     public void testOrcidLookup() throws FileNotFoundException, IOException {
         running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
             public void invoke(TestBrowser browser) {
-                String label = OrcidLabelResolver.lookup("http://orcid.org/0000-0002-4796-6203");
+                String label = OrcidLabelResolver.lookup("http://orcid.org/0000-0002-4796-6203", null);
                 Assert.assertEquals("Schnasse, Jan", label);
             }
         });

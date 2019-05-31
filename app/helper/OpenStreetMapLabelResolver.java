@@ -10,7 +10,8 @@ public class OpenStreetMapLabelResolver {
     final public static String id = "http://www.openstreetmap.org";
     final public static String id2 = "https://www.openstreetmap.org";
 
-    public static String lookup(String uri) {
+    public static String lookup(String uri, String language) {
+        play.Logger.info("Lookup Label from OSM. Language selection is not supported yet! " + uri);
 
         try {
             URL url = new URL(uri);

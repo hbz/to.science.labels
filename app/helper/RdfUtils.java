@@ -22,10 +22,14 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.Normalizer;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.sail.SailRepository;
@@ -99,4 +103,15 @@ public class RdfUtils {
         }
     }
 
+    public static Literal normalizeLiteral(Literal l) {
+        ValueFactory v = SimpleValueFactory.getInstance();
+        Literal newLiteral = null;
+        if (l.getLanguage().isPresent()) {
+            String l_lang = l.getLanguage().get();
+            newLiteral = v.createLiteral(Normalizer.normalize(l.stringValue().trim(), Normalizer.Form.NFKC), l_lang);
+        } else {
+            newLiteral = v.createLiteral(Normalizer.normalize(l.stringValue().trim(), Normalizer.Form.NFKC));
+        }
+        return newLiteral;
+    }
 }

@@ -1,13 +1,5 @@
 package helper;
 
-import java.net.URL;
-import java.text.Normalizer;
-
-import org.eclipse.rdf4j.model.BNode;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.Statement;
-import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 public class LobidLabelResolver {
@@ -19,37 +11,17 @@ public class LobidLabelResolver {
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public static String lookup(String uri) {
+    public static String lookup(String uri, String language) {
         try {
-            for (Statement s : RdfUtils.readRdfToGraph(new URL(uri), RDFFormat.JSONLD, "application/json")) {
-
-                boolean isLiteral = s.getObject() instanceof Literal;
-                if (!(s.getSubject() instanceof BNode)) {
-                    if (isLiteral) {
-                        ValueFactory v = SimpleValueFactory.getInstance();
-                        Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
-                                Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
-                        String label = findLabel(newS, uri);
-                        if (label != null)
-                            return label;
-                    }
-                }
-            }
+            return SparqlLookup.lookup(uri, uri, "http://purl.org/dc/terms/title", language, RDFFormat.JSONLD,
+                    "application/json");
         } catch (Exception e) {
-            play.Logger.debug("Failed to find label for " + uri, e);
-        }
-        return null;
-    }
-
-    private static String findLabel(Statement s, String uri) {
-        if (!uri.equals(s.getSubject().stringValue())) {
-            if (!new String(uri + "#!").equals(s.getSubject().stringValue())) {
-                return null;
+            try {
+                return SparqlLookup.lookup(uri, uri + "#!", "http://purl.org/dc/terms/title", language,
+                        RDFFormat.JSONLD, "application/json");
+            } catch (Exception e2) {
+                return uri;
             }
         }
-        if ("http://purl.org/dc/terms/title".equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
-        }
-        return null;
     }
 }
