@@ -153,11 +153,28 @@ public class URLUtil {
                 }
             }
             /* !!!!! */
-
+            throwExceptionIfServerAnswersInWrongFormat(args, con);
             inputStream = con.getInputStream();
             return inputStream;
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static void throwExceptionIfServerAnswersInWrongFormat(Map<String, String> args, HttpURLConnection con) {
+        if (args != null) {
+            String accept = args.get("accept");
+            if (accept != null && !accept.isEmpty()) {
+                String contentType = con.getHeaderField("Content-Type");
+                if (contentType != null && !contentType.isEmpty()) {
+                    contentType = contentType.trim().toLowerCase();
+                    accept = accept.trim().toLowerCase();
+                    if (!contentType.startsWith(accept)) {
+                        throw new RuntimeException("Website does not answer in correct format! Asked for accept:"
+                                + accept + " but got content-type:" + contentType);
+                    }
+                }
+            }
         }
     }
 
