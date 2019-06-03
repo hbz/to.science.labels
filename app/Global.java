@@ -21,7 +21,9 @@ import static play.mvc.Results.notFound;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -82,13 +84,25 @@ public class Global extends GlobalSettings {
     }
 
     @SuppressWarnings("rawtypes")
+    @Override
     public Action onRequest(Request request, Method actionMethod) {
-        play.Logger.debug("\n" + request.toString() + "\n\t" + mapToString(request.headers()) + "\n\t"
-                + request.body().toString());
+        String host = request.getHeader("Host");
+        String date = getDate();
+        String httpReq = request.toString();
+        String agent = request.getHeader("User-Agent");
+        String userIp = request.getHeader("UserIp");
+
+        play.Logger.info(String.format("%s %s [%s]  \"%s\" %s", host, userIp, date, httpReq, agent));
+        play.Logger.debug("\n" + request.toString() + "\n\t" + mapToString(request.headers()));
         return super.onRequest(request, actionMethod);
     }
 
-    private String mapToString(Map<String, String[]> map) {
+    private String getDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yyyy:hh:mm:ss +SSS");
+        return simpleDateFormat.format(new Date());
+    }
+
+    private static String mapToString(Map<String, String[]> map) {
         StringBuilder sb = new StringBuilder();
         Iterator<Entry<String, String[]>> iter = map.entrySet().iterator();
         while (iter.hasNext()) {
@@ -104,4 +118,5 @@ public class Global extends GlobalSettings {
         return sb.toString();
 
     }
+
 }

@@ -36,7 +36,6 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  */
 @SuppressWarnings("javadoc")
 public class TitleLabelResolver {
-    public final static String prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
     public final static String title = "http://purl.org/dc/terms/title";
     final public static String id = "";
 
@@ -52,62 +51,26 @@ public class TitleLabelResolver {
             try {
                 return lookup(uri, language, RDFFormat.NTRIPLES, "text/plain");
             } catch (Exception e2) {
-                return lookup(uri, language, RDFFormat.JSONLD, "application/json");
-            }
-        }
-    }
-
-    private static String lookup(String uri, String language, RDFFormat format, String accept) {
-        List<String> collectLabels = new ArrayList<>();
-        try {
-            Collection<Statement> statements = RdfUtils.readRdfToGraph(new URL(uri), format, accept);
-            List<Statement> prefLabels = statements.stream().filter((s) -> {
-                boolean isLabel = title.equals(s.getPredicate().stringValue());
-                boolean isSubjectOfInterest = uri.equals(s.getSubject().stringValue());
-                return isLabel && isSubjectOfInterest;
-            }).collect(Collectors.toList());
-            for (Statement s : prefLabels) {
-                if (s.getObject() instanceof Literal) {
-                    Literal literal = normalizeLiteral((Literal) s.getObject());
-                    collectLabels.add(literal.stringValue());
-                    String label = getLabelInLanguage(literal, language);
-                    if (label != null)
-                        return label;
+                try {
+                    return lookup(uri, language, RDFFormat.JSONLD, "application/json");
+                } catch (Exception e3) {
+                    return uri;
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
-        if (collectLabels.isEmpty())
-            return uri;
-        if (collectLabels.size() == 1)
-            return collectLabels.get(0);
-        return EtikettMaker.json(collectLabels);
     }
 
-    private static Literal normalizeLiteral(Literal l) {
-        ValueFactory v = SimpleValueFactory.getInstance();
-        Literal newLiteral;
-        if (l.getLanguage().isPresent()) {
-            String l_lang = l.getLanguage().get();
-            newLiteral = v.createLiteral(Normalizer.normalize(l.stringValue(), Normalizer.Form.NFKC), l_lang);
-        } else {
-            newLiteral = v.createLiteral(Normalizer.normalize(l.stringValue(), Normalizer.Form.NFKC));
-        }
-        return newLiteral;
-    }
-
-    static String getLabelInLanguage(Literal rdfOL, String language) {
+    /**
+     * @param uri
+     *            analyes data from the url to find a proper label
+     * @return a label
+     */
+    public static String lookup(String uri, String language, RDFFormat format, String accept) {
         try {
-            if (language == null)
-                return rdfOL.stringValue();
-            String l = rdfOL.getLanguage().get();
-            if (language.equals(l)) {
-                return rdfOL.stringValue();
-            }
-            return null;
+            return SparqlLookup.lookup(uri, "<" + uri + ">", "http://purl.org/dc/terms/title", language, format,
+                    accept);
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException("No label found for " + uri + "!", e);
         }
     }
 }

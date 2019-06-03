@@ -15,26 +15,27 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package helper;
+package tests;
 
-import org.eclipse.rdf4j.rio.RDFFormat;
+import org.junit.Assert;
+import org.junit.Test;
+import helper.CrossrefLabelResolver;
+import helper.EtikettMaker;
 
 /**
  * @author Jan Schnasse
  *
  */
-public class GeonamesLabelResolver {
-
-    final public static String id = "http://www.geonames.org/";
-    final public static String id2 = "https://www.geonames.org/";
-
-    public static String lookup(String uri, String language) {
-        try {
-            return SparqlLookup.lookup(uri + "/about.rdf", "?s", "http://www.geonames.org/ontology#name", language,
-                    RDFFormat.RDFXML, "application/rdf+xml");
-        } catch (Exception e) {
-            return uri;
-        }
+public class TestCrossrefLabelResolver {
+    @Test
+    public void test() {
+        String label = CrossrefLabelResolver.lookup("http://dx.doi.org/10.13039/501100007766", null);
+        Assert.assertEquals("Max-Planck-Institut für Kognitions- und Neurowissenschaften", label);
     }
 
+    @Test
+    public void testEtikett() {
+        String label = EtikettMaker.lookUpLabel("http://dx.doi.org/10.13039/501100007766", null);
+        Assert.assertEquals("Max-Planck-Institut für Kognitions- und Neurowissenschaften", label);
+    }
 }

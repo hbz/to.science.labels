@@ -1,10 +1,21 @@
-package tests;
+/*Copyright (c) 2019 "hbz"
 
-import static play.test.Helpers.HTMLUNIT;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.inMemoryDatabase;
-import static play.test.Helpers.running;
-import static play.test.Helpers.testServer;
+This file is part of etikett.
+
+etikett is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package tests;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,13 +29,13 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 import org.junit.Assert;
 import org.junit.Test;
 
-import helper.OrcidLabelResolver;
 import helper.RdfUtils;
-import play.libs.F.Callback;
-import play.test.TestBrowser;
 
+/**
+ * @author Jan Schnasse
+ *
+ */
 public class TestLanguageParsing {
-
     public final static String prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
 
     @Test
@@ -41,15 +52,5 @@ public class TestLanguageParsing {
             }
         }
 
-    }
-
-    @Test
-    public void testOrcidLookup() throws FileNotFoundException, IOException {
-        running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
-            public void invoke(TestBrowser browser) {
-                String label = OrcidLabelResolver.lookup("http://orcid.org/0000-0002-4796-6203");
-                Assert.assertEquals("Schnasse, Jan", label);
-            }
-        });
     }
 }

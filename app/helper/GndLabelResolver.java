@@ -54,8 +54,9 @@ public class GndLabelResolver {
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public static String lookup(String uri) {
+    public static String lookup(String uri, String language) {
         try {
+            play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
             for (Statement s : RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
                     "application/rdf+xml")) {
                 boolean isLiteral = s.getObject() instanceof Literal;
@@ -71,7 +72,7 @@ public class GndLabelResolver {
                 }
             }
         } catch (Exception e) {
-            play.Logger.warn("Not able to include data from" + uri);
+            play.Logger.debug("Failed to find label for " + uri, e);
         }
         return null;
     }
