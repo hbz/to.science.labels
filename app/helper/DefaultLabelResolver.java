@@ -58,7 +58,8 @@ public class DefaultLabelResolver {
             return SparqlLookup.lookup(uri, "<" + uri + ">", "http://www.w3.org/2004/02/skos/core#prefLabel", language,
                     format, accept);
         } catch (Exception e) {
-            throw new RuntimeException("No label found for " + uri + "!");
+            play.Logger.debug("", e);
+            throw new RuntimeException("No label found for " + uri + "!", e);
         }
     }
 }

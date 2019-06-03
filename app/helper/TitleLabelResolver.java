@@ -70,7 +70,7 @@ public class TitleLabelResolver {
             return SparqlLookup.lookup(uri, "<" + uri + ">", "http://purl.org/dc/terms/title", language, format,
                     accept);
         } catch (Exception e) {
-            throw new RuntimeException("No label found for " + uri + "!");
+            throw new RuntimeException("No label found for " + uri + "!", e);
         }
     }
 }

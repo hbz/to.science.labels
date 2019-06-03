@@ -270,9 +270,14 @@ public class EtikettMaker {
                 || urlAddress.startsWith(CrossrefLabelResolver.id2)) {
             return CrossrefLabelResolver.lookup(urlAddress, lang);
         }
-        String result = DefaultLabelResolver.lookup(urlAddress, lang);
-        if (urlAddress.equals(result)) {
-            result = TitleLabelResolver.lookup(urlAddress, lang);
+        String result = urlAddress;
+        try {
+            result = DefaultLabelResolver.lookup(urlAddress, lang);
+            if (urlAddress.equals(result)) {
+                result = TitleLabelResolver.lookup(urlAddress, lang);
+            }
+        } catch (Exception e) {
+            play.Logger.info(e.getMessage());
         }
         return result;
     }

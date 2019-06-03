@@ -39,4 +39,10 @@ public class TestDefaultLabelResolver {
         String label = EtikettMaker.lookUpLabel("http://aims.fao.org/aos/agrovoc/c_13551", "de");
         Assert.assertEquals("Kartoffel", label);
     }
+
+    @Test
+    public void testEtikettWithNonRdfUrl() {
+        String label = EtikettMaker.lookUpLabel("http://repository.publisso.de", "de");
+        Assert.assertEquals("http://repository.publisso.de", label);
+    }
 }
