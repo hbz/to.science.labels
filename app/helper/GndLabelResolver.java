@@ -72,7 +72,7 @@ public class GndLabelResolver {
                 }
             }
         } catch (Exception e) {
-            play.Logger.debug("Failed to find label for " + uri, e);
+            play.Logger.error("Failed to find label for " + uri, e.printStackTrace());
         }
         return null;
     }
