@@ -67,7 +67,8 @@ public class GndLabelResolver {
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
                         String label = findLabel(newS, uri);
                         if (label != null)
-                            return label;
+                            play.Logger.info("Found Label: " + label);
+                        return label;
                     }
                 }
             }
