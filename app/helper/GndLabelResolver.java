@@ -19,6 +19,8 @@ package helper;
 
 import java.net.URL;
 import java.text.Normalizer;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.Literal;
@@ -57,11 +59,15 @@ public class GndLabelResolver {
     public static String lookup(String uri, String language) {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
-            Statement[] statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
+
+            Collection<Statement> statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
                     "application/rdf+xml");
-            play.Logger.debug("Statement ArraySize= " + statement.length);
-            for (int i = 0; i < statement.length; i++) {
-                Statement s = statement[i];
+            play.Logger.debug("Statement ArraySize= " + statement.size());
+
+            Iterator<Statement> sit = statement.iterator();
+
+            while (sit.hasNext()) {
+                Statement s = sit.next();
                 boolean isLiteral = s.getObject() instanceof Literal;
                 if (!(s.getSubject() instanceof BNode)) {
                     if (isLiteral) {
@@ -75,6 +81,7 @@ public class GndLabelResolver {
                     }
                 }
             }
+
         } catch (Exception e) {
             play.Logger.error("Failed to find label for " + uri, e);
         }
