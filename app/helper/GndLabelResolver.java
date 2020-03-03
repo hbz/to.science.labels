@@ -57,7 +57,7 @@ public class GndLabelResolver {
     public static String lookup(String uri, String language) {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
-            java.beans.Statement[] statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
+            Statement[] statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
                     "application/rdf+xml");
             play.Logger.debug("Statement ArraySize= " + statement.length);
             for (int i = 0; i < statement.length; i++) {
