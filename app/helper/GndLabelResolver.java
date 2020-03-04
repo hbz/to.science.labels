@@ -20,7 +20,9 @@ package helper;
 import java.net.URL;
 import java.text.Normalizer;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.Literal;
@@ -36,20 +38,24 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 @SuppressWarnings("javadoc")
 public class GndLabelResolver {
 
-    final public static String namespace = "https://d-nb.info/standards/elementset/gnd#";
+    public static Properties turtleResourceProp = new Properties();
+    public static Properties turtleObjectProp = new Properties();
 
-    final public static String preferredName = namespace + "preferredName";
-    final public static String preferredNameForTheConferenceOrEvent = namespace
-            + "preferredNameForTheConferenceOrEvent";
-    final public static String preferredNameForTheCorporateBody = namespace + "preferredNameForTheCorporateBody";
-    final public static String preferredNameForThePerson = namespace + "preferredNameForThePerson";
-    final public static String preferredNameForThePlaceOrGeographicName = namespace
-            + "preferredNameForThePlaceOrGeographicName";
-    final public static String preferredNameForTheSubjectHeading = namespace + "preferredNameForTheSubjectHeading";
-    final public static String preferredNameForTheWork = namespace + "preferredNameForTheWork";
+    public GndLabelResolver() {
+        turtleResourceProp.setProperty("protocol", "https://");
+        turtleResourceProp.setProperty("alternateProtocol", "http://");
+        turtleResourceProp.setProperty("domain", "d-nb.info/gnd/");
 
-    final public static String id = "http://d-nb.info/gnd/";
-    final public static String id2 = "https://d-nb.info/gnd/";
+        turtleObjectProp.setProperty("namespace", "d-nb.info/standards/elementset/gnd#");
+        turtleObjectProp.setProperty("preferredName", "preferredName");
+        turtleObjectProp.setProperty("preferredNameForTheConferenceOrEvent", "preferredNameForTheConferenceOrEvent");
+        turtleObjectProp.setProperty("preferredNameForTheCorporateBody", "preferredNameForTheCorporateBody");
+        turtleObjectProp.setProperty("preferredNameForThePerson", "preferredNameForThePerson");
+        turtleObjectProp.setProperty("preferredNameForThePlaceOrGeographicName",
+                "preferredNameForThePlaceOrGeographicName");
+        turtleObjectProp.setProperty("preferredNameForTheSubjectHeading", "preferredNameForTheSubjectHeading");
+        turtleObjectProp.setProperty("preferredNameForTheWork", "preferredNameForTheWork");
+    }
 
     /**
      * @param uri
@@ -62,26 +68,23 @@ public class GndLabelResolver {
 
             Collection<Statement> statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
                     "application/rdf+xml");
-            play.Logger.debug("Statement ArraySize= " + statement.size());
 
-            Iterator<Statement> sit = statement.iterator();
+            Iterator<Statement> sIt = statement.iterator();
 
             while (sit.hasNext()) {
-                Statement s = sit.next();
-                play.Logger.debug("Gefundenes Statement0: " + s.getObject().stringValue());
+                Statement s = sIt.next();
                 boolean isLiteral = s.getObject() instanceof Literal;
                 if (!(s.getSubject() instanceof BNode)) {
-                    // if (isLiteral) {
-                    ValueFactory v = SimpleValueFactory.getInstance();
-                    Statement newS = v.createStatement(s.getSubject(), s.getPredicate(),
-                            v.createLiteral(Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
-                    play.Logger.debug("Gefundenes Statement1: " + newS.getObject().stringValue());
-                    play.Logger.debug("Gefundenes Statement2: " + s.getObject().stringValue());
-                    String label = findLabel(newS, uri);
-                    play.Logger.debug("Gefundenes Label: " + label);
-                    if (label != null) {
-                        play.Logger.info("Found Label: " + label);
-                        return label;
+                    if (isLiteral) {
+                        ValueFactory v = SimpleValueFactory.getInstance();
+                        Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
+                                Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
+                        String label = findLabel(newS, uri);
+                        play.Logger.debug("Gefundenes Label: " + label);
+                        if (label != null) {
+                            play.Logger.info("Found Label: " + label);
+                            return label;
+                        }
                     }
                 }
             }
@@ -93,31 +96,25 @@ public class GndLabelResolver {
     }
 
     private static String findLabel(Statement s, String uri) {
-        if (!uri.equals(s.getSubject().stringValue()))
-            return null;
-        if (preferredName.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
+
+        String namespace = turtleResourceProp.getProperty("protocol") + turtleResourceProp.getProperty("namespace");
+        Enumeration<Object> elements = turtleObjectProp.elements();
+        while (elements.hasMoreElements()) {
+            String predicate = namespace + (String) elements.nextElement();
+
+            if (elements.nextElement().equals(s.getPredicate().stringValue())) {
+                return s.getObject().stringValue();
+            }
         }
-        if (preferredNameForThePerson.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
-        }
-        if (preferredNameForTheConferenceOrEvent.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
-        }
-        if (preferredNameForTheCorporateBody.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
-        }
-        if (preferredNameForThePerson.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
-        }
-        if (preferredNameForThePlaceOrGeographicName.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
-        }
-        if (preferredNameForTheSubjectHeading.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
-        }
-        if (preferredNameForTheWork.equals(s.getPredicate().stringValue())) {
-            return s.getObject().stringValue();
+
+        namespace = turtleResourceProp.getProperty("alternateProtocol") + turtleResourceProp.getProperty("namespace");
+        elements = turtleObjectProp.elements();
+        while (elements.hasMoreElements()) {
+            String predicate = namespace + (String) elements.nextElement();
+
+            if (elements.nextElement().equals(s.getPredicate().stringValue())) {
+                return s.getObject().stringValue();
+            }
         }
         return null;
     }
