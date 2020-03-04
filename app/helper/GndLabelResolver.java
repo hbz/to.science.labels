@@ -101,6 +101,7 @@ public class GndLabelResolver {
     private static String findLabel(Statement s, String uri) {
 
         String namespace = turtleResourceProp.getProperty("protocol") + turtleResourceProp.getProperty("namespace");
+        play.Logger.info("huhu: " + namespace);
 
         Enumeration<Object> keys = turtleObjectProp.keys();
         while (keys.hasMoreElements()) {
