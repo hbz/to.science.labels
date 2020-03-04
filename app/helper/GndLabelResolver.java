@@ -104,7 +104,8 @@ public class GndLabelResolver {
         Enumeration<Object> elements = turtleObjectProp.elements();
         while (elements.hasMoreElements()) {
             String predicate = namespace + (String) elements.nextElement();
-
+            play.Logger.debug("Vergleichsstring: " + predicate);
+            play.Logger.debug("Vergleichsstring: " + s.getPredicate().stringValue());
             if (predicate.equals(s.getPredicate().stringValue())) {
                 return s.getObject().stringValue();
             }
