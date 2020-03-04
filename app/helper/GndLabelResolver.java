@@ -38,15 +38,15 @@ public class GndLabelResolver {
 
     final public static String namespace = "https://d-nb.info/standards/elementset/gnd#";
 
-    final public static String preferredName = namespace + ":preferredName";
+    final public static String preferredName = namespace + "preferredName";
     final public static String preferredNameForTheConferenceOrEvent = namespace
-            + ":preferredNameForTheConferenceOrEvent";
-    final public static String preferredNameForTheCorporateBody = namespace + ":preferredNameForTheCorporateBody";
-    final public static String preferredNameForThePerson = namespace + ":preferredNameForThePerson";
+            + "preferredNameForTheConferenceOrEvent";
+    final public static String preferredNameForTheCorporateBody = namespace + "preferredNameForTheCorporateBody";
+    final public static String preferredNameForThePerson = namespace + "preferredNameForThePerson";
     final public static String preferredNameForThePlaceOrGeographicName = namespace
-            + ":preferredNameForThePlaceOrGeographicName";
-    final public static String preferredNameForTheSubjectHeading = namespace + ":preferredNameForTheSubjectHeading";
-    final public static String preferredNameForTheWork = namespace + ":preferredNameForTheWork";
+            + "preferredNameForThePlaceOrGeographicName";
+    final public static String preferredNameForTheSubjectHeading = namespace + "preferredNameForTheSubjectHeading";
+    final public static String preferredNameForTheWork = namespace + "preferredNameForTheWork";
 
     final public static String id = "http://d-nb.info/gnd/";
     final public static String id2 = "https://d-nb.info/gnd/";
@@ -74,6 +74,7 @@ public class GndLabelResolver {
                         ValueFactory v = SimpleValueFactory.getInstance();
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
+                        play.Logger.debug("Gefundenes Statement" + s.getPredicate().stringValue());
                         String label = findLabel(newS, uri);
                         if (label != null)
                             play.Logger.info("Found Label: " + label);
