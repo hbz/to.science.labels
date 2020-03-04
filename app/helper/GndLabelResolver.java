@@ -103,20 +103,19 @@ public class GndLabelResolver {
         }
         GndLabelResolver.setProperties();
 
-        String predicate = protocol + namespace;
         Enumeration<Object> keys = turtleObjectProp.keys();
         while (keys.hasMoreElements()) {
-            if (predicate + turtleObjectProp.getProperty((String) keys.nextElement())
-                    .equals(s.getPredicate().stringValue())) {
+            String predicate = protocol + namespace + turtleObjectProp.getProperty((String) keys.nextElement());
+            if (predicate.equals(s.getPredicate().stringValue())) {
                 return s.getObject().stringValue();
             }
         }
 
-        predicate = alternateProtocol + namespace;
         keys = turtleObjectProp.keys();
         while (keys.hasMoreElements()) {
-            if (predicate + turtleObjectProp.getProperty((String) keys.nextElement())
-                    .equals(s.getPredicate().stringValue())) {
+            String predicate = alternateProtocol + namespace
+                    + turtleObjectProp.getProperty((String) keys.nextElement());
+            if (predicate.equals(s.getPredicate().stringValue())) {
                 return s.getObject().stringValue();
             }
         }
