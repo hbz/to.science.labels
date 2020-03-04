@@ -68,13 +68,13 @@ public class GndLabelResolver {
 
             while (sit.hasNext()) {
                 Statement s = sit.next();
-                boolean isLiteral = s.getObject() instanceof Literal;
+                boolean isLiteral = s.getSubject() instanceof Literal;
                 if (!(s.getSubject() instanceof BNode)) {
                     if (isLiteral) {
                         ValueFactory v = SimpleValueFactory.getInstance();
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
-                        play.Logger.debug("Gefundenes Statement" + s.getPredicate().stringValue());
+                        play.Logger.debug("Gefundenes Statement: " + s.getSubject().stringValue());
                         String label = findLabel(newS, uri);
                         if (label != null)
                             play.Logger.info("Found Label: " + label);
