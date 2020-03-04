@@ -38,32 +38,20 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 @SuppressWarnings("javadoc")
 public class GndLabelResolver {
 
-    public static Properties turtleResourceProp = new Properties();
-    public static Properties turtleObjectProp = new Properties();
+    final public static String namespace = "https://d-nb.info/standards/elementset/gnd#";
+
+    final public static String preferredName = namespace + "preferredName";
+    final public static String preferredNameForTheConferenceOrEvent = namespace
+            + "preferredNameForTheConferenceOrEvent";
+    final public static String preferredNameForTheCorporateBody = namespace + "preferredNameForTheCorporateBody";
+    final public static String preferredNameForThePerson = namespace + "preferredNameForThePerson";
+    final public static String preferredNameForThePlaceOrGeographicName = namespace
+            + "preferredNameForThePlaceOrGeographicName";
+    final public static String preferredNameForTheSubjectHeading = namespace + "preferredNameForTheSubjectHeading";
+    final public static String preferredNameForTheWork = namespace + "preferredNameForTheWork";
 
     final public static String id = "http://d-nb.info/gnd/";
     final public static String id2 = "https://d-nb.info/gnd/";
-
-    public GndLabelResolver() {
-        setProperties();
-    }
-
-    private void setProperties() {
-        turtleResourceProp.setProperty("protocol", "https://");
-        turtleResourceProp.setProperty("alternateProtocol", "http://");
-        turtleResourceProp.setProperty("domain", "d-nb.info/gnd/");
-
-        turtleObjectProp.setProperty("namespace", "d-nb.info/standards/elementset/gnd#");
-        turtleObjectProp.setProperty("preferredName", "preferredName");
-        turtleObjectProp.setProperty("preferredNameForTheConferenceOrEvent", "preferredNameForTheConferenceOrEvent");
-        turtleObjectProp.setProperty("preferredNameForTheCorporateBody", "preferredNameForTheCorporateBody");
-        turtleObjectProp.setProperty("preferredNameForThePerson", "preferredNameForThePerson");
-        turtleObjectProp.setProperty("preferredNameForThePlaceOrGeographicName",
-                "preferredNameForThePlaceOrGeographicName");
-        turtleObjectProp.setProperty("preferredNameForTheSubjectHeading", "preferredNameForTheSubjectHeading");
-        turtleObjectProp.setProperty("preferredNameForTheWork", "preferredNameForTheWork");
-
-    }
 
     /**
      * @param uri
@@ -77,10 +65,10 @@ public class GndLabelResolver {
             Collection<Statement> statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
                     "application/rdf+xml");
 
-            Iterator<Statement> sit = statement.iterator();
+            Iterator<Statement> sIt = statement.iterator();
 
             while (sit.hasNext()) {
-                Statement s = sit.next();
+                Statement s = sIt.next();
                 boolean isLiteral = s.getObject() instanceof Literal;
                 if (!(s.getSubject() instanceof BNode)) {
                     if (isLiteral) {
@@ -88,7 +76,6 @@ public class GndLabelResolver {
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
                         String label = findLabel(newS, uri);
-                        play.Logger.debug("Gefundenes Label: " + label);
                         if (label != null) {
                             play.Logger.info("Found Label: " + label);
                             return label;
@@ -104,31 +91,31 @@ public class GndLabelResolver {
     }
 
     private static String findLabel(Statement s, String uri) {
-
-        String namespace = turtleResourceProp.getProperty("protocol") + turtleResourceProp.getProperty("namespace");
-        play.Logger.info("huhu: " + namespace);
-
-        Enumeration<Object> keys = turtleObjectProp.keys();
-        while (keys.hasMoreElements()) {
-            play.Logger.info("huhu");
-            String predicate = namespace + turtleObjectProp.getProperty(keys.nextElement().toString());
-            play.Logger.debug("Vergleichsstring: " + predicate);
-            play.Logger.debug("Vergleichsstring: " + s.getPredicate().stringValue());
-            if (predicate.equals(s.getPredicate().stringValue())) {
-                return s.getObject().stringValue();
-            }
+        if (!uri.equals(s.getSubject().stringValue()))
+            return null;
+        if (preferredName.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
         }
-
-        namespace = turtleResourceProp.getProperty("alternateProtocol") + turtleResourceProp.getProperty("namespace");
-        keys = turtleObjectProp.keys();
-        while (keys.hasMoreElements()) {
-            play.Logger.info("huhu2");
-            String predicate = namespace + turtleObjectProp.getProperty(keys.nextElement().toString());
-            play.Logger.debug("Vergleichsstring: " + predicate);
-            play.Logger.debug("Vergleichsstring: " + s.getPredicate().stringValue());
-            if (predicate.equals(s.getPredicate().stringValue())) {
-                return s.getObject().stringValue();
-            }
+        if (preferredNameForThePerson.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
+        }
+        if (preferredNameForTheConferenceOrEvent.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
+        }
+        if (preferredNameForTheCorporateBody.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
+        }
+        if (preferredNameForThePerson.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
+        }
+        if (preferredNameForThePlaceOrGeographicName.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
+        }
+        if (preferredNameForTheSubjectHeading.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
+        }
+        if (preferredNameForTheWork.equals(s.getPredicate().stringValue())) {
+            return s.getObject().stringValue();
         }
         return null;
     }
