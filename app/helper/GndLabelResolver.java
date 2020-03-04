@@ -105,7 +105,7 @@ public class GndLabelResolver {
         while (elements.hasMoreElements()) {
             String predicate = namespace + (String) elements.nextElement();
 
-            if (elements.nextElement().equals(s.getPredicate().stringValue())) {
+            if (predicate.equals(s.getPredicate().stringValue())) {
                 return s.getObject().stringValue();
             }
         }
@@ -115,7 +115,7 @@ public class GndLabelResolver {
         while (elements.hasMoreElements()) {
             String predicate = namespace + (String) elements.nextElement();
 
-            if (elements.nextElement().equals(s.getPredicate().stringValue())) {
+            if (predicate.equals(s.getPredicate().stringValue())) {
                 return s.getObject().stringValue();
             }
         }
