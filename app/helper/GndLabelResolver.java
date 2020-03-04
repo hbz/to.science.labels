@@ -45,6 +45,10 @@ public class GndLabelResolver {
     final public static String id2 = "https://d-nb.info/gnd/";
 
     public GndLabelResolver() {
+        setProperties();
+    }
+
+    private void setProperties() {
         turtleResourceProp.setProperty("protocol", "https://");
         turtleResourceProp.setProperty("alternateProtocol", "http://");
         turtleResourceProp.setProperty("domain", "d-nb.info/gnd/");
@@ -58,6 +62,7 @@ public class GndLabelResolver {
                 "preferredNameForThePlaceOrGeographicName");
         turtleObjectProp.setProperty("preferredNameForTheSubjectHeading", "preferredNameForTheSubjectHeading");
         turtleObjectProp.setProperty("preferredNameForTheWork", "preferredNameForTheWork");
+
     }
 
     /**
