@@ -36,7 +36,7 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 @SuppressWarnings("javadoc")
 public class GndLabelResolver {
 
-    final public static String namespace = "http://d-nb.info/standards/elementset/gnd#";
+    final public static String namespace = "https://d-nb.info/standards/elementset/gnd#";
 
     final public static String preferredName = namespace + "preferredName";
     final public static String preferredNameForTheConferenceOrEvent = namespace
