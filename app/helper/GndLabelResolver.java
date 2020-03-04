@@ -75,6 +75,7 @@ public class GndLabelResolver {
                     ValueFactory v = SimpleValueFactory.getInstance();
                     Statement newS = v.createStatement(s.getSubject(), s.getPredicate(),
                             v.createLiteral(Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
+                    play.Logger.debug("Gefundenes Statement: " + newS.getObject().stringValue());
                     play.Logger.debug("Gefundenes Statement: " + s.getObject().stringValue());
                     String label = findLabel(newS, uri);
                     if (label != null)
