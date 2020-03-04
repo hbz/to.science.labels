@@ -38,15 +38,15 @@ public class GndLabelResolver {
 
     final public static String namespace = "https://d-nb.info/standards/elementset/gnd#";
 
-    final public static String preferredName = namespace + "preferredName";
+    final public static String preferredName = namespace + ":preferredName";
     final public static String preferredNameForTheConferenceOrEvent = namespace
-            + "preferredNameForTheConferenceOrEvent";
-    final public static String preferredNameForTheCorporateBody = namespace + "preferredNameForTheCorporateBody";
-    final public static String preferredNameForThePerson = namespace + "preferredNameForThePerson";
+            + ":preferredNameForTheConferenceOrEvent";
+    final public static String preferredNameForTheCorporateBody = namespace + ":preferredNameForTheCorporateBody";
+    final public static String preferredNameForThePerson = namespace + ":preferredNameForThePerson";
     final public static String preferredNameForThePlaceOrGeographicName = namespace
-            + "preferredNameForThePlaceOrGeographicName";
-    final public static String preferredNameForTheSubjectHeading = namespace + "preferredNameForTheSubjectHeading";
-    final public static String preferredNameForTheWork = namespace + "preferredNameForTheWork";
+            + ":preferredNameForThePlaceOrGeographicName";
+    final public static String preferredNameForTheSubjectHeading = namespace + ":preferredNameForTheSubjectHeading";
+    final public static String preferredNameForTheWork = namespace + ":preferredNameForTheWork";
 
     final public static String id = "http://d-nb.info/gnd/";
     final public static String id2 = "https://d-nb.info/gnd/";
