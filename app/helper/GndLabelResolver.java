@@ -79,10 +79,10 @@ public class GndLabelResolver {
                     play.Logger.debug("Gefundenes Statement2: " + s.getObject().stringValue());
                     String label = findLabel(newS, uri);
                     play.Logger.debug("Gefundenes Label: " + label);
-                    if (label != null)
+                    if (label != null) {
                         play.Logger.info("Found Label: " + label);
-                    return label;
-                    // }
+                        return label;
+                    }
                 }
             }
 
