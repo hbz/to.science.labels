@@ -65,10 +65,10 @@ public class GndLabelResolver {
             Collection<Statement> statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
                     "application/rdf+xml");
 
-            Iterator<Statement> sIt = statement.iterator();
+            Iterator<Statement> sit = statement.iterator();
 
             while (sit.hasNext()) {
-                Statement s = sIt.next();
+                Statement s = sit.next();
                 boolean isLiteral = s.getObject() instanceof Literal;
                 if (!(s.getSubject() instanceof BNode)) {
                     if (isLiteral) {
