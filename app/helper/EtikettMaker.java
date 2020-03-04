@@ -254,6 +254,7 @@ public class EtikettMaker {
     }
 
     public static String lookUpLabel(String urlAddress, String lang) {
+
         if (urlAddress.startsWith(GndLabelResolver.id) || urlAddress.startsWith(GndLabelResolver.id2)) {
             return GndLabelResolver.lookup(urlAddress, lang);
         } else if (urlAddress.startsWith(GeonamesLabelResolver.id)

@@ -19,6 +19,10 @@ package helper;
 
 import java.net.URL;
 import java.text.Normalizer;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Properties;
 
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.Literal;
@@ -34,7 +38,7 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 @SuppressWarnings("javadoc")
 public class GndLabelResolver {
 
-    final public static String namespace = "http://d-nb.info/standards/elementset/gnd#";
+    final public static String namespace = "https://d-nb.info/standards/elementset/gnd#";
 
     final public static String preferredName = namespace + "preferredName";
     final public static String preferredNameForTheConferenceOrEvent = namespace
@@ -57,8 +61,14 @@ public class GndLabelResolver {
     public static String lookup(String uri, String language) {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
-            for (Statement s : RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
-                    "application/rdf+xml")) {
+
+            Collection<Statement> statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
+                    "application/rdf+xml");
+
+            Iterator<Statement> sit = statement.iterator();
+
+            while (sit.hasNext()) {
+                Statement s = sit.next();
                 boolean isLiteral = s.getObject() instanceof Literal;
                 if (!(s.getSubject() instanceof BNode)) {
                     if (isLiteral) {
@@ -66,13 +76,16 @@ public class GndLabelResolver {
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
                         String label = findLabel(newS, uri);
-                        if (label != null)
+                        if (label != null) {
+                            play.Logger.info("Found Label: " + label);
                             return label;
+                        }
                     }
                 }
             }
+
         } catch (Exception e) {
-            play.Logger.debug("Failed to find label for " + uri, e);
+            play.Logger.error("Failed to find label for " + uri, e);
         }
         return null;
     }
