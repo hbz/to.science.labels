@@ -114,10 +114,12 @@ public class GndLabelResolver {
         }
 
         namespace = turtleResourceProp.getProperty("alternateProtocol") + turtleResourceProp.getProperty("namespace");
-        elements = turtleObjectProp.elements();
-        while (elements.hasMoreElements()) {
-            String predicate = namespace + (String) elements.nextElement();
-
+        keys = turtleObjectProp.keys();
+        while (keys.hasMoreElements()) {
+            play.Logger.info("huhu2");
+            String predicate = namespace + turtleObjectProp.getProperty(keys.nextElement().toString());
+            play.Logger.debug("Vergleichsstring: " + predicate);
+            play.Logger.debug("Vergleichsstring: " + s.getPredicate().stringValue());
             if (predicate.equals(s.getPredicate().stringValue())) {
                 return s.getObject().stringValue();
             }
