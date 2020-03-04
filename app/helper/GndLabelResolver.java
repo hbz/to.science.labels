@@ -101,9 +101,11 @@ public class GndLabelResolver {
     private static String findLabel(Statement s, String uri) {
 
         String namespace = turtleResourceProp.getProperty("protocol") + turtleResourceProp.getProperty("namespace");
-        Enumeration<Object> elements = turtleObjectProp.elements();
-        while (elements.hasMoreElements()) {
-            String predicate = namespace + (String) elements.nextElement();
+
+        Enumeration<Object> keys = turtleObjectProp.keys();
+        while (keys.hasMoreElements()) {
+            play.Logger.info("huhu");
+            String predicate = namespace + turtleObjectProp.getProperty(keys.nextElement().toString());
             play.Logger.debug("Vergleichsstring: " + predicate);
             play.Logger.debug("Vergleichsstring: " + s.getPredicate().stringValue());
             if (predicate.equals(s.getPredicate().stringValue())) {
