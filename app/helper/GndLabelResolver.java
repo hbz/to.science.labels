@@ -41,6 +41,9 @@ public class GndLabelResolver {
     public static Properties turtleResourceProp = new Properties();
     public static Properties turtleObjectProp = new Properties();
 
+    final public static String id = "http://d-nb.info/gnd/";
+    final public static String id2 = "https://d-nb.info/gnd/";
+
     public GndLabelResolver() {
         turtleResourceProp.setProperty("protocol", "https://");
         turtleResourceProp.setProperty("alternateProtocol", "http://");
