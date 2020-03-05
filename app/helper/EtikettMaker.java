@@ -80,6 +80,7 @@ public class EtikettMaker {
     public EtikettMaker() {
         ID_ALIAS = Play.application().configuration().getString("etikett.alias.id");
         TYPE_ALIAS = Play.application().configuration().getString("etikett.alias.type");
+
     }
 
     /**
@@ -201,7 +202,7 @@ public class EtikettMaker {
     public Etikett findEtikett(String urlAddress) {
         try {
             Etikett result = getValue(urlAddress);
-            if (result != null) {
+            if (result != null && (!result.getLabel().equals(result.getUri()))) {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
             } else {
