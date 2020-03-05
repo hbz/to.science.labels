@@ -30,7 +30,7 @@ import com.google.common.io.CharStreams;
  * @author Jan Schnasse
  *
  */
-public class CrossrefLabelResolver {
+public class CrossrefLabelResolver implements LabelResolver {
 
     final public static String id = "http://dx.doi.org/10.13039";
     final public static String id2 = "https://dx.doi.org/10.13039";
@@ -46,6 +46,18 @@ public class CrossrefLabelResolver {
         } catch (Exception e) {
             play.Logger.warn("Failed to find label for " + uri, e);
         }
+        return null;
+    }
+
+    @Override
+    public String getResolverDomain() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getLabelResolverClassName() {
+        // TODO Auto-generated method stub
         return null;
     }
 

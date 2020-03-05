@@ -41,9 +41,10 @@ public class GndLabelResolver {
     final public static String protocol = "https://";
     final public static String alternateProtocol = "http://";
     final public static String namespace = "d-nb.info/standards/elementset/gnd#";
+    final public static String domain = "d-nb.info/gnd/";
 
-    final public static String id = alternateProtocol + "d-nb.info/gnd/";
-    final public static String id2 = protocol + "d-nb.info/gnd/";
+    final public static String id = alternateProtocol + domain;
+    final public static String id2 = protocol + domain;
 
     public static Properties turtleObjectProp = new Properties();
 
@@ -121,4 +122,13 @@ public class GndLabelResolver {
         }
         return null;
     }
+
+    public String getResolverDomain() {
+        return domain;
+    }
+
+    public String getLabelResolverClassName() {
+        return GndLabelResolver.class.getCanonicalName();
+    }
+
 }
