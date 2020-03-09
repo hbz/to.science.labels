@@ -17,14 +17,26 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package helper;
 
+import helper.resolver.CrossrefLabelResolver;
+import helper.resolver.GeonamesLabelResolver;
+import helper.resolver.GndLabelResolver;
+import helper.resolver.LabelResolver;
+import helper.resolver.LobidLabelResolver;
+import helper.resolver.OpenStreetMapLabelResolver;
+import helper.resolver.OrcidLabelResolver;
+import helper.resolver.RdfUtils;
+import helper.resolver.SparqlLookup;
+
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -44,6 +56,7 @@ import play.mvc.Http;
 
 /**
  * @author Jan Schnasse
+ * @author aquast
  *
  */
 public class EtikettMaker {
@@ -74,13 +87,37 @@ public class EtikettMaker {
     public final static String skosConcept = "http://www.w3.org/2004/02/skos/core#Concept";
 
     private String ID_ALIAS = null;
-
     private String TYPE_ALIAS = null;
+
+    private static Properties resolverProp = new Properties();
 
     public EtikettMaker() {
         ID_ALIAS = Play.application().configuration().getString("etikett.alias.id");
         TYPE_ALIAS = Play.application().configuration().getString("etikett.alias.type");
 
+        setLabelResolvers();
+    }
+
+    /**
+     * Set Properties that takes all available LabelResolvers (extends
+     * LabelResolver and implementing LabelResolverInterface). If a new
+     * LabelResolver is added, please set an new Property here
+     */
+    private void setLabelResolvers() {
+        resolverProp.setProperty(new CrossrefLabelResolver().getResolverDomain(),
+                new CrossrefLabelResolver().getLabelResolverClassName());
+        resolverProp.setProperty(new GeonamesLabelResolver().getResolverDomain(),
+                new GeonamesLabelResolver().getLabelResolverClassName());
+        resolverProp.setProperty(new GndLabelResolver().getResolverDomain(),
+                new GndLabelResolver().getLabelResolverClassName());
+        resolverProp.setProperty(new LobidLabelResolver().getResolverDomain(),
+                new LobidLabelResolver().getLabelResolverClassName());
+        resolverProp.setProperty(new LobidLabelResolver().getResolverDomain(),
+                new LobidLabelResolver().getLabelResolverClassName());
+        resolverProp.setProperty(new OpenStreetMapLabelResolver().getResolverDomain(),
+                new OpenStreetMapLabelResolver().getLabelResolverClassName());
+        resolverProp.setProperty(new OrcidLabelResolver().getResolverDomain(),
+                new OrcidLabelResolver().getLabelResolverClassName());
     }
 
     /**
@@ -202,7 +239,8 @@ public class EtikettMaker {
     public Etikett findEtikett(String urlAddress) {
         try {
             Etikett result = getValue(urlAddress);
-            if (result != null && (!result.getLabel().equals(result.getUri()))) {
+            if (result != null
+                    && (!result.getLabel().equals(result.getUri()) || (!resolverProp.containsKey(urlAddress)))) {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
             } else {
@@ -256,22 +294,16 @@ public class EtikettMaker {
 
     public static String lookUpLabel(String urlAddress, String lang) {
 
-        if (urlAddress.startsWith(GndLabelResolver.id) || urlAddress.startsWith(GndLabelResolver.id2)) {
-            return GndLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(GeonamesLabelResolver.id)
-                || urlAddress.startsWith(GeonamesLabelResolver.id2)) {
-            return GeonamesLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)
-                || urlAddress.startsWith(OpenStreetMapLabelResolver.id2)) {
-            return OpenStreetMapLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(OrcidLabelResolver.id) || urlAddress.startsWith(OrcidLabelResolver.id2)) {
-            return OrcidLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(LobidLabelResolver.id) || urlAddress.startsWith(LobidLabelResolver.id2)) {
-            return LobidLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(CrossrefLabelResolver.id)
-                || urlAddress.startsWith(CrossrefLabelResolver.id2)) {
-            return CrossrefLabelResolver.lookup(urlAddress, lang);
+        Enumeration<Object> rit = resolverProp.keys();
+
+        while (rit.hasMoreElements()) {
+            String resolverName = resolverProp.getProperty((String) rit.nextElement());
+            if (urlAddress.contains(resolverName)) {
+                LabelResolver.Factory.getInstance(resolverName);
+                return LabelResolver.lookup(urlAddress, lang);
+            }
         }
+
         String result = urlAddress;
         try {
             result = DefaultLabelResolver.lookup(urlAddress, lang);

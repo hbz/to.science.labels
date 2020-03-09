@@ -15,7 +15,7 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package helper;
+package helper.resolver;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,12 +28,18 @@ import com.google.common.io.CharStreams;
 
 /**
  * @author Jan Schnasse
+ * @author Andres Quast quast@hbz-nrw.de
  *
  */
-public class CrossrefLabelResolver {
+public class CrossrefLabelResolver extends LabelResolver implements LabelResolverInterface {
 
-    final public static String id = "http://dx.doi.org/10.13039";
-    final public static String id2 = "https://dx.doi.org/10.13039";
+    final public static String protocol = "https://";
+    final public static String alternateProtocol = "http://";
+    final public static String namespace = "d-nb.info/standards/elementset/gnd#";
+    final public static String domain = "dx.doi.org/10.13039";
+
+    final public static String id = alternateProtocol + domain;
+    final public static String id2 = protocol + domain;
 
     public static String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
@@ -47,6 +53,14 @@ public class CrossrefLabelResolver {
             play.Logger.warn("Failed to find label for " + uri, e);
         }
         return null;
+    }
+
+    public String getResolverDomain() {
+        return domain;
+    }
+
+    public String getLabelResolverClassName() {
+        return CrossrefLabelResolver.class.getCanonicalName();
     }
 
 }

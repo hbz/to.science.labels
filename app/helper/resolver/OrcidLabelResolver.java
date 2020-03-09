@@ -15,12 +15,11 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package helper;
+package helper.resolver;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -30,23 +29,36 @@ import com.google.common.io.CharStreams;
  * @author Jan Schnasse
  *
  */
-public class CrossrefLabelResolver {
+public class OrcidLabelResolver extends LabelResolver implements LabelResolverInterface {
 
-    final public static String id = "http://dx.doi.org/10.13039";
-    final public static String id2 = "https://dx.doi.org/10.13039";
+    final public static String protocol = "https://";
+    final public static String alternateProtocol = "http://";
+    final public static String namespace = "d-nb.info/standards/elementset/gnd#";
+    final public static String domain = "orcid.org";
+
+    final public static String id = alternateProtocol + domain;
+    final public static String id2 = protocol + domain;
 
     public static String lookup(String uri, String language) {
-        play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
-        play.Logger.debug("Use Crossref Resolver!");
-        try (InputStream in = URLUtil.urlToInputStream(new URL(uri), null)) {
+        play.Logger.info("Lookup Label from ORCID. Language selection is not supported yet! " + uri);
+        try (InputStream in = URLUtil.urlToInputStream(new URL(uri), URLUtil.mapOf("Accept", "application/json"))) {
             String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
             JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
-            String label = hit.at("/prefLabel/Label/literalForm/content").asText();
+            String label = hit.at("/person/name/family-name/value").asText() + ", "
+                    + hit.at("/person/name/given-names/value").asText();
             return label;
         } catch (Exception e) {
-            play.Logger.warn("Failed to find label for " + uri, e);
+            play.Logger.debug("Failed to find label for " + uri, e);
         }
-        return null;
+        return uri;
+    }
+
+    public String getResolverDomain() {
+        return domain;
+    }
+
+    public String getLabelResolverClassName() {
+        return OrcidLabelResolver.class.getCanonicalName();
     }
 
 }

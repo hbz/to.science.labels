@@ -1,13 +1,13 @@
 /**
  * 
  */
-package helper;
+package helper.resolver;
 
 /**
  * @author aquast
  *
  */
-public interface LabelResolver {
+public interface LabelResolverInterface {
 
     public static String lookup(String uri, String language) {
         return null;
