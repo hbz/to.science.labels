@@ -9,10 +9,6 @@ package helper.resolver;
  */
 public interface LabelResolverInterface {
 
-    public static String lookup(String uri, String language) {
-        return null;
-    };
-
     public String getResolverDomain();
 
     public String getLabelResolverClassName();
