@@ -28,6 +28,7 @@ import helper.resolver.RdfUtils;
 import helper.resolver.SparqlLookup;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -237,10 +238,13 @@ public class EtikettMaker {
      * @return data associated with the url
      */
     public Etikett findEtikett(String urlAddress) {
+        URL url = new URL(urlAddress);
+        play.Logger.info(url.getHost());
+
         try {
             Etikett result = getValue(urlAddress);
             if (result != null
-                    && (!result.getLabel().equals(result.getUri()) || (!resolverProp.containsKey(urlAddress)))) {
+                    && (!result.getLabel().equals(result.getUri()) || resolverProp.containsKey(url.getHost()))) {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
             } else {
