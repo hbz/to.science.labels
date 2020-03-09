@@ -238,7 +238,14 @@ public class EtikettMaker {
      * @return data associated with the url
      */
     public Etikett findEtikett(String urlAddress) {
-        URL url = new URL(urlAddress);
+        URL url = null;
+
+        try {
+            url = new URL(urlAddress);
+        } catch (Exception e) {
+            play.Logger.error(e.getMessage());
+        }
+
         play.Logger.info(url.getHost());
 
         try {
