@@ -46,7 +46,7 @@ public class GndLabelResolver extends LabelResolver implements LabelResolverInte
     final public static String id = alternateProtocol + domain;
     final public static String id2 = protocol + domain;
 
-    public Properties turtleObjectProp = new Properties();
+    public static Properties turtleObjectProp = new Properties();
 
     public GndLabelResolver() {
         setProperties();
