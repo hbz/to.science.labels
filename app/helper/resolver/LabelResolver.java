@@ -1,6 +1,6 @@
 package helper.resolver;
 
-public class LabelResolver implements LabelResolverInterface {
+public class LabelResolver {
 
     private static LabelResolver resolver = null;
 

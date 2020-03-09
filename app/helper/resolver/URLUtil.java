@@ -14,7 +14,7 @@
  * the License.
  ******************************************************************************/
 
-package helper;
+package helper.resolver;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;

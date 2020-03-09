@@ -102,7 +102,7 @@ public class GndLabelResolver extends LabelResolver implements LabelResolverInte
         return null;
     }
 
-    private String findLabel(Statement s, String uri) {
+    private static String findLabel(Statement s, String uri) {
         if (!uri.equals(s.getSubject().stringValue())) {
             return null;
         }
