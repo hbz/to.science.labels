@@ -252,21 +252,24 @@ public class EtikettMaker {
             Etikett result = getValue(urlAddress);
 
             if (result == null) {
+                play.Logger.debug("LookUp from Resolver 0 " + result);
                 result = getLabelFromUrlAddress(urlAddress);
-                if (result != null) {
-                    addJsonDataIntoDBCache(result);
-                    return result;
-                }
-            } else if (result.getLabel().equals(result.getUri())
-                    && resolverProp.containsKey(url.getHost() + "/" + url.getPath())) {
-                play.Logger.debug("LookUp from Resolver " + result);
-                result = getLabelFromUrlAddress(urlAddress);
-                return result;
                 if (result != null) {
                     play.Logger.debug("Fetch from db after LookUp-Error " + result);
                     addJsonDataIntoDBCache(result);
-                    return result;
                 }
+                return result;
+
+            } else if (result.getLabel().equals(result.getUri())
+                    && resolverProp.containsKey(url.getHost() + "/" + url.getPath())) {
+                play.Logger.debug("LookUp from Resolver 1 " + result);
+                result = getLabelFromUrlAddress(urlAddress);
+                if (result != null) {
+                    play.Logger.debug("Fetch from db after LookUp-Error " + result);
+                    addJsonDataIntoDBCache(result);
+                }
+                return result;
+
             } else {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
