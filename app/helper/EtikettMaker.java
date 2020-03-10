@@ -259,8 +259,11 @@ public class EtikettMaker {
                 }
             } else if (result.getLabel().equals(result.getUri())
                     && resolverProp.containsKey(url.getHost() + "/" + url.getPath())) {
+                play.Logger.debug("LookUp from Resolver " + result);
                 result = getLabelFromUrlAddress(urlAddress);
+                return result;
                 if (result != null) {
+                    play.Logger.debug("Fetch from db after LookUp-Error " + result);
                     addJsonDataIntoDBCache(result);
                     return result;
                 }
