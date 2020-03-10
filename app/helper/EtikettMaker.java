@@ -246,17 +246,18 @@ public class EtikettMaker {
             play.Logger.error(e.getMessage());
         }
 
-        play.Logger.info(url.getHost());
+        play.Logger.info(url.getHost() + "/" + url.getPath());
 
         try {
             Etikett result = getValue(urlAddress);
             if (result == null) {
                 result = getLabelFromUrlAddress(urlAddress);
-                if (result != null) {
+                if (result == null) {
                     addJsonDataIntoDBCache(result);
                     play.Logger.debug("LookUp Label for the first time");
                     return result;
-                } else if (result.getLabel().equals(result.getUri()) && resolverProp.containsKey(url.getHost())) {
+                } else if (result.getLabel().equals(result.getUri())
+                        && resolverProp.containsKey(url.getHost() + "/" + url.getPath())) {
                     addJsonDataIntoDBCache(result);
                     play.Logger.debug("LookUp Label because label equals URL");
                     return result;
