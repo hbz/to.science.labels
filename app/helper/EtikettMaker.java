@@ -250,19 +250,23 @@ public class EtikettMaker {
 
         try {
             Etikett result = getValue(urlAddress);
-            if (result != null
-                    && (!result.getLabel().equals(result.getUri()) || resolverProp.containsKey(url.getHost()))) {
-                play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
-                return result;
-            } else {
+            if (result == null) {
                 result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
+                    play.Logger.debug("LookUp Label for the first time");
+                    return result;
+                } else if (result.getLabel().equals(result.getUri()) && resolverProp.containsKey(url.getHost())) {
+                    addJsonDataIntoDBCache(result);
+                    play.Logger.debug("LookUp Label because label equals URL");
+                    return result;
+                } else {
+                    play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                     return result;
                 }
             }
         } catch (Exception e) {
-            play.Logger.warn("", e);
+            play.Logger.warn(e.getMessage());
         }
         Etikett result = new Etikett(urlAddress);
         result.label = urlAddress;
