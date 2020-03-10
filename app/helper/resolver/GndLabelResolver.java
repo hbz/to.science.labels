@@ -41,7 +41,7 @@ public class GndLabelResolver extends LabelResolver implements LabelResolverInte
     final public static String protocol = "https://";
     final public static String alternateProtocol = "http://";
     final public static String namespace = "d-nb.info/standards/elementset/gnd#";
-    final public static String domain = "d-nb.info/gnd/";
+    final public static String domain = "d-nb.info";
 
     final public static String id = alternateProtocol + domain;
     final public static String id2 = protocol + domain;

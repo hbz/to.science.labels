@@ -246,28 +246,26 @@ public class EtikettMaker {
             play.Logger.error(e.getMessage());
         }
 
-        play.Logger.info(url.getHost() + "/" + url.getPath());
+        play.Logger.info(url.getHost() + url.getPath());
 
         try {
             Etikett result = getValue(urlAddress);
 
             if (result == null) {
-                play.Logger.debug("LookUp from Resolver 0 " + result);
+                play.Logger.debug("LookUp from Resolver");
                 result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {
-                    play.Logger.debug("Fetch from db after LookUp-Error " + result);
                     addJsonDataIntoDBCache(result);
                 }
+                play.Logger.debug("LookUp from Resolver found: " + result.getLabel());
                 return result;
 
-            } else if (result.getLabel().equals(result.getUri())
-                    && resolverProp.containsKey(url.getHost() + "/" + url.getPath())) {
-                play.Logger.debug("LookUp from Resolver 1 " + result);
+            } else if (result.getLabel().equals(result.getUri()) && resolverProp.containsKey(url.getHost())) {
                 result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {
-                    play.Logger.debug("Fetch from db after LookUp-Error " + result);
                     addJsonDataIntoDBCache(result);
                 }
+                play.Logger.debug("Retried LookUp from Resolver found: " + result.getLabel());
                 return result;
 
             } else {

@@ -36,7 +36,7 @@ public class CrossrefLabelResolver extends LabelResolver implements LabelResolve
     final public static String protocol = "https://";
     final public static String alternateProtocol = "http://";
     final public static String namespace = "d-nb.info/standards/elementset/gnd#";
-    final public static String domain = "dx.doi.org/10.13039";
+    final public static String domain = "dx.doi.org";
 
     final public static String id = alternateProtocol + domain;
     final public static String id2 = protocol + domain;
