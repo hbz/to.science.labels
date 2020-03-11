@@ -319,8 +319,9 @@ public class EtikettMaker {
         Enumeration<Object> rit = resolverProp.keys();
 
         while (rit.hasMoreElements()) {
-            String resolverName = resolverProp.getProperty((String) rit.nextElement());
-            if (urlAddress.contains(resolverName)) {
+            String key = (String) rit.nextElement();
+            String resolverName = resolverProp.getProperty(key);
+            if (urlAddress.contains(key)) {
                 LabelResolver.Factory.getInstance(resolverName);
                 return LabelResolver.lookup(urlAddress, lang);
             }
