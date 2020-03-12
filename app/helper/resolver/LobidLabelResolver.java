@@ -39,7 +39,7 @@ public class LobidLabelResolver extends LabelResolver implements LabelResolverIn
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         try {
             String rdfAddress = uri;
 

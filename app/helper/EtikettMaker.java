@@ -21,6 +21,7 @@ import helper.resolver.CrossrefLabelResolver;
 import helper.resolver.GeonamesLabelResolver;
 import helper.resolver.GndLabelResolver;
 import helper.resolver.LabelResolver;
+import helper.resolver.LabelResolverProperties;
 import helper.resolver.LobidLabelResolver;
 import helper.resolver.OpenStreetMapLabelResolver;
 import helper.resolver.OrcidLabelResolver;
@@ -96,29 +97,7 @@ public class EtikettMaker {
         ID_ALIAS = Play.application().configuration().getString("etikett.alias.id");
         TYPE_ALIAS = Play.application().configuration().getString("etikett.alias.type");
 
-        setLabelResolvers();
-    }
-
-    /**
-     * Set Properties that takes all available LabelResolvers (extends
-     * LabelResolver and implementing LabelResolverInterface). If a new
-     * LabelResolver is added, please set an new Property here
-     */
-    private void setLabelResolvers() {
-        resolverProp.setProperty(new CrossrefLabelResolver().getResolverDomain(),
-                new CrossrefLabelResolver().getLabelResolverClassName());
-        resolverProp.setProperty(new GeonamesLabelResolver().getResolverDomain(),
-                new GeonamesLabelResolver().getLabelResolverClassName());
-        resolverProp.setProperty(new GndLabelResolver().getResolverDomain(),
-                new GndLabelResolver().getLabelResolverClassName());
-        resolverProp.setProperty(new LobidLabelResolver().getResolverDomain(),
-                new LobidLabelResolver().getLabelResolverClassName());
-        resolverProp.setProperty(new LobidLabelResolver().getResolverDomain(),
-                new LobidLabelResolver().getLabelResolverClassName());
-        resolverProp.setProperty(new OpenStreetMapLabelResolver().getResolverDomain(),
-                new OpenStreetMapLabelResolver().getLabelResolverClassName());
-        resolverProp.setProperty(new OrcidLabelResolver().getResolverDomain(),
-                new OrcidLabelResolver().getLabelResolverClassName());
+        resolverProp = LabelResolverProperties.getLabelResolverProperties();
     }
 
     /**
@@ -251,25 +230,23 @@ public class EtikettMaker {
         try {
             Etikett result = getValue(urlAddress);
 
-            if (result == null) {
-                play.Logger.debug("LookUp from Resolver");
-                result = getLabelFromUrlAddress(urlAddress);
-                if (result != null) {
-                    addJsonDataIntoDBCache(result);
+            // Etikett already exists in Etiketts persistence DB
+            if (result != null) {
+                play.Logger.debug("Comparing " + result.getLabel() + " and " + result.getUri());
+                if (result.getLabel().equals(result.getUri())) {
+                    play.Logger.debug(
+                            "Check if Label is from known LabelResolver " + resolverProp.getProperty(url.getHost()));
+                    if (resolverProp.containsKey(url.getHost())) {
+                        result = getLabelFromUrlAddress(urlAddress);
+                        addJsonDataIntoDBCache(result);
+                        return result;
+                    }
                 }
-                play.Logger.debug("LookUp from Resolver found: " + result.getLabel());
-                return result;
-
-            } else if (result.getLabel().equals(result.getUri()) && resolverProp.containsKey(url.getHost())) {
-                result = getLabelFromUrlAddress(urlAddress);
-                if (result != null) {
-                    addJsonDataIntoDBCache(result);
-                }
-                play.Logger.debug("Retried LookUp from Resolver found: " + result.getLabel());
-                return result;
-
-            } else {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
+                return result;
+            } else {
+                result = getLabelFromUrlAddress(urlAddress);
+                addJsonDataIntoDBCache(result);
                 return result;
             }
         } catch (Exception e) {
@@ -322,8 +299,7 @@ public class EtikettMaker {
             String key = (String) rit.nextElement();
             String resolverName = resolverProp.getProperty(key);
             if (urlAddress.contains(key)) {
-                LabelResolver.Factory.getInstance(resolverName);
-                return LabelResolver.lookup(urlAddress, lang);
+                return LabelResolver.getInstance(resolverName).lookup(urlAddress, lang);
             }
         }
 

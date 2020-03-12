@@ -70,7 +70,7 @@ public class GndLabelResolver extends LabelResolver implements LabelResolverInte
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
 
@@ -102,7 +102,7 @@ public class GndLabelResolver extends LabelResolver implements LabelResolverInte
         return null;
     }
 
-    private static String findLabel(Statement s, String uri) {
+    private String findLabel(Statement s, String uri) {
         if (!uri.equals(s.getSubject().stringValue())) {
             return null;
         }

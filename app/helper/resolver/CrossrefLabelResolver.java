@@ -41,7 +41,7 @@ public class CrossrefLabelResolver extends LabelResolver implements LabelResolve
     final public static String id = alternateProtocol + domain;
     final public static String id2 = protocol + domain;
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
         play.Logger.debug("Use Crossref Resolver!");
         try (InputStream in = URLUtil.urlToInputStream(new URL(uri), null)) {

@@ -33,7 +33,7 @@ public class GeonamesLabelResolver extends LabelResolver implements LabelResolve
     final public static String id = alternateProtocol + domain;
     final public static String id2 = protocol + domain;
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         try {
             return SparqlLookup.lookup(uri + "/about.rdf", "?s", "http://www.geonames.org/ontology#name", language,
                     RDFFormat.RDFXML, "application/rdf+xml");
