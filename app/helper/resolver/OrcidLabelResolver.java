@@ -39,7 +39,7 @@ public class OrcidLabelResolver extends LabelResolver implements LabelResolverIn
     final public static String id = alternateProtocol + domain;
     final public static String id2 = protocol + domain;
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from ORCID. Language selection is not supported yet! " + uri);
         try (InputStream in = URLUtil.urlToInputStream(new URL(uri), URLUtil.mapOf("Accept", "application/json"))) {
             String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));

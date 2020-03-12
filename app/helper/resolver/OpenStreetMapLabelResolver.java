@@ -35,7 +35,7 @@ public class OpenStreetMapLabelResolver extends LabelResolver implements LabelRe
     final public static String id = alternateProtocol + domain;
     final public static String id2 = protocol + domain;
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from OSM. Language selection is not supported yet! " + uri);
 
         try {
