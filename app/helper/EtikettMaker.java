@@ -200,11 +200,12 @@ public class EtikettMaker {
      */
     public Etikett findEtikett(String urlAddress) {
         try {
-            Etikett result = null;
-            result = getValue(urlAddress);
-            if (result != null && (!result.getLabel().equals(result.getUri()))) {
-                play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
-                return result;
+            Etikett result = getValue(urlAddress);
+            if (result != null) {
+                if (!result.getLabel().equals(result.getUri())) {
+                    play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
+                    return result;
+                }
             } else {
                 result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {
