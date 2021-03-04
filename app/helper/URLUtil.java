@@ -123,7 +123,7 @@ public class URLUtil {
         InputStream inputStream = null;
         try {
             con = (HttpURLConnection) url.openConnection();
-            con.setInstanceFollowRedirects(false);
+            con.setInstanceFollowRedirects(true);
             con.setConnectTimeout(15000);
             con.setReadTimeout(15000);
             if (args != null) {
