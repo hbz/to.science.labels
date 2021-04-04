@@ -1,13 +1,14 @@
-import play.Project._
+import play.Play.autoImport._
+import PlayKeys._
 
 name := """etikett"""
 
 version := "0.1.0-SNAPSHOT"
 
 libraryDependencies ++= Seq(
-  cache,javaJdbc,javaEbean,
+  cache,javaJdbc,
   "org.eclipse.rdf4j" % "rdf4j-runtime" % "2.0.1"  exclude("com.fasterxml.jackson.core","jackson-databind") exclude("com.fasterxml.jackson.core","jackson-core") exclude("com.fasterxml.jackson.core","jackson-annotations"),
-  "mysql" % "mysql-connector-java" % "5.1.18",
+  "mysql" % "mysql-connector-java" % "8.0.23",
   "com.github.jsonld-java" % "jsonld-java" % "0.8.3",
   "com.github.rjeschke" % "txtmark" % "0.13" exclude("com.fasterxml.jackson.core","jackson-databind") exclude("com.fasterxml.jackson.core","jackson-core") exclude("com.fasterxml.jackson.core","jackson-annotations"),
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.7.6",
@@ -15,4 +16,4 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-annotations" % "2.7.6"
   )
 
-playJavaSettings
+val root = (project in file(".")).enablePlugins( PlayJava, PlayEbean)
