@@ -224,12 +224,13 @@ public class EtikettMaker {
 
     private Etikett getLabelFromUrlAddress(String urlAddress) {
         Etikett result;
-        if ("admin".equals((String) Http.Context.current().args.get("role"))) {
-            result = createLabel(urlAddress);
-            if (result.label != null) {
-                return result;
-            }
+        // if ("admin".equals((String) Http.Context.current().args.get("role")))
+        // {
+        result = createLabel(urlAddress);
+        if (result.label != null) {
+            return result;
         }
+        // }
         return null;
     }
 
