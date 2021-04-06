@@ -202,7 +202,7 @@ public class EtikettMaker {
         try {
             Etikett result = getValue(urlAddress);
             if (result != null) {
-                if (!result.getLabel().equals(result.getUri())) {
+                if (!result.getLabel().startsWith("http"))  {
                     play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                     return result;
                 }
@@ -224,12 +224,13 @@ public class EtikettMaker {
 
     private Etikett getLabelFromUrlAddress(String urlAddress) {
         Etikett result;
-        if ("admin".equals((String) Http.Context.current().args.get("role"))) {
-            result = createLabel(urlAddress);
-            if (result.label != null) {
-                return result;
-            }
+        // if ("admin".equals((String) Http.Context.current().args.get("role")))
+        // {
+        result = createLabel(urlAddress);
+        if (result.label != null) {
+            return result;
         }
+        // }
         return null;
     }
 
