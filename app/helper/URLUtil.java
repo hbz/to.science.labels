@@ -30,7 +30,6 @@ import java.util.Map.Entry;
 
 import com.google.common.base.CharMatcher;
 
-
 /**
  * 
  * @author Jan Schnasse
