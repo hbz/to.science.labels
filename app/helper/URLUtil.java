@@ -30,8 +30,6 @@ import java.util.Map.Entry;
 
 import com.google.common.base.CharMatcher;
 
-import httpsConnector.Connector;
-
 /**
  * 
  * @author Jan Schnasse

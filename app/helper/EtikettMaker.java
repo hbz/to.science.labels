@@ -201,15 +201,12 @@ public class EtikettMaker {
     public Etikett findEtikett(String urlAddress) {
         try {
             Etikett result = getValue(urlAddress);
-            if (result != null) {
-                if (!result.getLabel().startsWith("http"))
-                    ;
-                {
-                    play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
-                    return result;
-                }
+            if (result != null && !result.getLabel().startsWith("http")) {
+                play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
+                return result;
             } else {
                 result = getLabelFromUrlAddress(urlAddress);
+                play.Logger.debug("We start new lookup from URL " + urlAddress);
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
                     return result;
