@@ -202,7 +202,9 @@ public class EtikettMaker {
         try {
             Etikett result = getValue(urlAddress);
             if (result != null) {
-                if (!result.getLabel().equals(result.getUri())) {
+                if (!result.getLabel().startsWith("http"))
+                    ;
+                {
                     play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                     return result;
                 }
