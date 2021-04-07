@@ -36,7 +36,7 @@ public class CrossrefLabelResolver implements LabelResolver {
     final public static String id2 = "https://dx.doi.org/10.13039";
     public final static String DOMAIN = "dx.doi.org";
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
         play.Logger.debug("Use Crossref Resolver!");
         try (InputStream in = URLUtil.urlToInputStream(new URL(uri), null)) {
