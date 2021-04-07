@@ -205,8 +205,8 @@ public class EtikettMaker {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
             } else {
-                result = getLabelFromUrlAddress(urlAddress);
                 play.Logger.debug("We start new lookup from URL " + urlAddress);
+                result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
                     return result;
@@ -256,10 +256,14 @@ public class EtikettMaker {
 
     public static String lookUpLabel(String urlAddress, String lang) {
 
+        String result = null;
         LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
-        String result = lResolver.lookup(urlAddress, lang);
+        if (lResolver != null) {
+            result = lResolver.lookup(urlAddress, lang);
+            play.Logger.debug("Get label from LabelResolver " + result);
+        }
 
-        if (result.equals(urlAddress)) {
+        if (result == null || result.equals(urlAddress)) {
             try {
                 result = DefaultLabelResolver.lookup(urlAddress, lang);
                 if (urlAddress.equals(result)) {
