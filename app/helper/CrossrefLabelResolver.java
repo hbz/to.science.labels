@@ -50,16 +50,4 @@ public class CrossrefLabelResolver implements LabelResolver {
         return null;
     }
 
-    @Override
-    public String getDomain() {
-        // TODO Auto-generated method stub
-        return DOMAIN;
-    }
-
-    @Override
-    public LabelResolver getLabelResolver() {
-        // TODO Auto-generated method stub
-        return new CrossrefLabelResolver();
-    }
-
 }
