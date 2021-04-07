@@ -22,10 +22,10 @@ public interface LabelResolver {
         public static LabelResolver getInstance(String urlString) {
             LabelResolver lResolv = null;
             URL url = createUrlFromString(urlString);
-            play.Logger.debug(url.getHost());
+            play.Logger.debug("Domain extracted from urlString: " + url.getHost());
             lResolv = getLabelResolver(url.getHost());
 
-            return null;
+            return lResolv;
         }
 
         private static URL createUrlFromString(String urlString) {
