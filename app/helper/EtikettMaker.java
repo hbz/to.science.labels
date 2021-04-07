@@ -204,7 +204,7 @@ public class EtikettMaker {
             if (result != null && !result.getLabel().equals(urlAddress)) {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
-            } else {
+            } else if (LabelResolver.Factory.existsLabelResolver(urlAddress)) {
                 play.Logger.debug("We start new lookup from URL " + urlAddress);
                 result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {

@@ -28,6 +28,11 @@ public interface LabelResolver {
             return lResolv;
         }
 
+        public static boolean existsLabelResolver(String urlString) {
+            URL url = createUrlFromString(urlString);
+            return lResolver.containsKey(url.getHost());
+        }
+
         private static URL createUrlFromString(String urlString) {
             URL url = null;
             try {
