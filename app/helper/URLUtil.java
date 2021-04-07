@@ -130,6 +130,7 @@ public class URLUtil {
         return hConn.getInputStream();
     }
 
+    @Deprecated
     private static void throwExceptionIfServerAnswersInWrongFormat(Map<String, String> args, HttpURLConnection con) {
         if (args != null) {
             String accept = args.get("accept");

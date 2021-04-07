@@ -36,7 +36,9 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  *
  */
 @SuppressWarnings("javadoc")
-public class GndLabelResolver {
+public class GndLabelResolver implements LabelResolver {
+
+    public final static String DOMAIN = "d-nb.info";
 
     final public static String protocol = "https://";
     final public static String alternateProtocol = "http://";
@@ -65,7 +67,7 @@ public class GndLabelResolver {
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
 

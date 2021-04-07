@@ -30,10 +30,11 @@ import com.google.common.io.CharStreams;
  * @author Jan Schnasse
  *
  */
-public class CrossrefLabelResolver {
+public class CrossrefLabelResolver implements LabelResolver {
 
     final public static String id = "http://dx.doi.org/10.13039";
     final public static String id2 = "https://dx.doi.org/10.13039";
+    public final static String DOMAIN = "dx.doi.org";
 
     public static String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
@@ -47,6 +48,18 @@ public class CrossrefLabelResolver {
             play.Logger.warn("Failed to find label for " + uri, e);
         }
         return null;
+    }
+
+    @Override
+    public String getDomain() {
+        // TODO Auto-generated method stub
+        return DOMAIN;
+    }
+
+    @Override
+    public LabelResolver getLabelResolver() {
+        // TODO Auto-generated method stub
+        return new CrossrefLabelResolver();
     }
 
 }

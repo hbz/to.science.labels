@@ -26,12 +26,13 @@ import java.util.Map;
  * @author Jan Schnasse
  *
  */
-public class OpenStreetMapLabelResolver {
+public class OpenStreetMapLabelResolver implements LabelResolver {
 
     final public static String id = "http://www.openstreetmap.org";
     final public static String id2 = "https://www.openstreetmap.org";
+    public final static String DOMAIN = "www.openstreetmap.org";
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from OSM. Language selection is not supported yet! " + uri);
 
         try {

@@ -29,11 +29,12 @@ import com.google.common.io.CharStreams;
  * @author Jan Schnasse
  *
  */
-public class OrcidLabelResolver {
+public class OrcidLabelResolver implements LabelResolver {
     final public static String id = "http://orcid.org";
     final public static String id2 = "https://orcid.org";
+    public final static String DOMAIN = "orcid.org";
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from ORCID. Language selection is not supported yet! " + uri);
         try (InputStream in = URLUtil.urlToInputStream(new URL(uri), URLUtil.mapOf("Accept", "application/json"))) {
             String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
@@ -46,4 +47,5 @@ public class OrcidLabelResolver {
         }
         return uri;
     }
+
 }

@@ -90,6 +90,12 @@ public class Connector {
         }
     };
 
+    /**
+     * Generates and returns URL Instance from String
+     * 
+     * @param urlString
+     * @return
+     */
     private static URL createUrl(String urlString) {
         URL url = null;
         try {
@@ -101,6 +107,12 @@ public class Connector {
         return url;
     }
 
+    /**
+     * Checks if http Status determines redirect and if redirect location is
+     * associated with protocol change from http to https. If both is true,
+     * initiate new HttpsURLConnection
+     * 
+     */
     private static void performProtocolChange() {
 
         if ((299 < getStatusCode() && getStatusCode() < 400) && getRedirectLocation().startsWith("https")) {

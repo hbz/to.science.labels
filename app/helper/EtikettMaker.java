@@ -201,7 +201,7 @@ public class EtikettMaker {
     public Etikett findEtikett(String urlAddress) {
         try {
             Etikett result = getValue(urlAddress);
-            if (result != null && !result.getLabel().startsWith("http")) {
+            if (result != null && !result.getLabel().equals(urlAddress)) {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
             } else {
@@ -223,13 +223,12 @@ public class EtikettMaker {
 
     private Etikett getLabelFromUrlAddress(String urlAddress) {
         Etikett result;
-        // if ("admin".equals((String) Http.Context.current().args.get("role")))
-        // {
-        result = createLabel(urlAddress);
-        if (result.label != null) {
-            return result;
+        if ("admin".equals((String) Http.Context.current().args.get("role"))) {
+            result = createLabel(urlAddress);
+            if (result.label != null) {
+                return result;
+            }
         }
-        // }
         return null;
     }
 
@@ -257,31 +256,20 @@ public class EtikettMaker {
 
     public static String lookUpLabel(String urlAddress, String lang) {
 
-        if (urlAddress.startsWith(GndLabelResolver.id) || urlAddress.startsWith(GndLabelResolver.id2)) {
-            return GndLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(GeonamesLabelResolver.id)
-                || urlAddress.startsWith(GeonamesLabelResolver.id2)) {
-            return GeonamesLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)
-                || urlAddress.startsWith(OpenStreetMapLabelResolver.id2)) {
-            return OpenStreetMapLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(OrcidLabelResolver.id) || urlAddress.startsWith(OrcidLabelResolver.id2)) {
-            return OrcidLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(LobidLabelResolver.id) || urlAddress.startsWith(LobidLabelResolver.id2)) {
-            return LobidLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(CrossrefLabelResolver.id)
-                || urlAddress.startsWith(CrossrefLabelResolver.id2)) {
-            return CrossrefLabelResolver.lookup(urlAddress, lang);
-        }
-        String result = urlAddress;
-        try {
-            result = DefaultLabelResolver.lookup(urlAddress, lang);
-            if (urlAddress.equals(result)) {
-                result = TitleLabelResolver.lookup(urlAddress, lang);
+        LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
+        String result = lResolver.lookup(urlAddress, lang);
+
+        if (result.equals(urlAddress)) {
+            try {
+                result = DefaultLabelResolver.lookup(urlAddress, lang);
+                if (urlAddress.equals(result)) {
+                    result = TitleLabelResolver.lookup(urlAddress, lang);
+                }
+            } catch (Exception e) {
+                play.Logger.info(e.getMessage());
             }
-        } catch (Exception e) {
-            play.Logger.info(e.getMessage());
         }
+
         return result;
     }
 
