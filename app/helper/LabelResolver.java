@@ -17,6 +17,8 @@ public interface LabelResolver {
 
     public static class Factory {
 
+        private static URL url = createUrlFromString("http://www.example.com");
+
         public static LabelResolver getInstance(String urlString) {
             LabelResolver lResolv = null;
             URL url = createUrlFromString(urlString);
@@ -32,7 +34,6 @@ public interface LabelResolver {
         }
 
         private static URL createUrlFromString(String urlString) {
-            URL url = createUrlFromString("http://www.example.com");
             try {
                 url = new URL(urlString);
             } catch (MalformedURLException e) {
