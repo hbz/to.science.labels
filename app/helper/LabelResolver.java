@@ -17,8 +17,6 @@ public interface LabelResolver {
 
     public static class Factory {
 
-        private static Hashtable<String, LabelResolver> lResolver = new Hashtable<String, LabelResolver>();
-
         public static LabelResolver getInstance(String urlString) {
             LabelResolver lResolv = null;
             URL url = createUrlFromString(urlString);
@@ -30,7 +28,7 @@ public interface LabelResolver {
 
         public static boolean existsLabelResolver(String urlString) {
             URL url = createUrlFromString(urlString);
-            return lResolver.containsKey(url.getHost());
+            return getLabelResolverTable().containsKey(url.getHost());
         }
 
         private static URL createUrlFromString(String urlString) {
@@ -44,8 +42,9 @@ public interface LabelResolver {
             return url;
         }
 
-        private static LabelResolver getLabelResolver(String domain) {
+        private static Hashtable<String, LabelResolver> getLabelResolverTable() {
 
+            Hashtable<String, LabelResolver> lResolver = new Hashtable<String, LabelResolver>();
             // put all known Class that implements the Interface into Hashtable
             lResolver.put(CrossrefLabelResolver.DOMAIN, new CrossrefLabelResolver());
             lResolver.put(OrcidLabelResolver.DOMAIN, new OrcidLabelResolver());
@@ -53,9 +52,11 @@ public interface LabelResolver {
             lResolver.put(GndLabelResolver.DOMAIN, new GndLabelResolver());
             lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
             lResolver.put(LobidLabelResolver.DOMAIN, new LobidLabelResolver());
+            return lResolver;
+        }
 
-            // return LabelResolver in accordance to the Domain requested
-            return lResolver.get(domain);
+        private static LabelResolver getLabelResolver(String domain) {
+            return getLabelResolverTable().get(domain);
         }
 
     }
