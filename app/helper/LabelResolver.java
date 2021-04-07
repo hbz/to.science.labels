@@ -28,19 +28,16 @@ public interface LabelResolver {
 
         public static boolean existsLabelResolver(String urlString) {
             URL url = createUrlFromString(urlString);
-            if (url.getHost() != null) {
-                return getLabelResolverTable().containsKey(url.getHost());
-            }
-            return false;
+            return getLabelResolverTable().containsKey(url.getHost());
         }
 
         private static URL createUrlFromString(String urlString) {
-            URL url = null;
+            URL url = createUrlFromString("http://www.example.com");
             try {
                 url = new URL(urlString);
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                // play.Logger.warn("Can't generate URL from " + urlString);
             }
             return url;
         }
