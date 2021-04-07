@@ -28,7 +28,10 @@ public interface LabelResolver {
 
         public static boolean existsLabelResolver(String urlString) {
             URL url = createUrlFromString(urlString);
-            return getLabelResolverTable().containsKey(url.getHost());
+            if (url.getHost() != null) {
+                return getLabelResolverTable().containsKey(url.getHost());
+            }
+            return false;
         }
 
         private static URL createUrlFromString(String urlString) {
