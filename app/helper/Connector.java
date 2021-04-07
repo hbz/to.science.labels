@@ -54,6 +54,7 @@ public class Connector {
             httpStatus = httpConn.getResponseCode();
             redirectLocation = httpConn.getHeaderField("Location");
             inStream = httpConn.getInputStream();
+            play.Logger.debug("http Status Code: " + httpStatus + "Location Header: " + redirectLocation);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -75,6 +76,7 @@ public class Connector {
             httpStatus = httpsConn.getResponseCode();
             redirectLocation = httpsConn.getHeaderField("Location");
             inStream = httpsConn.getInputStream();
+            play.Logger.debug("http Status Code: " + httpStatus + "Location Header: " + redirectLocation);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -116,7 +118,7 @@ public class Connector {
     private static void performProtocolChange() {
 
         if ((299 < getStatusCode() && getStatusCode() < 400) && getRedirectLocation().startsWith("https")) {
-            System.out.println("found https-protocol and redirect-location: " + getRedirectLocation());
+            play.Logger.debug("found https-protocol and redirect-location: " + getRedirectLocation());
             urlConn = getHttpsConn(createUrl(getRedirectLocation()));
         }
 
