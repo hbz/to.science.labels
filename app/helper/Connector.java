@@ -167,6 +167,13 @@ public class Connector {
          */
         public static Connector getInstance(URL url) {
 
+            // free static variables
+            protocol = -1;
+            httpStatus = -1;
+            redirectLocation = null;
+            reqProp = new Properties();
+            inStream = null;
+
             if (url.getProtocol().equals("http")) {
                 protocol = HTTP;
             } else {
