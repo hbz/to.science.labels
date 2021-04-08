@@ -54,7 +54,9 @@ public class Connector {
             httpStatus = httpConn.getResponseCode();
             redirectLocation = httpConn.getHeaderField("Location");
             inStream = httpConn.getInputStream();
-            play.Logger.debug("http Status Code: " + httpStatus + "Location Header: " + redirectLocation);
+            play.Logger.debug(
+                    "http Status Code: " + httpStatus + ", Location Header: " + redirectLocation + "\n Connection : "
+                            + httpConn.toString() + "\n ContentType der Response: " + httpConn.getContentType());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
