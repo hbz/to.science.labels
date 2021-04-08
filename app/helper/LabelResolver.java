@@ -34,13 +34,15 @@ public interface LabelResolver {
         }
 
         private static URL createUrlFromString(String urlString) {
+            URL createdUrl = null;
             try {
-                url = new URL(urlString);
+                createdUrl = new URL(urlString);
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
-                // play.Logger.warn("Can't generate URL from " + urlString);
+                play.Logger.warn("Can't generate URL from " + urlString);
+                createdUrl = url;
             }
-            return url;
+            return createdUrl;
         }
 
         private static Hashtable<String, LabelResolver> getLabelResolverTable() {
