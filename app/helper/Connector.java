@@ -167,7 +167,7 @@ public class Connector {
          */
         public static Connector getInstance(URL url) {
 
-            // free static variables
+            // first free all static variables
             protocol = -1;
             httpStatus = -1;
             redirectLocation = null;
