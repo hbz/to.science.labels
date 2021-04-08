@@ -209,6 +209,13 @@ public class EtikettMaker {
                 result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
+                    // create additional Etikett if Etikett.uri differs from
+                    // urlAddress
+                    // TODO: extinct protocol from Etikett uris
+                    if (!result.uri.equals(urlAddress)) {
+                        result.uri = urlAddress;
+                        addJsonDataIntoDBCache(result);
+                    }
                     return result;
                 }
             }
