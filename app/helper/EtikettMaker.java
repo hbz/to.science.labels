@@ -344,7 +344,7 @@ public class EtikettMaker {
         if (cur.referenceType != null && cur.referenceType.isEmpty()) {
             cur.referenceType = null;
         }
-        cur.setType(Etikett.EtikettType.CACHE);
+        cur.setType(Etikett.EtikettType.STORE);
         Ebean.save(cur);
     }
 
