@@ -87,7 +87,7 @@ public class RdfUtils {
         try (InputStream in = URLUtil.urlToInputStream(url, URLUtil.mapOf("Accept", accept))) {
             return readRdfToGraph(in, inf, url.toString());
         } catch (Exception e) {
-            play.Logger.error("Skip use of RDFUtils due to wrong response type " + uri, e);
+            play.Logger.error("Skip use of RDFUtils due to wrong response type " + url);
         }
 
     }
