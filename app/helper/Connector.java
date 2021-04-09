@@ -33,6 +33,8 @@ public class Connector {
     private String redirectLocation = null;
     private Properties reqProp = new Properties();
     private InputStream inStream = null;
+    private String typeAccepted = null;
+    private String contentType = null;
 
     private Connector() {
 
@@ -56,6 +58,8 @@ public class Connector {
             httpStatus = httpConn.getResponseCode();
             this.redirectLocation = httpConn.getHeaderField("Location");
             this.inStream = httpConn.getInputStream();
+            this.typeAccepted = httpConn.getRequestProperty("Accept");
+            this.contentType = httpConn.getContentType();
             play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
                     + "\n Connection : " + httpConn.toString() + "\n ContentType der Response: "
                     + httpConn.getContentType() + "\n Accept-Header " + httpConn.getRequestProperty("Accept"));
@@ -80,6 +84,8 @@ public class Connector {
             this.httpStatus = httpsConn.getResponseCode();
             this.redirectLocation = httpsConn.getHeaderField("Location");
             this.inStream = httpsConn.getInputStream();
+            this.typeAccepted = httpsConn.getRequestProperty("Accept");
+            this.contentType = httpsConn.getContentType();
             play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
                     + "\n Connection : " + httpsConn.toString() + "\n ContentType der Response: "
                     + httpsConn.getContentType() + "\n Accept-Header " + httpsConn.getRequestProperty("Accept"));
@@ -145,16 +151,12 @@ public class Connector {
         reqProp.put(key, value);
     }
 
-    public Map<String, List<String>> getRequestProperties() {
-        return urlConn.getRequestProperties();
-    }
-
     public String getTypeAccepted() {
-        return urlConn.getRequestProperty("Accept");
+        return typeAccepted;
     }
 
     public String getContentType() {
-        return urlConn.getContentType();
+        return contentType;
     }
 
     public void connect() {
@@ -181,13 +183,6 @@ public class Connector {
          * @return
          */
         public static Connector getInstance(URL url) {
-
-            // first free all static variables
-            conn.protocol = -1;
-            conn.httpStatus = -1;
-            conn.redirectLocation = null;
-            conn.reqProp = new Properties();
-            conn.inStream = null;
 
             if (url.getProtocol().equals("http")) {
                 conn.protocol = HTTP;

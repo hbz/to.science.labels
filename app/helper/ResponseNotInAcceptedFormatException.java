@@ -1,5 +1,5 @@
 package helper;
 
-public class ResponseNotInAcceptedFormatException extends Exception {
+public class ResponseNotInAcceptedFormatException extends RuntimeException {
 
 }

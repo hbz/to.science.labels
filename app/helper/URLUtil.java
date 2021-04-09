@@ -128,8 +128,7 @@ public class URLUtil {
             }
         }
         hConn.connect();
-        if (hConn.getRequestProperties().containsKey("Accept")
-                && !hConn.getTypeAccepted().equals(hConn.getContentType())) {
+        if ((hConn.getTypeAccepted() != null) && !hConn.getTypeAccepted().equals(hConn.getContentType())) {
             throw new ResponseNotInAcceptedFormatException();
         } else {
             return hConn.getInputStream();
