@@ -80,6 +80,7 @@ public class GndLabelResolver implements LabelResolver {
             Collection<Statement> statement = RdfUtils.readRdfToGraph(getConnector(uri, "application/rdf+xml"),
                     RDFFormat.RDFXML);
 
+            play.Logger.debug("created Satement ? " + statement.toString());
             Iterator<Statement> sit = statement.iterator();
 
             while (sit.hasNext()) {
