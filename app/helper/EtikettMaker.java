@@ -201,7 +201,7 @@ public class EtikettMaker {
     public Etikett findEtikett(String urlAddress) {
         try {
             Etikett result = getValue(urlAddress);
-            if (result.getType().equals(Etikett.EtikettType.CACHE)) {
+            if (result == null || result.getType().equals(Etikett.EtikettType.CACHE)) {
                 play.Logger.debug("Perform Label lookup from URL " + urlAddress);
                 result = getLabelFromUrlAddress(urlAddress);
                 addJsonDataIntoDBCache(result);
