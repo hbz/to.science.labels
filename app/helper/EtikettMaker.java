@@ -201,10 +201,10 @@ public class EtikettMaker {
     public Etikett findEtikett(String urlAddress) {
         try {
             Etikett result = getValue(urlAddress);
-            if (result != null && !result.getLabel().equals(urlAddress)) {
+            if (result != null && !result.getType().equals(Etikett.EtikettType.CACHE)) {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
                 return result;
-            } else if (LabelResolver.Factory.existsLabelResolver(urlAddress)) {
+            } else {
                 play.Logger.debug("We start new lookup from URL " + urlAddress);
                 result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {
@@ -344,7 +344,7 @@ public class EtikettMaker {
         if (cur.referenceType != null && cur.referenceType.isEmpty()) {
             cur.referenceType = null;
         }
-        cur.setType(Etikett.EtikettType.STORE);
+        cur.setType(Etikett.EtikettType.CACHE);
         Ebean.save(cur);
     }
 
