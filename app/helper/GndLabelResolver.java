@@ -91,7 +91,7 @@ public class GndLabelResolver implements LabelResolver {
                             play.Logger.info("Found Label: " + label);
                             return label;
                         } else {
-                            String label = findLabel(newS, sslUrl);
+                            label = findLabel(newS, sslUrl);
                             if (label != null) {
                                 play.Logger.info("Found Label with https: " + label);
                                 return label;
