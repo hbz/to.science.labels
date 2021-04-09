@@ -118,7 +118,8 @@ public class URLUtil {
         return -1;
     }
 
-    public static InputStream urlToInputStream(URL url, Map<String, String> args) {
+    public static InputStream urlToInputStream(URL url, Map<String, String> args)
+            throws ResponseNotInAcceptedFormatException {
 
         Connector hConn = Connector.Factory.getInstance(url);
         if (args != null) {
@@ -127,7 +128,13 @@ public class URLUtil {
             }
         }
         hConn.connect();
-        return hConn.getInputStream();
+        if (hConn.getRequestProperties().containsKey("Accept")
+                && !hConn.getTypeAccepted().equals(hConn.getContentType())) {
+            throw new ResponseNotInAcceptedFormatException();
+        } else {
+            return hConn.getInputStream();
+
+        }
     }
 
     @Deprecated

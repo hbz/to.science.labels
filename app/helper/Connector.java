@@ -10,6 +10,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -22,7 +24,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class Connector {
 
-    private static URLConnection urlConn = null;
+    private URLConnection urlConn = null;
     private URL url = null;
     private static final int HTTP = 0;
     private static final int HTTPS = 1;
@@ -56,7 +58,7 @@ public class Connector {
             this.inStream = httpConn.getInputStream();
             play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
                     + "\n Connection : " + httpConn.toString() + "\n ContentType der Response: "
-                    + httpConn.getContentType() + "\n Accept-Header " + httpConn.getHeaderField("Accept"));
+                    + httpConn.getContentType() + "\n Accept-Header " + httpConn.getRequestProperty("Accept"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -80,7 +82,7 @@ public class Connector {
             this.inStream = httpsConn.getInputStream();
             play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
                     + "\n Connection : " + httpsConn.toString() + "\n ContentType der Response: "
-                    + httpsConn.getContentType() + "\n Accept-Header " + httpsConn.getHeaderField("Accept"));
+                    + httpsConn.getContentType() + "\n Accept-Header " + httpsConn.getRequestProperty("Accept"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -141,6 +143,18 @@ public class Connector {
 
     public void setConnectorProperty(String key, String value) {
         reqProp.put(key, value);
+    }
+
+    public Map<String, List<String>> getRequestProperties() {
+        return urlConn.getRequestProperties();
+    }
+
+    public String getTypeAccepted() {
+        return urlConn.getRequestProperty("Accept");
+    }
+
+    public String getContentType() {
+        return urlConn.getContentType();
     }
 
     public void connect() {
