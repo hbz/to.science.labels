@@ -95,7 +95,7 @@ public class GndLabelResolver implements LabelResolver {
                             play.Logger.info("Found Label: " + label);
                             return label;
                         } else {
-                            label = findLabel(newS, conn.getFinalUrl());
+                            label = findLabel(newS, conn.getFinalUrl().toString());
                             if (label != null) {
                                 play.Logger.info("Found Label with last redirected Url: " + label);
                                 return label;
