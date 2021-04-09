@@ -199,22 +199,26 @@ public class EtikettMaker {
      * @return data associated with the url
      */
     public Etikett findEtikett(String urlAddress) {
+        Etikett result = null;
+        result = getValue(urlAddress);
         try {
-            Etikett result = getValue(urlAddress);
-            if (result == null || result.getType().equals(Etikett.EtikettType.CACHE)) {
+            if ((result == null || result.getType().equals(Etikett.EtikettType.CACHE))
+                    && urlAddress.startsWith("http")) {
                 play.Logger.debug("Perform Label lookup from URL " + urlAddress);
                 result = getLabelFromUrlAddress(urlAddress);
-                addJsonDataIntoDBCache(result);
-                return result;
+                if (result != null) {
+                    addJsonDataIntoDBCache(result);
+                }
             } else {
                 play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
-                return result;
             }
         } catch (Exception e) {
             play.Logger.warn("", e);
         }
-        Etikett result = new Etikett(urlAddress);
-        result.label = urlAddress;
+        if (result == null) {
+            result = new Etikett(urlAddress);
+            result.label = urlAddress;
+        }
         return result;
 
     }
