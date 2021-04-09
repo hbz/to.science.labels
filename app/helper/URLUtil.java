@@ -118,16 +118,6 @@ public class URLUtil {
         return -1;
     }
 
-    public static InputStream urlToInputStream(Connector hConn) throws ResponseNotInAcceptedFormatException {
-        hConn.connect();
-        if ((hConn.getTypeAccepted() != null) && !hConn.getContentType().startsWith(hConn.getTypeAccepted())) {
-            throw new ResponseNotInAcceptedFormatException();
-        } else {
-            return hConn.getInputStream();
-
-        }
-    }
-
     public static InputStream urlToInputStream(URL url, Map<String, String> args)
             throws ResponseNotInAcceptedFormatException {
 
@@ -137,7 +127,31 @@ public class URLUtil {
                 hConn.setConnectorProperty(e.getKey(), e.getValue());
             }
         }
-        return urlToInputStream(hConn);
+        hConn.connect();
+        if ((hConn.getTypeAccepted() != null) && !hConn.getContentType().startsWith(hConn.getTypeAccepted())) {
+            throw new ResponseNotInAcceptedFormatException();
+        } else {
+            return hConn.getInputStream();
+
+        }
+    }
+
+    @Deprecated
+    private static void throwExceptionIfServerAnswersInWrongFormat(Map<String, String> args, HttpURLConnection con) {
+        if (args != null) {
+            String accept = args.get("accept");
+            if (accept != null && !accept.isEmpty()) {
+                String contentType = con.getHeaderField("Content-Type");
+                if (contentType != null && !contentType.isEmpty()) {
+                    contentType = contentType.trim().toLowerCase();
+                    accept = accept.trim().toLowerCase();
+                    if (!contentType.startsWith(accept)) {
+                        throw new RuntimeException("Website does not answer in correct format! Asked for accept:"
+                                + accept + " but got content-type:" + contentType);
+                    }
+                }
+            }
+        }
     }
 
     public static <K, V> Map<K, V> mapOf(Object... keyValues) {
@@ -151,18 +165,6 @@ public class URLUtil {
             }
         }
         return map;
-    }
-
-    /**
-     * Generates and returns URL Instance from String
-     * 
-     * @param urlString
-     * @return URL object
-     */
-    public static URL createUrl(String urlString) throws MalformedURLException {
-        URL url = null;
-        url = new URL(urlString);
-        return url;
     }
 
 }
