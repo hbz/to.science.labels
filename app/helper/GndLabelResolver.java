@@ -77,8 +77,8 @@ public class GndLabelResolver implements LabelResolver {
             // Workaround for d-nb: change protocol to https
             // String sslUrl = uri.replace("http://", "https://");
             // URL dnbUrl = new URL(sslUrl + "/about/lds");
-            Collection<Statement> statement = RdfUtils.readRdfToGraph(getConnector(uri, "application/rdf+xml"),
-                    RDFFormat.RDFXML);
+            Collection<Statement> statement = RdfUtils.readRdfToGraph(new URL(uri), RDFFormat.RDFXML,
+                    "application/rdf+xml");
 
             play.Logger.debug("created Satement ? " + statement.toString());
             Iterator<Statement> sit = statement.iterator();
@@ -96,7 +96,8 @@ public class GndLabelResolver implements LabelResolver {
                             play.Logger.info("Found Label: " + label);
                             return label;
                         } else {
-                            label = findLabel(newS, conn.getFinalUrl().toString());
+                            label = findLabel(newS,
+                                    Connector.Factory.getInstance(new URL(uri)).getFinalUrl().toString());
                             if (label != null) {
                                 play.Logger.info("Found Label with last redirected Url: " + label);
                                 return label;
