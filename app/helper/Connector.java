@@ -54,9 +54,9 @@ public class Connector {
             httpStatus = httpConn.getResponseCode();
             redirectLocation = httpConn.getHeaderField("Location");
             inStream = httpConn.getInputStream();
-            play.Logger.debug(
-                    "http Status Code: " + httpStatus + ", Location Header: " + redirectLocation + "\n Connection : "
-                            + httpConn.toString() + "\n ContentType der Response: " + httpConn.getContentType());
+            play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
+                    + "\n Connection : " + httpConn.toString() + "\n ContentType der Response: "
+                    + httpConn.getContentType() + "\n Accept-Header " + httpConn.getHeaderField("Accept"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -78,7 +78,9 @@ public class Connector {
             httpStatus = httpsConn.getResponseCode();
             redirectLocation = httpsConn.getHeaderField("Location");
             inStream = httpsConn.getInputStream();
-            play.Logger.debug("http Status Code: " + httpStatus + "Location Header: " + redirectLocation);
+            play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
+                    + "\n Connection : " + httpsConn.toString() + "\n ContentType der Response: "
+                    + httpsConn.getContentType() + "\n Accept-Header " + httpsConn.getHeaderField("Accept"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -105,8 +107,7 @@ public class Connector {
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            play.Logger.warn("cannot create URL Instance from " + urlString);
         }
         return url;
     }
