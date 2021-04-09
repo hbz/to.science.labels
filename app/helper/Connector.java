@@ -148,7 +148,7 @@ public class Connector {
     }
 
     public void setConnectorProperty(String key, String value) {
-        reqProp.put(key, value);
+        this.reqProp.put(key, value);
     }
 
     public String getTypeAccepted() {
@@ -173,8 +173,6 @@ public class Connector {
 
     public static class Factory {
 
-        private static Connector conn = new Connector();
-
         /**
          * Provide Connector Instance that automatically returns the appropriate
          * URLConnector. This is either HttpURLConnector or HttpsURLConnector.
@@ -184,10 +182,12 @@ public class Connector {
          */
         public static Connector getInstance(URL url) {
 
+            Connector conn = new Connector();
+
             if (url.getProtocol().equals("http")) {
-                conn.protocol = HTTP;
+                conn.protocol = Connector.HTTP;
             } else {
-                conn.protocol = HTTPS;
+                conn.protocol = Connector.HTTPS;
             }
             conn.url = url;
             return conn;
