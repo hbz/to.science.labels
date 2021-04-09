@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ public class Connector {
     private InputStream inStream = null;
     private String typeAccepted = null;
     private String contentType = null;
+    private URL finalUrl = null;
 
     private Connector() {
 
@@ -43,6 +45,10 @@ public class Connector {
 
     public String getRedirectLocation() {
         return this.redirectLocation;
+    }
+
+    public URL getFinalUrl() {
+        return this.finalUrl;
     }
 
     /**
@@ -61,6 +67,7 @@ public class Connector {
             this.inStream = httpConn.getInputStream();
             this.typeAccepted = httpConn.getRequestProperty("Accept");
             this.contentType = httpConn.getContentType();
+            this.finalUrl = httpConn.getURL();
             play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
                     + "\n Connection : " + httpConn.toString() + "\n ContentType der Response: "
                     + httpConn.getContentType() + "\n Accept-Header " + httpConn.getRequestProperty("Accept"));
@@ -87,6 +94,7 @@ public class Connector {
             this.inStream = httpsConn.getInputStream();
             this.typeAccepted = httpsConn.getRequestProperty("Accept");
             this.contentType = httpsConn.getContentType();
+            this.finalUrl = httpsConn.getURL();
             play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
                     + "\n Connection : " + httpsConn.toString() + "\n ContentType der Response: "
                     + httpsConn.getContentType() + "\n Accept-Header " + httpsConn.getRequestProperty("Accept"));
