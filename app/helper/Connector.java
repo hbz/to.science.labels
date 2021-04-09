@@ -26,18 +26,18 @@ public class Connector {
     private URL url = null;
     private static final int HTTP = 0;
     private static final int HTTPS = 1;
-    private static int protocol = -1;
-    private static int httpStatus = -1;
-    private static String redirectLocation = null;
-    private static Properties reqProp = new Properties();
-    private static InputStream inStream = null;
+    private int protocol = -1;
+    private int httpStatus = -1;
+    private String redirectLocation = null;
+    private Properties reqProp = new Properties();
+    private InputStream inStream = null;
 
     private Connector() {
 
     }
 
-    public static String getRedirectLocation() {
-        return redirectLocation;
+    public String getRedirectLocation() {
+        return this.redirectLocation;
     }
 
     /**
@@ -46,14 +46,14 @@ public class Connector {
      * @param url
      * @return HttpURLConnection
      */
-    private static HttpURLConnection getHttpConn(URL url) {
+    private HttpURLConnection getHttpConn(URL url) {
         HttpURLConnection httpConn = null;
         try {
             httpConn = (HttpURLConnection) url.openConnection();
             addProperties(httpConn);
             httpStatus = httpConn.getResponseCode();
-            redirectLocation = httpConn.getHeaderField("Location");
-            inStream = httpConn.getInputStream();
+            this.redirectLocation = httpConn.getHeaderField("Location");
+            this.inStream = httpConn.getInputStream();
             play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
                     + "\n Connection : " + httpConn.toString() + "\n ContentType der Response: "
                     + httpConn.getContentType() + "\n Accept-Header " + httpConn.getHeaderField("Accept"));
@@ -70,14 +70,14 @@ public class Connector {
      * @param url
      * @return HttpsURLConnection
      */
-    private static HttpsURLConnection getHttpsConn(URL url) {
+    private HttpsURLConnection getHttpsConn(URL url) {
         HttpsURLConnection httpsConn = null;
         try {
             httpsConn = (HttpsURLConnection) url.openConnection();
             addProperties(httpsConn);
-            httpStatus = httpsConn.getResponseCode();
-            redirectLocation = httpsConn.getHeaderField("Location");
-            inStream = httpsConn.getInputStream();
+            this.httpStatus = httpsConn.getResponseCode();
+            this.redirectLocation = httpsConn.getHeaderField("Location");
+            this.inStream = httpsConn.getInputStream();
             play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
                     + "\n Connection : " + httpsConn.toString() + "\n ContentType der Response: "
                     + httpsConn.getContentType() + "\n Accept-Header " + httpsConn.getHeaderField("Accept"));
@@ -88,7 +88,7 @@ public class Connector {
         return httpsConn;
     }
 
-    private static void addProperties(URLConnection connect) {
+    private void addProperties(URLConnection connect) {
         Enumeration<Object> propEnum = reqProp.keys();
         while (propEnum.hasMoreElements()) {
             String key = propEnum.nextElement().toString();
@@ -118,11 +118,11 @@ public class Connector {
      * initiate new HttpsURLConnection
      * 
      */
-    private static void performProtocolChange() {
+    private void performProtocolChange() {
 
         if ((299 < getStatusCode() && getStatusCode() < 400) && getRedirectLocation().startsWith("https")) {
-            play.Logger.debug("found https-protocol and redirect-location: " + getRedirectLocation());
-            urlConn = getHttpsConn(createUrl(getRedirectLocation()));
+            play.Logger.debug("found https-protocol and redirect-location: " + this.getRedirectLocation());
+            urlConn = this.getHttpsConn(createUrl(getRedirectLocation()));
         }
 
     }
@@ -131,7 +131,7 @@ public class Connector {
         return urlConn;
     }
 
-    public static int getStatusCode() {
+    public int getStatusCode() {
         return httpStatus;
     }
 
@@ -169,18 +169,17 @@ public class Connector {
         public static Connector getInstance(URL url) {
 
             // first free all static variables
-            protocol = -1;
-            httpStatus = -1;
-            redirectLocation = null;
-            reqProp = new Properties();
-            inStream = null;
+            conn.protocol = -1;
+            conn.httpStatus = -1;
+            conn.redirectLocation = null;
+            conn.reqProp = new Properties();
+            conn.inStream = null;
 
             if (url.getProtocol().equals("http")) {
-                protocol = HTTP;
+                conn.protocol = HTTP;
             } else {
-                protocol = HTTPS;
+                conn.protocol = HTTPS;
             }
-            // performProtocolChange(conn);
             conn.url = url;
             return conn;
         }
