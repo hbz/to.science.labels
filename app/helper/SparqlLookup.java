@@ -84,7 +84,7 @@ public class SparqlLookup {
                 return null;
             }
         } catch (Exception e) {
-            play.Logger.debug("", e.getMessage());
+            play.Logger.warn("Aufgefangene Exception");
             throw new RuntimeException(e);
         }
     }

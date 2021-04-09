@@ -24,10 +24,11 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class Connector {
 
-    private URLConnection urlConn = null;
-    private URL url = null;
     private static final int HTTP = 0;
     private static final int HTTPS = 1;
+
+    private URLConnection urlConn = null;
+    private URL url = null;
     private int protocol = -1;
     private int httpStatus = -1;
     private String redirectLocation = null;
@@ -110,7 +111,7 @@ public class Connector {
      * @param urlString
      * @return
      */
-    private static URL createUrl(String urlString) {
+    private URL createUrl(String urlString) {
         URL url = null;
         try {
             url = new URL(urlString);
