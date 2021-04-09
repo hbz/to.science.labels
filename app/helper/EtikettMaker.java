@@ -201,23 +201,14 @@ public class EtikettMaker {
     public Etikett findEtikett(String urlAddress) {
         try {
             Etikett result = getValue(urlAddress);
-            if (result != null && !result.getType().equals(Etikett.EtikettType.CACHE)) {
-                play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
+            if (result.getType().equals(Etikett.EtikettType.CACHE)) {
+                play.Logger.debug("Perform Label lookup from URL " + urlAddress);
+                result = getLabelFromUrlAddress(urlAddress);
+                addJsonDataIntoDBCache(result);
                 return result;
             } else {
-                play.Logger.debug("We start new lookup from URL " + urlAddress);
-                result = getLabelFromUrlAddress(urlAddress);
-                if (result != null) {
-                    addJsonDataIntoDBCache(result);
-                    // create additional Etikett if Etikett.uri differs from
-                    // urlAddress
-                    // TODO: extinct protocol from Etikett uris
-                    if (!result.uri.equals(urlAddress)) {
-                        result.uri = urlAddress;
-                        addJsonDataIntoDBCache(result);
-                    }
-                    return result;
-                }
+                play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
+                return result;
             }
         } catch (Exception e) {
             play.Logger.warn("", e);
