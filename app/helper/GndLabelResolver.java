@@ -77,7 +77,8 @@ public class GndLabelResolver implements LabelResolver {
             // Workaround for d-nb: change protocol to https
             // String sslUrl = uri.replace("http://", "https://");
             // URL dnbUrl = new URL(sslUrl + "/about/lds");
-            Collection<Statement> statement = RdfUtils.readRdfToGraph(getConnector(uri, "application/rdf+xml"));
+            Collection<Statement> statement = RdfUtils.readRdfToGraph(getConnector(uri, "application/rdf+xml"),
+                    RDFFormat.RDFXML);
 
             Iterator<Statement> sit = statement.iterator();
 
@@ -95,9 +96,8 @@ public class GndLabelResolver implements LabelResolver {
                             return label;
                         }
                         // play.Logger.debug("Statement not feasable:" +
-                        // s.getSubject() + " " + s.getPredicate() + " " +
+                        // s.getSubject() + " " + s.getPredicate() + " "+
                         // s.getObject());
-
                     }
                 }
             }
