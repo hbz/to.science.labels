@@ -71,8 +71,10 @@ public class GndLabelResolver implements LabelResolver {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
 
-            Collection<Statement> statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
-                    "application/rdf+xml");
+            // Workaround for d-nb: change protocol to https
+            uri.replace("http://", "https://");
+            URL dnbUrl = new URL(uri + "/about/lds");
+            Collection<Statement> statement = RdfUtils.readRdfToGraph(dnbUrl, RDFFormat.RDFXML, "application/rdf+xml");
 
             Iterator<Statement> sit = statement.iterator();
 
