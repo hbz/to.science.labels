@@ -93,15 +93,10 @@ public class GndLabelResolver implements LabelResolver {
                         if (label != null) {
                             play.Logger.info("Found Label: " + label);
                             return label;
-                        } else {
-                            label = findLabel(newS, conn.getFinalUrl());
-                            if (label != null) {
-                                play.Logger.info("Found Label with last redirected Url: " + label);
-                                return label;
-                            }
                         }
-                        play.Logger.debug("Statement not feasable:" + s.getSubject() + " " + s.getPredicate() + " "
-                                + s.getObject());
+                        // play.Logger.debug("Statement not feasable:" +
+                        // s.getSubject() + " " + s.getPredicate() + " " +
+                        // s.getObject());
 
                     }
                 }
