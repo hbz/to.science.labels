@@ -274,7 +274,7 @@ public class EtikettMaker {
                     result = TitleLabelResolver.lookup(urlAddress, lang);
                 }
             } catch (Exception e) {
-                play.Logger.info(e.getMessage());
+                play.Logger.info("Lookup fails inside the LabelResolvers");
             }
         }
 

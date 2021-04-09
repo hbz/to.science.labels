@@ -97,6 +97,8 @@ public class GndLabelResolver implements LabelResolver {
                                 return label;
                             }
                         }
+                        play.Logger.debug("Statement not feasable:" + s.getSubject() + " " + s.getPredicate() + " "
+                                + s.getObject());
 
                     }
                 }
