@@ -86,7 +86,10 @@ public class RdfUtils {
     public static Collection<Statement> readRdfToGraph(URL url, RDFFormat inf, String accept) throws IOException {
         try (InputStream in = URLUtil.urlToInputStream(url, URLUtil.mapOf("Accept", accept))) {
             return readRdfToGraph(in, inf, url.toString());
+        } catch (Exception e) {
+            play.Logger.error("Skip use of RDFUtils due to wrong response type " + uri, e);
         }
+
     }
 
     public static RepositoryConnection readRdfInputStreamToRepository(InputStream is, RDFFormat inf) {
