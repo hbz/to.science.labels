@@ -45,7 +45,7 @@ public class CrossrefLabelResolver implements LabelResolver {
             String label = hit.at("/prefLabel/Label/literalForm/content").asText();
             return label;
         } catch (Exception e) {
-            play.Logger.warn("Failed to find label for " + uri, e);
+            play.Logger.warn("Failed to find label for " + uri);
         }
         return null;
     }
