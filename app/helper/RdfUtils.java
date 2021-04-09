@@ -89,6 +89,12 @@ public class RdfUtils {
         }
     }
 
+    public static Collection<Statement> readRdfToGraph(Connector conn) throws Exception {
+        try (InputStream in = URLUtil.urlToInputStream(conn)) {
+            return readRdfToGraph(in, inf, url.toString());
+        }
+    }
+
     public static RepositoryConnection readRdfInputStreamToRepository(InputStream is, RDFFormat inf) {
         RepositoryConnection con = null;
         try {

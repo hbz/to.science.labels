@@ -118,15 +118,7 @@ public class URLUtil {
         return -1;
     }
 
-    public static InputStream urlToInputStream(URL url, Map<String, String> args)
-            throws ResponseNotInAcceptedFormatException {
-
-        Connector hConn = Connector.Factory.getInstance(url);
-        if (args != null) {
-            for (Entry<String, String> e : args.entrySet()) {
-                hConn.setConnectorProperty(e.getKey(), e.getValue());
-            }
-        }
+    public static InputStream urlToInputStream(Connector hConn) throws ResponseNotInAcceptedFormatException {
         hConn.connect();
         if ((hConn.getTypeAccepted() != null) && !hConn.getContentType().startsWith(hConn.getTypeAccepted())) {
             throw new ResponseNotInAcceptedFormatException();
@@ -136,22 +128,16 @@ public class URLUtil {
         }
     }
 
-    @Deprecated
-    private static void throwExceptionIfServerAnswersInWrongFormat(Map<String, String> args, HttpURLConnection con) {
+    public static InputStream urlToInputStream(URL url, Map<String, String> args)
+            throws ResponseNotInAcceptedFormatException {
+
+        Connector hConn = Connector.Factory.getInstance(url);
         if (args != null) {
-            String accept = args.get("accept");
-            if (accept != null && !accept.isEmpty()) {
-                String contentType = con.getHeaderField("Content-Type");
-                if (contentType != null && !contentType.isEmpty()) {
-                    contentType = contentType.trim().toLowerCase();
-                    accept = accept.trim().toLowerCase();
-                    if (!contentType.startsWith(accept)) {
-                        throw new RuntimeException("Website does not answer in correct format! Asked for accept:"
-                                + accept + " but got content-type:" + contentType);
-                    }
-                }
+            for (Entry<String, String> e : args.entrySet()) {
+                hConn.setConnectorProperty(e.getKey(), e.getValue());
             }
         }
+        return urlToInputStream(hConn);
     }
 
     public static <K, V> Map<K, V> mapOf(Object... keyValues) {
@@ -165,6 +151,18 @@ public class URLUtil {
             }
         }
         return map;
+    }
+
+    /**
+     * Generates and returns URL Instance from String
+     * 
+     * @param urlString
+     * @return URL object
+     */
+    public static URL createUrl(String urlString) throws MalformedURLException {
+        URL url = null;
+        url = new URL(urlString);
+        return url;
     }
 
 }

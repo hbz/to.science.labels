@@ -72,8 +72,7 @@ public class Connector {
                     + "\n Connection : " + httpConn.toString() + "\n ContentType der Response: "
                     + httpConn.getContentType() + "\n Accept-Header " + httpConn.getRequestProperty("Accept"));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            play.Logger.warn("Could not create http-Connection");
         }
         return httpConn;
     }
@@ -99,8 +98,7 @@ public class Connector {
                     + "\n Connection : " + httpsConn.toString() + "\n ContentType der Response: "
                     + httpsConn.getContentType() + "\n Accept-Header " + httpsConn.getRequestProperty("Accept"));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            play.Logger.warn("Could not create https-Connection");
         }
         return httpsConn;
     }

@@ -17,6 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package helper;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.Normalizer;
 import java.util.Collection;
@@ -49,6 +50,8 @@ public class GndLabelResolver implements LabelResolver {
 
     public static Properties turtleObjectProp = new Properties();
 
+    private Connector conn = null;
+
     private static void setProperties() {
         turtleObjectProp.setProperty("namespace", "d-nb.info/standards/elementset/gnd#");
         turtleObjectProp.setProperty("preferredName", "preferredName");
@@ -74,7 +77,7 @@ public class GndLabelResolver implements LabelResolver {
             // Workaround for d-nb: change protocol to https
             // String sslUrl = uri.replace("http://", "https://");
             // URL dnbUrl = new URL(sslUrl + "/about/lds");
-            Collection<Statement> statement = RdfUtils.readRdfToGraph(uri, RDFFormat.RDFXML, "application/rdf+xml");
+            Collection<Statement> statement = RdfUtils.readRdfToGraph(getConnector(uri, "application/rdf+xml"));
 
             Iterator<Statement> sit = statement.iterator();
 
@@ -91,9 +94,9 @@ public class GndLabelResolver implements LabelResolver {
                             play.Logger.info("Found Label: " + label);
                             return label;
                         } else {
-                            label = findLabel(newS, fUrl);
+                            label = findLabel(newS, conn.getFinalUrl());
                             if (label != null) {
-                                play.Logger.info("Found Label with https: " + label);
+                                play.Logger.info("Found Label with last redirected Url: " + label);
                                 return label;
                             }
                         }
@@ -135,4 +138,18 @@ public class GndLabelResolver implements LabelResolver {
         }
         return null;
     }
+
+    public Connector getConnector(String urlString, String accept) {
+        conn = null;
+        URL url;
+        try {
+            url = URLUtil.createUrl(urlString);
+            Connector conn = Connector.Factory.getInstance(url);
+            conn.setConnectorProperty("Accept", accept);
+        } catch (MalformedURLException e) {
+            play.Logger.warn("Can't create Connector from " + urlString);
+        }
+        return conn;
+    }
+
 }
