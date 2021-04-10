@@ -210,10 +210,11 @@ public class EtikettMaker {
                     addJsonDataIntoDBCache(result);
                 }
             } else {
-                play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
+                play.Logger.debug("Fetch from db " + result);
+                // + " " + result.getMultiLangSerialized());
             }
         } catch (Exception e) {
-            play.Logger.warn("", e);
+            play.Logger.warn("Label konnte nicht gefunden werden");
         }
         if (result == null) {
             result = new Etikett(urlAddress);

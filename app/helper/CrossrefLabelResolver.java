@@ -39,15 +39,27 @@ public class CrossrefLabelResolver implements LabelResolver {
     public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
         play.Logger.debug("Use Crossref Resolver!");
-        try (InputStream in = URLUtil.urlToInputStream(new URL(uri), URLUtil.mapOf("Accept", "application/json"))) {
-            String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
-            JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
-            String label = hit.at("/prefLabel/Label/literalForm/content").asText();
-            return label;
-        } catch (Exception e) {
-            play.Logger.warn("Failed to find label for " + uri);
+        if (isCrossrefFunderUrl(uri)) {
+            try (InputStream in = URLUtil.urlToInputStream(new URL(uri), URLUtil.mapOf("Accept", "application/json"))) {
+                String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+                JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
+                String label = hit.at("/prefLabel/Label/literalForm/content").asText();
+                return label;
+            } catch (Exception e) {
+                play.Logger.warn("Failed to find label for " + uri);
+            }
+        } else {
+            play.Logger.debug("Nothing to do here: DOI is not a CrossrefFunder DOI");
         }
-        return null;
+        return uri;
+    }
+
+    private boolean isCrossrefFunderUrl(String urlString) {
+        boolean isFunderUrl = false;
+        if (urlString.contains("10.13039")) {
+            isFunderUrl = true;
+        }
+        return isFunderUrl;
     }
 
 }
