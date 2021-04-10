@@ -119,48 +119,18 @@ public class URLUtil {
     }
 
     public static InputStream urlToInputStream(URL url, Map<String, String> args) {
-        HttpURLConnection con = null;
-        InputStream inputStream = null;
-        try {
-            con = (HttpURLConnection) url.openConnection();
-            con.setInstanceFollowRedirects(true);
-            con.setConnectTimeout(15000);
-            con.setReadTimeout(15000);
-            if (args != null) {
-                for (Entry<String, String> e : args.entrySet()) {
-                    con.setRequestProperty(e.getKey(), e.getValue());
-                }
+
+        Connector hConn = Connector.Factory.getInstance(url);
+        if (args != null) {
+            for (Entry<String, String> e : args.entrySet()) {
+                hConn.setConnectorProperty(e.getKey(), e.getValue());
             }
-            con.connect();
-            int responseCode = con.getResponseCode();
-            /*
-             * By default the connection will follow redirects. The following
-             * block is only entered if the implementation of HttpURLConnection
-             * does not perform the redirect. The exact behavior depends to the
-             * actual implementation (e.g. sun.net). !!! Attention: This block
-             * allows the connection to switch protocols (e.g. HTTP to HTTPS),
-             * which is <b>not</b> default behavior. See:
-             * https://stackoverflow.com/questions/1884230 for more info!!!
-             */
-            if (responseCode < 400 && responseCode > 299) {
-                String redirectUrl = con.getHeaderField("Location");
-                try {
-                    URL newUrl = new URL(redirectUrl);
-                    return urlToInputStream(newUrl, args);
-                } catch (MalformedURLException e) {
-                    URL newUrl = new URL(url.getProtocol() + "://" + url.getHost() + redirectUrl);
-                    return urlToInputStream(newUrl, args);
-                }
-            }
-            /* !!!!! */
-            throwExceptionIfServerAnswersInWrongFormat(args, con);
-            inputStream = con.getInputStream();
-            return inputStream;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
+        hConn.connect();
+        return hConn.getInputStream();
     }
 
+    @Deprecated
     private static void throwExceptionIfServerAnswersInWrongFormat(Map<String, String> args, HttpURLConnection con) {
         if (args != null) {
             String accept = args.get("accept");
@@ -178,6 +148,17 @@ public class URLUtil {
         }
     }
 
+    /**
+     * Method was created within a versin using massive static contexts. Will be
+     * replaced because of refactoring makes more use of an object oriented
+     * approach
+     * 
+     * @param <K>
+     * @param <V>
+     * @param keyValues
+     * @return
+     */
+    @Deprecated
     public static <K, V> Map<K, V> mapOf(Object... keyValues) {
         Map<K, V> map = new HashMap<>();
         K key = null;
@@ -190,4 +171,5 @@ public class URLUtil {
         }
         return map;
     }
+
 }

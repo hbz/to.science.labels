@@ -23,16 +23,17 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  * @author Jan Schnasse
  *
  */
-public class LobidLabelResolver {
+public class LobidLabelResolver implements LabelResolver {
     final public static String id = "http://lobid.org/resources";
     final public static String id2 = "https://lobid.org/resources";
+    public final static String DOMAIN = "lobid.org";
 
     /**
      * @param uri
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         try {
             String rdfAddress = uri;
 

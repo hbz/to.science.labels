@@ -36,7 +36,9 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  *
  */
 @SuppressWarnings("javadoc")
-public class GndLabelResolver {
+public class GndLabelResolver implements LabelResolver {
+
+    public final static String DOMAIN = "d-nb.info";
 
     final public static String protocol = "https://";
     final public static String alternateProtocol = "http://";
@@ -65,12 +67,14 @@ public class GndLabelResolver {
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
 
-            Collection<Statement> statement = RdfUtils.readRdfToGraph(new URL(uri + "/about/lds"), RDFFormat.RDFXML,
-                    "application/rdf+xml");
+            // Workaround for d-nb: change protocol to https
+            String sslUrl = uri.replace("http://", "https://");
+            URL dnbUrl = new URL(sslUrl + "/about/lds");
+            Collection<Statement> statement = RdfUtils.readRdfToGraph(dnbUrl, RDFFormat.RDFXML, "application/rdf+xml");
 
             Iterator<Statement> sit = statement.iterator();
 
@@ -86,13 +90,24 @@ public class GndLabelResolver {
                         if (label != null) {
                             play.Logger.info("Found Label: " + label);
                             return label;
+                        } else {
+                            label = findLabel(newS, sslUrl);
+                            if (label != null) {
+                                play.Logger.info("Found Label with https: " + label);
+                                return label;
+                            }
                         }
+                        // play.Logger.debug("Statement not feasable:" +
+                        // s.getSubject() + " " + s.getPredicate() + " " +
+                        // s.getObject());
+
                     }
                 }
             }
+            play.Logger.info("GndLabelResolver.findLabel failed to find Label within Statement");
 
         } catch (Exception e) {
-            play.Logger.error("Failed to find label for " + uri, e);
+            play.Logger.error("Failed to find label for " + uri);
         }
         return null;
     }

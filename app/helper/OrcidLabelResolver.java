@@ -20,6 +20,8 @@ package helper;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashMap;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -29,13 +31,16 @@ import com.google.common.io.CharStreams;
  * @author Jan Schnasse
  *
  */
-public class OrcidLabelResolver {
+public class OrcidLabelResolver implements LabelResolver {
     final public static String id = "http://orcid.org";
     final public static String id2 = "https://orcid.org";
+    public final static String DOMAIN = "orcid.org";
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from ORCID. Language selection is not supported yet! " + uri);
-        try (InputStream in = URLUtil.urlToInputStream(new URL(uri), URLUtil.mapOf("Accept", "application/json"))) {
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Accept", "application/json");
+        try (InputStream in = URLUtil.urlToInputStream(new URL(uri), headers)) {
             String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
             JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
             String label = hit.at("/person/name/family-name/value").asText() + ", "
@@ -46,4 +51,5 @@ public class OrcidLabelResolver {
         }
         return uri;
     }
+
 }

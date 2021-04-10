@@ -199,25 +199,27 @@ public class EtikettMaker {
      * @return data associated with the url
      */
     public Etikett findEtikett(String urlAddress) {
+        Etikett result = null;
+        result = getValue(urlAddress);
         try {
-            Etikett result = getValue(urlAddress);
-            if (result != null) {
-                if (!result.getLabel().equals(result.getUri())) {
-                    play.Logger.debug("Fetch from db " + result + " " + result.getMultiLangSerialized());
-                    return result;
-                }
-            } else {
+            if ((result == null || result.getType().equals(Etikett.EtikettType.CACHE))
+                    && urlAddress.startsWith("http")) {
+                play.Logger.debug("Perform Label lookup from URL " + urlAddress);
                 result = getLabelFromUrlAddress(urlAddress);
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
-                    return result;
                 }
+            } else {
+                play.Logger.debug("Fetch from db " + result);
+                // + " " + result.getMultiLangSerialized());
             }
         } catch (Exception e) {
-            play.Logger.warn("", e);
+            play.Logger.warn("Label konnte nicht gefunden werden");
         }
-        Etikett result = new Etikett(urlAddress);
-        result.label = urlAddress;
+        if (result == null) {
+            result = new Etikett(urlAddress);
+            result.label = urlAddress;
+        }
         return result;
 
     }
@@ -243,7 +245,7 @@ public class EtikettMaker {
         }
     }
 
-    public static String lookUpLabel(String urlAddress) {
+    public String lookUpLabel(String urlAddress) {
         return lookUpLabel(urlAddress, getDefaultLanguage());
     }
 
@@ -255,33 +257,28 @@ public class EtikettMaker {
         return language;
     }
 
-    public static String lookUpLabel(String urlAddress, String lang) {
+    public String lookUpLabel(String urlAddress, String lang) {
 
-        if (urlAddress.startsWith(GndLabelResolver.id) || urlAddress.startsWith(GndLabelResolver.id2)) {
-            return GndLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(GeonamesLabelResolver.id)
-                || urlAddress.startsWith(GeonamesLabelResolver.id2)) {
-            return GeonamesLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(OpenStreetMapLabelResolver.id)
-                || urlAddress.startsWith(OpenStreetMapLabelResolver.id2)) {
-            return OpenStreetMapLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(OrcidLabelResolver.id) || urlAddress.startsWith(OrcidLabelResolver.id2)) {
-            return OrcidLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(LobidLabelResolver.id) || urlAddress.startsWith(LobidLabelResolver.id2)) {
-            return LobidLabelResolver.lookup(urlAddress, lang);
-        } else if (urlAddress.startsWith(CrossrefLabelResolver.id)
-                || urlAddress.startsWith(CrossrefLabelResolver.id2)) {
-            return CrossrefLabelResolver.lookup(urlAddress, lang);
+        String result = null;
+        LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
+        if (lResolver != null) {
+            result = lResolver.lookup(urlAddress, lang);
+            play.Logger.debug("Get label from LabelResolver " + result);
         }
-        String result = urlAddress;
-        try {
-            result = DefaultLabelResolver.lookup(urlAddress, lang);
-            if (urlAddress.equals(result)) {
-                result = TitleLabelResolver.lookup(urlAddress, lang);
+        if (result == null) {
+            result = urlAddress;
+        }
+        if (lResolver == null && result.equals(urlAddress)) {
+            try {
+                result = DefaultLabelResolver.lookup(urlAddress, lang);
+                if (urlAddress.equals(result)) {
+                    result = TitleLabelResolver.lookup(urlAddress, lang);
+                }
+            } catch (Exception e) {
+                play.Logger.info("Lookup fails inside the LabelResolvers");
             }
-        } catch (Exception e) {
-            play.Logger.info(e.getMessage());
         }
+
         return result;
     }
 

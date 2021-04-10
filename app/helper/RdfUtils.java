@@ -25,6 +25,7 @@ import java.net.URL;
 import java.text.Normalizer;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Statement;
@@ -83,8 +84,10 @@ public class RdfUtils {
      * @return a Rdf-Graph
      * @throws IOException
      */
-    public static Collection<Statement> readRdfToGraph(URL url, RDFFormat inf, String accept) throws IOException {
-        try (InputStream in = URLUtil.urlToInputStream(url, URLUtil.mapOf("Accept", accept))) {
+    public static Collection<Statement> readRdfToGraph(URL url, RDFFormat inf, String accept) throws Exception {
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Accept", accept);
+        try (InputStream in = URLUtil.urlToInputStream(url, headers)) {
             return readRdfToGraph(in, inf, url.toString());
         }
     }

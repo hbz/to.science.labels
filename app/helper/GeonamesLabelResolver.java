@@ -23,12 +23,13 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  * @author Jan Schnasse
  *
  */
-public class GeonamesLabelResolver {
+public class GeonamesLabelResolver implements LabelResolver {
 
     final public static String id = "http://www.geonames.org/";
     final public static String id2 = "https://www.geonames.org/";
+    public final static String DOMAIN = "www.geonames.org";
 
-    public static String lookup(String uri, String language) {
+    public String lookup(String uri, String language) {
         try {
             return SparqlLookup.lookup(uri + "/about.rdf", "?s", "http://www.geonames.org/ontology#name", language,
                     RDFFormat.RDFXML, "application/rdf+xml");
