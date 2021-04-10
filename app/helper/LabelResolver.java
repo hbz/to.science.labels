@@ -17,8 +17,6 @@ public interface LabelResolver {
 
     public static class Factory {
 
-        private static URL url = createUrlFromString("http://www.example.com");
-
         public static LabelResolver getInstance(String urlString) {
             LabelResolver lResolv = null;
             URL url = createUrlFromString(urlString);
@@ -28,7 +26,7 @@ public interface LabelResolver {
             return lResolv;
         }
 
-        public static boolean existsLabelResolver(String urlString) {
+        public boolean existsLabelResolver(String urlString) {
             URL url = createUrlFromString(urlString);
             return getLabelResolverTable().containsKey(url.getHost());
         }
@@ -40,7 +38,6 @@ public interface LabelResolver {
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 play.Logger.warn("Can't generate URL from " + urlString);
-                createdUrl = url;
             }
             return createdUrl;
         }
@@ -59,7 +56,9 @@ public interface LabelResolver {
         }
 
         private static LabelResolver getLabelResolver(String domain) {
-            return getLabelResolverTable().get(domain);
+            Hashtable<String, LabelResolver> lResolvTable = null;
+            lResolvTable = getLabelResolverTable();
+            return lResolvTable.get(domain);
         }
 
     }
