@@ -127,11 +127,28 @@ public class Connector {
      * initiate new HttpsURLConnection
      * 
      */
-    private void performProtocolChange() {
+    private void performProtocolChangeToHttps() {
 
         if ((299 < getStatusCode() && getStatusCode() < 400) && getRedirectLocation().startsWith("https")) {
             play.Logger.debug("found https-protocol and redirect-location: " + this.getRedirectLocation());
             urlConn = this.getHttpsConn(createUrl(getRedirectLocation()));
+            performProtocolChangeToHttp();
+        }
+
+    }
+
+    /**
+     * Checks if http Status determines redirect and if redirect location is
+     * associated with protocol change from https to http (e.g CrossrefFunder).
+     * If both is true, initiate new HttpURLConnection
+     * 
+     */
+    private void performProtocolChangeToHttp() {
+
+        if ((299 < getStatusCode() && getStatusCode() < 400) && getRedirectLocation().startsWith("http")) {
+            play.Logger.debug("found http-protocol and redirect-location: " + this.getRedirectLocation());
+            urlConn = this.getHttpConn(createUrl(getRedirectLocation()));
+            performProtocolChangeToHttps();
         }
 
     }
@@ -169,7 +186,8 @@ public class Connector {
             urlConn = getHttpsConn(url);
             break;
         }
-        performProtocolChange();
+        performProtocolChangeToHttps();
+        performProtocolChangeToHttp();
     }
 
     public static class Factory {
