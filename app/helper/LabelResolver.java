@@ -56,6 +56,11 @@ public interface LabelResolver {
             lResolver.put(W3CDummyLabelResolver.DOMAIN, new W3CDummyLabelResolver());
             lResolver.put(CCDummyLabelResolver.DOMAIN, new CCDummyLabelResolver());
             lResolver.put(SchemaDummyLabelResolver.DOMAIN, new SchemaDummyLabelResolver());
+            lResolver.put(GithubDummyLabelResolver.DOMAIN, new GithubDummyLabelResolver());
+            lResolver.put(GitUserDummyLabelResolver.DOMAIN, new GitUserDummyLabelResolver());
+            lResolver.put(LocDummyLabelResolver.DOMAIN, new LocDummyLabelResolver());
+            lResolver.put(OldDataHubDummyLabelResolver.DOMAIN, new OldDataHubDummyLabelResolver());
+            lResolver.put(WorldcatDummyLabelResolver.DOMAIN, new WorldcatDummyLabelResolver());
             return lResolver;
         }
 
