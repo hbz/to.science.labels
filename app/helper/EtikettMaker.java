@@ -245,7 +245,7 @@ public class EtikettMaker {
         }
     }
 
-    public static String lookUpLabel(String urlAddress) {
+    public String lookUpLabel(String urlAddress) {
         return lookUpLabel(urlAddress, getDefaultLanguage());
     }
 
@@ -257,7 +257,7 @@ public class EtikettMaker {
         return language;
     }
 
-    public static String lookUpLabel(String urlAddress, String lang) {
+    public String lookUpLabel(String urlAddress, String lang) {
 
         String result = null;
         LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
