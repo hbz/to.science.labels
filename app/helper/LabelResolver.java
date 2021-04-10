@@ -52,6 +52,7 @@ public interface LabelResolver {
             lResolver.put(GndLabelResolver.DOMAIN, new GndLabelResolver());
             lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
             lResolver.put(LobidLabelResolver.DOMAIN, new LobidLabelResolver());
+            lResolver.put(DummyLabelResolver.DOMAIN, new DummyLabelResolver());
             return lResolver;
         }
 
