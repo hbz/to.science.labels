@@ -20,6 +20,9 @@ package helper;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +43,9 @@ public class CrossrefLabelResolver implements LabelResolver {
         play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
         play.Logger.debug("Use Crossref Resolver!");
         if (isCrossrefFunderUrl(uri)) {
-            try (InputStream in = URLUtil.urlToInputStream(new URL(uri), URLUtil.mapOf("Accept", "text/html"))) {
+            HashMap<String, String> headers = new HashMap<String, String>();
+            headers.put("Accept", "text/html");
+            try (InputStream in = URLUtil.urlToInputStream(new URL(uri), headers)) {
                 String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
                 JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
                 String label = hit.at("/prefLabel/Label/literalForm/content").asText();

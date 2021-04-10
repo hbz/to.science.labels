@@ -154,6 +154,17 @@ public class URLUtil {
         }
     }
 
+    /**
+     * Method was created within a versin using massive static contexts. Will be
+     * replaced because of refactoring makes more use of an object oriented
+     * approach
+     * 
+     * @param <K>
+     * @param <V>
+     * @param keyValues
+     * @return
+     */
+    @Deprecated
     public static <K, V> Map<K, V> mapOf(Object... keyValues) {
         Map<K, V> map = new HashMap<>();
         K key = null;
