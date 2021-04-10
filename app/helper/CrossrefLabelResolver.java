@@ -41,11 +41,11 @@ public class CrossrefLabelResolver implements LabelResolver {
 
     public String lookup(String uri, String language) {
         play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
-        play.Logger.debug("Use Crossref Resolver!");
         if (isCrossrefFunderUrl(uri)) {
             HashMap<String, String> headers = new HashMap<String, String>();
             headers.put("Accept", "text/html");
             try (InputStream in = URLUtil.urlToInputStream(new URL(uri), headers)) {
+                play.Logger.debug("Stream: " + in.toString());
                 String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
                 JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
                 String label = hit.at("/prefLabel/Label/literalForm/content").asText();
