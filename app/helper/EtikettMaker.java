@@ -322,7 +322,7 @@ public class EtikettMaker {
         Ebean.save(cur);
     }
 
-    private void addJsonDataIntoDBCache(Etikett e) {
+    public void addJsonDataIntoDBCache(Etikett e) {
         Etikett cur = null;
         if (e != null) {
             cur = Ebean.find(Etikett.class).where().eq("uri", e.uri).findUnique();

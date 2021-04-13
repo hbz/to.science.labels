@@ -23,11 +23,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
+
+import models.Etikett;
 
 /**
  * @author Jan Schnasse
@@ -38,33 +41,79 @@ public class CrossrefLabelResolver implements LabelResolver {
     final public static String id = "http://dx.doi.org/10.13039";
     final public static String id2 = "https://dx.doi.org/10.13039";
     public final static String DOMAIN = "dx.doi.org";
+    public String urlString = null;
+    public String label = null;
+    public String language = null;
+    public Etikett etikett = null;
 
     public String lookup(String uri, String language) {
-        play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
-        if (isCrossrefFunderUrl(uri)) {
-            HashMap<String, String> headers = new HashMap<String, String>();
-            headers.put("Accept", "text/html");
-            try (InputStream in = URLUtil.urlToInputStream(new URL(uri), headers)) {
-                play.Logger.debug("Stream: " + in.toString());
-                String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
-                JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
-                String label = hit.at("/prefLabel/Label/literalForm/content").asText();
-                return label;
-            } catch (Exception e) {
-                play.Logger.warn("Failed to find label for " + uri);
+        this.urlString = uri;
+        this.language = language;
+        this.etikett = getEtikett(uri);
+        String etikettLabel = null;
+        if (etikett != null) {
+            String tmpLabel = etikett.getLabel();
+            if (!tmpLabel.startsWith("http")) {
+                etikettLabel = tmpLabel;
             }
         } else {
-            play.Logger.debug("Nothing to do here: DOI is not a CrossrefFunder DOI");
+            etikett = new Etikett(urlString);
         }
-        return uri;
+        runLookupThread();
+        return etikettLabel;
     }
 
-    private boolean isCrossrefFunderUrl(String urlString) {
-        boolean isFunderUrl = false;
-        if (urlString.contains("10.13039")) {
-            isFunderUrl = true;
+    private void lookupAsync(String uri, String language) {
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Accept", "text/html");
+
+        try (InputStream in = urlToInputStream(new URL(uri), headers)) {
+            String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+            JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
+            label = hit.at("/person/name/family-name/value").asText() + ", "
+                    + hit.at("/person/name/given-names/value").asText();
+        } catch (Exception e) {
+            play.Logger.info("Failed to find label for " + uri);
         }
-        return isFunderUrl;
+        if (label != null) {
+            etikett.setLabel(label);
+            cacheEtikett(etikett);
+        }
+    }
+
+    private InputStream urlToInputStream(URL url, Map<String, String> args) {
+
+        Connector hConn = Connector.Factory.getInstance(url);
+        if (args != null) {
+            for (Entry<String, String> e : args.entrySet()) {
+                hConn.setConnectorProperty(e.getKey(), e.getValue());
+            }
+        }
+        hConn.connect();
+        return hConn.getInputStream();
+    }
+
+    @Override
+    public void run() {
+
+        lookupAsync(urlString, language);
+
+    }
+
+    private void runLookupThread() {
+
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    private Etikett getEtikett(String urlString) {
+        EtikettMaker eMaker = new EtikettMaker();
+        return eMaker.getValue(urlString);
+    }
+
+    private void cacheEtikett(Etikett etikett) {
+        EtikettMaker eMaker = new EtikettMaker();
+        eMaker.addJsonDataIntoDBCache(etikett);
     }
 
 }

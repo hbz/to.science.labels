@@ -18,4 +18,10 @@ public class SchemaDummyLabelResolver implements LabelResolver {
         return urlString;
     }
 
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+
+    }
+
 }

@@ -11,7 +11,7 @@ import java.util.Hashtable;
  * @author aquast
  *
  */
-public interface LabelResolver {
+public interface LabelResolver extends Runnable {
 
     public String lookup(String urlString, String Language);
 

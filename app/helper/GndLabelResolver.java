@@ -31,6 +31,8 @@ import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
+import models.Etikett;
+
 /**
  * @author Jan Schnasse
  *
@@ -49,6 +51,11 @@ public class GndLabelResolver implements LabelResolver {
 
     public static Properties turtleObjectProp = new Properties();
 
+    public String urlString = null;
+    public String label = null;
+    public String language = null;
+    public Etikett etikett = null;
+
     private static void setProperties() {
         turtleObjectProp.setProperty("namespace", "d-nb.info/standards/elementset/gnd#");
         turtleObjectProp.setProperty("preferredName", "preferredName");
@@ -62,12 +69,24 @@ public class GndLabelResolver implements LabelResolver {
 
     }
 
-    /**
-     * @param uri
-     *            analyes data from the url to find a proper label
-     * @return a label
-     */
     public String lookup(String uri, String language) {
+        this.urlString = uri;
+        this.language = language;
+        this.etikett = getEtikett(uri);
+        String etikettLabel = null;
+        if (etikett != null) {
+            String tmpLabel = etikett.getLabel();
+            if (!tmpLabel.startsWith("http")) {
+                etikettLabel = tmpLabel;
+            }
+        } else {
+            etikett = new Etikett(urlString);
+        }
+        runLookupThread();
+        return etikettLabel;
+    }
+
+    public void lookupAsync(String uri, String language) {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
 
@@ -86,33 +105,25 @@ public class GndLabelResolver implements LabelResolver {
                         ValueFactory v = SimpleValueFactory.getInstance();
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
-                        String label = findLabel(newS, uri);
+                        label = findLabel(newS, uri);
                         if (label != null) {
                             play.Logger.info("Found Label: " + label);
-                            return label;
-                        } else {
-                            label = findLabel(newS, sslUrl);
-                            if (label != null) {
-                                play.Logger.info("Found Label with https: " + label);
-                                return label;
-                            }
+                            label;
                         }
-                        // play.Logger.debug("Statement not feasable:" +
-                        // s.getSubject() + " " + s.getPredicate() + " " +
-                        // s.getObject());
-
                     }
                 }
             }
-            play.Logger.info("GndLabelResolver.findLabel failed to find Label within Statement");
 
         } catch (Exception e) {
             play.Logger.error("Failed to find label for " + uri);
         }
-        return null;
+        if (label != null) {
+            etikett.setLabel(label);
+            cacheEtikett(etikett);
+        }
     }
 
-    private static String findLabel(Statement s, String uri) {
+    private String findLabel(Statement s, String uri) {
         if (!uri.equals(s.getSubject().stringValue())) {
             return null;
         }
@@ -136,4 +147,28 @@ public class GndLabelResolver implements LabelResolver {
         }
         return null;
     }
+
+    @Override
+    public void run() {
+
+        lookupAsync(urlString, language);
+
+    }
+
+    private void runLookupThread() {
+
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    private Etikett getEtikett(String urlString) {
+        EtikettMaker eMaker = new EtikettMaker();
+        return eMaker.getValue(urlString);
+    }
+
+    private void cacheEtikett(Etikett etikett) {
+        EtikettMaker eMaker = new EtikettMaker();
+        eMaker.addJsonDataIntoDBCache(etikett);
+    }
+
 }

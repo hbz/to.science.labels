@@ -50,4 +50,10 @@ public class OpenStreetMapLabelResolver implements LabelResolver {
         }
         return uri;
     }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+
+    }
 }
