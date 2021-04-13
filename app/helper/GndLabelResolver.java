@@ -96,6 +96,7 @@ public class GndLabelResolver implements LabelResolver {
 
             Iterator<Statement> sit = statement.iterator();
 
+            String tmpLabel = null;
             while (sit.hasNext()) {
                 Statement s = sit.next();
                 boolean isLiteral = s.getObject() instanceof Literal;
@@ -104,19 +105,22 @@ public class GndLabelResolver implements LabelResolver {
                         ValueFactory v = SimpleValueFactory.getInstance();
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
-                        label = findLabel(newS, uri);
+                        tmpLabel = findLabel(newS, uri);
+                        if (tmpLabel == null) {
+                            tmpLabel = findLabel(newS, sslUrl);
+                        }
                     }
                 }
             }
-            if (label != null) {
+            if (tmpLabel != null) {
+                label = tmpLabel;
                 etikett.setLabel(label);
                 cacheEtikett(etikett);
-                play.Logger.debug("Found Label by async Thread: " + label);
                 play.Logger.debug("Found Label by async Thread: " + label);
             }
 
         } catch (Exception e) {
-            play.Logger.error("Failed to find label for " + uri);
+            play.Logger.error("Getting Exception from RdfUtils, failed to find label for " + uri);
         }
     }
 
