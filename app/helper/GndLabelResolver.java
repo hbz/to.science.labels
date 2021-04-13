@@ -96,7 +96,6 @@ public class GndLabelResolver implements LabelResolver {
 
             Iterator<Statement> sit = statement.iterator();
 
-            String tmpLabel = null;
             while (sit.hasNext()) {
                 Statement s = sit.next();
                 boolean isLiteral = s.getObject() instanceof Literal;
@@ -105,18 +104,23 @@ public class GndLabelResolver implements LabelResolver {
                         ValueFactory v = SimpleValueFactory.getInstance();
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
-                        tmpLabel = findLabel(newS, uri);
-                        if (tmpLabel == null) {
+                        String tmpLabel = findLabel(newS, uri);
+                        if (tmpLabel != null) {
+                            play.Logger.info("Found Label: " + label);
+                            label = tmpLabel;
+                            etikett.setLabel(label);
+                            cacheEtikett(etikett);
+                        } else {
                             tmpLabel = findLabel(newS, sslUrl);
+                            if (tmpLabel != null) {
+                                play.Logger.info("Found Label with https: " + label);
+                                label = tmpLabel;
+                                etikett.setLabel(label);
+                                cacheEtikett(etikett);
+                            }
                         }
                     }
                 }
-            }
-            if (tmpLabel != null) {
-                label = tmpLabel;
-                etikett.setLabel(label);
-                cacheEtikett(etikett);
-                play.Logger.debug("Found Label by async Thread: " + label);
             }
 
         } catch (Exception e) {
