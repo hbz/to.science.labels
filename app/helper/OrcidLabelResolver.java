@@ -50,7 +50,7 @@ public class OrcidLabelResolver implements LabelResolver {
         this.language = language;
         String etikettLabel = null;
         this.etikett = getEtikett(uri);
-        if (etikett.getLabel() != null && !etikett.getLabel().startsWith("http")) {
+        if (etikett != null) {
             etikettLabel = etikett.getLabel();
         } else {
             etikett = new Etikett(urlString);
@@ -77,6 +77,7 @@ public class OrcidLabelResolver implements LabelResolver {
             etikett.setLabel(label);
             cacheEtikett(etikett);
         }
+        play.Logger.debug("Found Label by async Thread: " + label);
 
     }
 
