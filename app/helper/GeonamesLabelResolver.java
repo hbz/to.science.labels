@@ -38,4 +38,10 @@ public class GeonamesLabelResolver implements LabelResolver {
         }
     }
 
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+
+    }
+
 }
