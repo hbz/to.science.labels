@@ -48,15 +48,14 @@ public class OrcidLabelResolver implements LabelResolver {
     public String lookup(String uri, String language) {
         this.urlString = uri;
         this.language = language;
-        this.etikett = getEtikett(uri);
         String etikettLabel = null;
-        if (etikett != null) {
-            String tmpLabel = etikett.getLabel();
-            if (!tmpLabel.startsWith("http")) {
-                etikettLabel = tmpLabel;
-            }
+        this.etikett = getEtikett(uri);
+        if (etikett.getLabel() != null && !etikett.getLabel().startsWith("http")) {
+            etikettLabel = etikett.getLabel();
         } else {
             etikett = new Etikett(urlString);
+            lookupAsync(urlString, language);
+            etikett.setLabel(urlString);
         }
         runLookupThread();
         return etikettLabel;
