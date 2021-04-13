@@ -106,10 +106,6 @@ public class GndLabelResolver implements LabelResolver {
                         Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
                                 Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
                         label = findLabel(newS, uri);
-                        if (label != null) {
-                            play.Logger.info("Found Label: " + label);
-                            label;
-                        }
                     }
                 }
             }
