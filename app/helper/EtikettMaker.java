@@ -206,9 +206,9 @@ public class EtikettMaker {
                     && urlAddress.startsWith("http")) {
                 play.Logger.debug("Perform Label lookup from URL " + urlAddress);
                 result = getLabelFromUrlAddress(urlAddress);
-                if (result != null) {
-                    addJsonDataIntoDBCache(result);
-                }
+                // if (result != null) {
+                // addJsonDataIntoDBCache(result);
+                // }
             } else {
                 play.Logger.debug("Fetch from db " + result);
                 // + " " + result.getMultiLangSerialized());
