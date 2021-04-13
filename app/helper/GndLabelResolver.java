@@ -74,14 +74,14 @@ public class GndLabelResolver implements LabelResolver {
         this.language = language;
         String etikettLabel = null;
         this.etikett = getEtikett(uri);
-        if (etikett.getLabel() != null && !etikett.getLabel().startsWith("http")) {
+        if (etikett != null) {
             etikettLabel = etikett.getLabel();
+            runLookupThread();
         } else {
             etikett = new Etikett(urlString);
             lookupAsync(urlString, language);
             etikettLabel = label;
         }
-        runLookupThread();
         return etikettLabel;
     }
 
@@ -108,13 +108,15 @@ public class GndLabelResolver implements LabelResolver {
                     }
                 }
             }
+            if (label != null) {
+                etikett.setLabel(label);
+                cacheEtikett(etikett);
+                play.Logger.debug("Found Label by async Thread: " + label);
+                play.Logger.debug("Found Label by async Thread: " + label);
+            }
 
         } catch (Exception e) {
             play.Logger.error("Failed to find label for " + uri);
-        }
-        if (label != null) {
-            etikett.setLabel(label);
-            cacheEtikett(etikett);
         }
     }
 

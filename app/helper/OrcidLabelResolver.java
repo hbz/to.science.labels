@@ -52,12 +52,12 @@ public class OrcidLabelResolver implements LabelResolver {
         this.etikett = getEtikett(uri);
         if (etikett != null) {
             etikettLabel = etikett.getLabel();
+            runLookupThread();
         } else {
             etikett = new Etikett(urlString);
             lookupAsync(urlString, language);
             etikettLabel = label;
         }
-        runLookupThread();
         return etikettLabel;
     }
 
@@ -70,15 +70,14 @@ public class OrcidLabelResolver implements LabelResolver {
             JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
             label = hit.at("/person/name/family-name/value").asText() + ", "
                     + hit.at("/person/name/given-names/value").asText();
+            if (label != null) {
+                etikett.setLabel(label);
+                cacheEtikett(etikett);
+                play.Logger.debug("Found Label by async Thread: " + label);
+            }
         } catch (Exception e) {
             play.Logger.info("Failed to find label for " + uri);
         }
-        if (label != null) {
-            etikett.setLabel(label);
-            cacheEtikett(etikett);
-        }
-        play.Logger.debug("Found Label by async Thread: " + label);
-
     }
 
     private InputStream urlToInputStream(URL url, Map<String, String> args) {

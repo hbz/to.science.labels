@@ -51,14 +51,14 @@ public class CrossrefLabelResolver implements LabelResolver {
         this.language = language;
         String etikettLabel = null;
         this.etikett = getEtikett(uri);
-        if (etikett.getLabel() != null && !etikett.getLabel().startsWith("http")) {
+        if (etikett != null) {
             etikettLabel = etikett.getLabel();
+            runLookupThread();
         } else {
             etikett = new Etikett(urlString);
             lookupAsync(urlString, language);
             etikettLabel = label;
         }
-        runLookupThread();
         return etikettLabel;
     }
 
@@ -71,12 +71,12 @@ public class CrossrefLabelResolver implements LabelResolver {
             JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
             label = hit.at("/person/name/family-name/value").asText() + ", "
                     + hit.at("/person/name/given-names/value").asText();
+            if (label != null) {
+                etikett.setLabel(label);
+                cacheEtikett(etikett);
+            }
         } catch (Exception e) {
             play.Logger.info("Failed to find label for " + uri);
-        }
-        if (label != null) {
-            etikett.setLabel(label);
-            cacheEtikett(etikett);
         }
     }
 
