@@ -63,21 +63,25 @@ public class CrossrefLabelResolver implements LabelResolver {
     }
 
     private void lookupAsync(String uri, String language) {
-        HashMap<String, String> headers = new HashMap<String, String>();
-        headers.put("Accept", "text/html");
-
-        try (InputStream in = urlToInputStream(new URL(uri), headers)) {
-            String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
-            JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
-            label = hit.at("/person/name/family-name/value").asText() + ", "
-                    + hit.at("/person/name/given-names/value").asText();
-            if (label != null) {
-                etikett.setLabel(label);
-                cacheEtikett(etikett);
+        if (isCrossrefFunderUrl(uri)) {
+            HashMap<String, String> headers = new HashMap<String, String>();
+            headers.put("Accept", "text/html");
+            try (InputStream in = urlToInputStream(new URL(uri), headers)) {
+                play.Logger.debug("Stream: " + in.toString());
+                String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+                JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
+                String label = hit.at("/prefLabel/Label/literalForm/content").asText();
+                if (label != null) {
+                    etikett.setLabel(label);
+                    cacheEtikett(etikett);
+                }
+            } catch (Exception e) {
+                play.Logger.warn("Failed to find label for " + uri);
             }
-        } catch (Exception e) {
-            play.Logger.info("Failed to find label for " + uri);
+        } else {
+            play.Logger.debug("Nothing to do here: DOI is not a CrossrefFunder DOI");
         }
+
     }
 
     private InputStream urlToInputStream(URL url, Map<String, String> args) {
@@ -90,6 +94,14 @@ public class CrossrefLabelResolver implements LabelResolver {
         }
         hConn.connect();
         return hConn.getInputStream();
+    }
+
+    private boolean isCrossrefFunderUrl(String urlString) {
+        boolean isFunderUrl = false;
+        if (urlString.contains("10.13039")) {
+            isFunderUrl = true;
+        }
+        return isFunderUrl;
     }
 
     @Override
