@@ -79,7 +79,7 @@ public class GndLabelResolver implements LabelResolver {
         } else {
             etikett = new Etikett(urlString);
             lookupAsync(urlString, language);
-            etikett.setLabel(urlString);
+            etikettLabel = label;
         }
         runLookupThread();
         return etikettLabel;
