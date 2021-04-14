@@ -19,6 +19,8 @@ package helper;
 
 import org.eclipse.rdf4j.rio.RDFFormat;
 
+import models.Etikett;
+
 /**
  * @author Jan Schnasse
  *
@@ -28,12 +30,33 @@ public class LobidLabelResolver implements LabelResolver {
     final public static String id2 = "https://lobid.org/resources";
     public final static String DOMAIN = "lobid.org";
 
+    public String urlString = null;
+    public String label = null;
+    public String language = null;
+    public Etikett etikett = null;
+
+    public String lookup(String uri, String language) {
+        this.urlString = uri;
+        this.language = language;
+        String etikettLabel = null;
+        this.etikett = getEtikett(uri);
+        if (etikett != null) {
+            etikettLabel = etikett.getLabel();
+            runLookupThread();
+        } else {
+            etikett = new Etikett(urlString);
+            lookupAsync(urlString, language);
+            etikettLabel = label;
+        }
+        return etikettLabel;
+    }
+
     /**
      * @param uri
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public String lookup(String uri, String language) {
+    public void lookupAsync(String uri, String language) {
         try {
             String rdfAddress = uri;
 
@@ -44,21 +67,40 @@ public class LobidLabelResolver implements LabelResolver {
             String rdfUri = uri.replaceAll("https", "http");
 
             SparqlLookup SpL = new SparqlLookup();
-            String label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
+            label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
                     RDFFormat.JSONLD, "application/json");
             if (rdfAddress.equals(label)) {
                 label = SpL.lookup(rdfUri, "<" + rdfUri + ">", "http://purl.org/dc/terms/title", language,
                         RDFFormat.JSONLD, "application/json");
             }
-            return label;
+            etikett.setLabel(label);
+            cacheEtikett(etikett);
         } catch (Exception e) {
-            return uri;
+            label = uri;
+            etikett.setLabel(label);
         }
     }
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
+        lookupAsync(urlString, language);
 
     }
+
+    private void runLookupThread() {
+
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    private Etikett getEtikett(String urlString) {
+        EtikettMaker eMaker = new EtikettMaker();
+        return eMaker.getValue(urlString);
+    }
+
+    private void cacheEtikett(Etikett etikett) {
+        EtikettMaker eMaker = new EtikettMaker();
+        eMaker.addJsonDataIntoDBCache(etikett);
+    }
+
 }
