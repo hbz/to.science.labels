@@ -38,13 +38,7 @@ import models.Etikett;
  */
 public class CrossrefLabelResolver extends LabelResolverService implements LabelResolver {
 
-    final public static String id = "http://dx.doi.org/10.13039";
-    final public static String id2 = "https://dx.doi.org/10.13039";
     public final static String DOMAIN = "dx.doi.org";
-    public String urlString = null;
-    public String label = null;
-    public String language = null;
-    public Etikett etikett = null;
 
     public String lookup(String uri, String language) {
         this.urlString = uri;

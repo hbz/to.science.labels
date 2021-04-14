@@ -51,11 +51,6 @@ public class GndLabelResolver extends LabelResolverService implements LabelResol
 
     public static Properties turtleObjectProp = new Properties();
 
-    public String urlString = null;
-    public String label = null;
-    public String language = null;
-    public Etikett etikett = null;
-
     private static void setProperties() {
         turtleObjectProp.setProperty("namespace", "d-nb.info/standards/elementset/gnd#");
         turtleObjectProp.setProperty("preferredName", "preferredName");

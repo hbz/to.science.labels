@@ -42,11 +42,6 @@ public class PurlLabelResolver extends LabelResolverService implements LabelReso
 
     public final static String DOMAIN = "purl.org";
 
-    public String urlString = null;
-    public String label = null;
-    public String language = null;
-    public Etikett etikett = null;
-
     public String lookup(String uri, String language) {
         this.urlString = uri;
         this.language = language;

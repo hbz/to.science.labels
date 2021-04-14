@@ -38,14 +38,9 @@ import models.Etikett;
  *
  */
 @SuppressWarnings("javadoc")
-public class SkosLabelResolver implements LabelResolver {
+public class SkosLabelResolver extends LabelResolverService implements LabelResolver {
 
     public final static String DOMAIN = "www.w3.org";
-
-    public String urlString = null;
-    public String label = null;
-    public String language = null;
-    public Etikett etikett = null;
 
     public String lookup(String uri, String language) {
         this.urlString = uri;
@@ -105,29 +100,6 @@ public class SkosLabelResolver implements LabelResolver {
             isFunderUrl = true;
         }
         return isFunderUrl;
-    }
-
-    @Override
-    public void run() {
-
-        lookupAsync(urlString, language);
-
-    }
-
-    private void runLookupThread() {
-
-        Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    private Etikett getEtikett(String urlString) {
-        EtikettMaker eMaker = new EtikettMaker();
-        return eMaker.getValue(urlString);
-    }
-
-    private void cacheEtikett(Etikett etikett) {
-        EtikettMaker eMaker = new EtikettMaker();
-        eMaker.addJsonDataIntoDBCache(etikett);
     }
 
 }

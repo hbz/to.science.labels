@@ -13,11 +13,6 @@ public class CCLabelResolver extends LabelResolverService implements LabelResolv
 
     public static final String DOMAIN = "creativecommons.org";
 
-    public String urlString = null;
-    public String label = null;
-    public String language = null;
-    public Etikett etikett = null;
-
     public String lookup(String uri, String language) {
         this.urlString = uri;
         this.language = language;

@@ -37,13 +37,7 @@ import models.Etikett;
  *
  */
 public class OrcidLabelResolver extends LabelResolverService implements LabelResolver {
-    final public static String id = "http://orcid.org";
-    final public static String id2 = "https://orcid.org";
     public final static String DOMAIN = "orcid.org";
-    public String urlString = null;
-    public String label = null;
-    public String language = null;
-    public Etikett etikett = null;
 
     public String lookup(String uri, String language) {
         this.urlString = uri;
