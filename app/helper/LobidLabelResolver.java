@@ -44,10 +44,10 @@ public class LobidLabelResolver implements LabelResolver {
             String rdfUri = uri.replaceAll("https", "http");
 
             SparqlLookup SpL = new SparqlLookup();
-            String label = SpL.lookup(uri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
+            String label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
                     RDFFormat.RDFXML, "application/rdf+xml");
             if (rdfAddress.equals(label)) {
-                label = SpL.lookup(uri, "<" + rdfUri + ">", "http://purl.org/dc/terms/title", language,
+                label = SpL.lookup(rdfUri, "<" + rdfUri + ">", "http://purl.org/dc/terms/title", language,
                         RDFFormat.RDFXML, "application/rdf+xml");
             }
             return label;
