@@ -38,7 +38,7 @@ import models.Etikett;
  *
  */
 @SuppressWarnings("javadoc")
-public class PurlLabelResolver implements LabelResolver {
+public class PurlLabelResolver extends LabelResolverService implements LabelResolver {
 
     public final static String DOMAIN = "purl.org";
 
@@ -63,7 +63,7 @@ public class PurlLabelResolver implements LabelResolver {
         return etikettLabel;
     }
 
-    public void lookupAsync(String uri, String language) {
+    protected void lookupAsync(String uri, String language) {
         play.Logger.info("Lookup Title-Label from Purl. Language selection is not supported yet! " + uri);
         if (isPurlTitleUrl(uri)) {
             try {
@@ -104,29 +104,6 @@ public class PurlLabelResolver implements LabelResolver {
             isFunderUrl = true;
         }
         return isFunderUrl;
-    }
-
-    @Override
-    public void run() {
-
-        lookupAsync(urlString, language);
-
-    }
-
-    private void runLookupThread() {
-
-        Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    private Etikett getEtikett(String urlString) {
-        EtikettMaker eMaker = new EtikettMaker();
-        return eMaker.getValue(urlString);
-    }
-
-    private void cacheEtikett(Etikett etikett) {
-        EtikettMaker eMaker = new EtikettMaker();
-        eMaker.addJsonDataIntoDBCache(etikett);
     }
 
 }

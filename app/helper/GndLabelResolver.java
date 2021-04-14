@@ -38,7 +38,7 @@ import models.Etikett;
  *
  */
 @SuppressWarnings("javadoc")
-public class GndLabelResolver implements LabelResolver {
+public class GndLabelResolver extends LabelResolverService implements LabelResolver {
 
     public final static String DOMAIN = "d-nb.info";
 
@@ -85,7 +85,7 @@ public class GndLabelResolver implements LabelResolver {
         return etikettLabel;
     }
 
-    public void lookupAsync(String uri, String language) {
+    protected void lookupAsync(String uri, String language) {
         try {
             play.Logger.info("Lookup Label from GND. Language selection is not supported yet! " + uri);
 
@@ -152,29 +152,6 @@ public class GndLabelResolver implements LabelResolver {
             }
         }
         return null;
-    }
-
-    @Override
-    public void run() {
-
-        lookupAsync(urlString, language);
-
-    }
-
-    private void runLookupThread() {
-
-        Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    private Etikett getEtikett(String urlString) {
-        EtikettMaker eMaker = new EtikettMaker();
-        return eMaker.getValue(urlString);
-    }
-
-    private void cacheEtikett(Etikett etikett) {
-        EtikettMaker eMaker = new EtikettMaker();
-        eMaker.addJsonDataIntoDBCache(etikett);
     }
 
 }

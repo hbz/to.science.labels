@@ -9,7 +9,7 @@ import models.Etikett;
  * @author aquast
  *
  */
-public class CCLabelResolver implements LabelResolver {
+public class CCLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "creativecommons.org";
 
@@ -30,14 +30,9 @@ public class CCLabelResolver implements LabelResolver {
     }
 
     @Override
-    public void run() {
+    protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 
-    }
-
-    private Etikett getEtikett(String urlString) {
-        EtikettMaker eMaker = new EtikettMaker();
-        return eMaker.getValue(urlString);
     }
 
 }

@@ -36,7 +36,7 @@ import models.Etikett;
  * @author Jan Schnasse
  *
  */
-public class CrossrefLabelResolver implements LabelResolver {
+public class CrossrefLabelResolver extends LabelResolverService implements LabelResolver {
 
     final public static String id = "http://dx.doi.org/10.13039";
     final public static String id2 = "https://dx.doi.org/10.13039";
@@ -62,7 +62,7 @@ public class CrossrefLabelResolver implements LabelResolver {
         return etikettLabel;
     }
 
-    private void lookupAsync(String uri, String language) {
+    protected void lookupAsync(String uri, String language) {
         if (isCrossrefFunderUrl(uri)) {
             HashMap<String, String> headers = new HashMap<String, String>();
             headers.put("Accept", "text/html");
@@ -84,47 +84,12 @@ public class CrossrefLabelResolver implements LabelResolver {
 
     }
 
-    private InputStream urlToInputStream(URL url, Map<String, String> args) {
-
-        Connector hConn = Connector.Factory.getInstance(url);
-        if (args != null) {
-            for (Entry<String, String> e : args.entrySet()) {
-                hConn.setConnectorProperty(e.getKey(), e.getValue());
-            }
-        }
-        hConn.connect();
-        return hConn.getInputStream();
-    }
-
     private boolean isCrossrefFunderUrl(String urlString) {
         boolean isFunderUrl = false;
         if (urlString.contains("10.13039")) {
             isFunderUrl = true;
         }
         return isFunderUrl;
-    }
-
-    @Override
-    public void run() {
-
-        lookupAsync(urlString, language);
-
-    }
-
-    private void runLookupThread() {
-
-        Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    private Etikett getEtikett(String urlString) {
-        EtikettMaker eMaker = new EtikettMaker();
-        return eMaker.getValue(urlString);
-    }
-
-    private void cacheEtikett(Etikett etikett) {
-        EtikettMaker eMaker = new EtikettMaker();
-        eMaker.addJsonDataIntoDBCache(etikett);
     }
 
 }

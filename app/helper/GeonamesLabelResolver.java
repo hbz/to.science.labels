@@ -23,7 +23,7 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  * @author Jan Schnasse
  *
  */
-public class GeonamesLabelResolver implements LabelResolver {
+public class GeonamesLabelResolver extends LabelResolverService implements LabelResolver {
 
     final public static String id = "http://www.geonames.org/";
     final public static String id2 = "https://www.geonames.org/";
@@ -40,7 +40,7 @@ public class GeonamesLabelResolver implements LabelResolver {
     }
 
     @Override
-    public void run() {
+    protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 
     }

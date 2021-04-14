@@ -25,7 +25,7 @@ import models.Etikett;
  * @author Jan Schnasse
  *
  */
-public class LobidLabelResolver implements LabelResolver {
+public class LobidLabelResolver extends LabelResolverService implements LabelResolver {
     final public static String id = "http://lobid.org/resources";
     final public static String id2 = "https://lobid.org/resources";
     public final static String DOMAIN = "lobid.org";
@@ -85,22 +85,6 @@ public class LobidLabelResolver implements LabelResolver {
     public void run() {
         lookupAsync(urlString, language);
 
-    }
-
-    private void runLookupThread() {
-
-        Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    private Etikett getEtikett(String urlString) {
-        EtikettMaker eMaker = new EtikettMaker();
-        return eMaker.getValue(urlString);
-    }
-
-    private void cacheEtikett(Etikett etikett) {
-        EtikettMaker eMaker = new EtikettMaker();
-        eMaker.addJsonDataIntoDBCache(etikett);
     }
 
 }

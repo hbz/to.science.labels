@@ -1,5 +1,12 @@
 package helper;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import models.Etikett;
 
 /**
@@ -9,7 +16,12 @@ import models.Etikett;
  *         LabelResolver Interface
  *
  */
-public class LabelResolverService {
+public abstract class LabelResolverService implements Runnable {
+
+    public String urlString = null;
+    public String label = null;
+    public String language = null;
+    public Etikett etikett = null;
 
     /**
      * Default lookup Method that returns a label for an given Uri-String.
@@ -35,6 +47,43 @@ public class LabelResolverService {
             etikettLabel = label;
         }
         return etikettLabel;
+    }
+
+    protected abstract void lookupAsync(String uri, String language);
+
+    protected InputStream urlToInputStream(URL url, Map<String, String> args) {
+
+        Connector hConn = Connector.Factory.getInstance(url);
+        if (args != null) {
+            for (Entry<String, String> e : args.entrySet()) {
+                hConn.setConnectorProperty(e.getKey(), e.getValue());
+            }
+        }
+        hConn.connect();
+        return hConn.getInputStream();
+    }
+
+    @Override
+    public void run() {
+
+        lookupAsync(urlString, language);
+
+    }
+
+    protected void runLookupThread() {
+
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    protected Etikett getEtikett(String urlString) {
+        EtikettMaker eMaker = new EtikettMaker();
+        return eMaker.getValue(urlString);
+    }
+
+    protected void cacheEtikett(Etikett etikett) {
+        EtikettMaker eMaker = new EtikettMaker();
+        eMaker.addJsonDataIntoDBCache(etikett);
     }
 
 }

@@ -36,7 +36,7 @@ import models.Etikett;
  * @author Jan Schnasse
  *
  */
-public class OrcidLabelResolver implements LabelResolver {
+public class OrcidLabelResolver extends LabelResolverService implements LabelResolver {
     final public static String id = "http://orcid.org";
     final public static String id2 = "https://orcid.org";
     public final static String DOMAIN = "orcid.org";
@@ -61,7 +61,7 @@ public class OrcidLabelResolver implements LabelResolver {
         return etikettLabel;
     }
 
-    private void lookupAsync(String uri, String language) {
+    protected void lookupAsync(String uri, String language) {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Accept", "application/json");
 
@@ -78,41 +78,6 @@ public class OrcidLabelResolver implements LabelResolver {
         } catch (Exception e) {
             play.Logger.info("Failed to find label for " + uri);
         }
-    }
-
-    private InputStream urlToInputStream(URL url, Map<String, String> args) {
-
-        Connector hConn = Connector.Factory.getInstance(url);
-        if (args != null) {
-            for (Entry<String, String> e : args.entrySet()) {
-                hConn.setConnectorProperty(e.getKey(), e.getValue());
-            }
-        }
-        hConn.connect();
-        return hConn.getInputStream();
-    }
-
-    @Override
-    public void run() {
-
-        lookupAsync(urlString, language);
-
-    }
-
-    private void runLookupThread() {
-
-        Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    private Etikett getEtikett(String urlString) {
-        EtikettMaker eMaker = new EtikettMaker();
-        return eMaker.getValue(urlString);
-    }
-
-    private void cacheEtikett(Etikett etikett) {
-        EtikettMaker eMaker = new EtikettMaker();
-        eMaker.addJsonDataIntoDBCache(etikett);
     }
 
 }
