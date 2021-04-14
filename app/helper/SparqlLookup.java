@@ -54,7 +54,7 @@ public class SparqlLookup {
     private String lookupLabelInAnyLanguage(String rdfAddress, String uri, String labelPredicate, RDFFormat format,
             String accept) {
         String queryString = String.format("SELECT ?s ?o {%s <%s> ?o . }", uri, labelPredicate);
-        return SpL.sparqlLabelLookup(rdfAddress, format, accept, queryString);
+        return sparqlLabelLookup(rdfAddress, format, accept, queryString);
     }
 
     private String lookupLabelInCorrectLanguage(String rdfAddress, String uri, String labelPredicate, String language,
@@ -64,7 +64,7 @@ public class SparqlLookup {
         }
         String queryString = String.format("SELECT ?s ?o {%s <%s> ?o . FILTER(LANGMATCHES(lang(?o),'%s'))}", uri,
                 labelPredicate, language);
-        return SpL.sparqlLabelLookup(rdfAddress, format, accept, queryString);
+        return sparqlLabelLookup(rdfAddress, format, accept, queryString);
     }
 
     private String sparqlLabelLookup(String rdfAddress, RDFFormat format, String accept, String queryString) {
