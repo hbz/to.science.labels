@@ -53,7 +53,7 @@ public interface LabelResolver extends Runnable {
             lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
             lResolver.put(LobidLabelResolver.DOMAIN, new LobidLabelResolver());
             lResolver.put(FrlDummyLabelResolver.DOMAIN, new FrlDummyLabelResolver());
-            lResolver.put(CCDummyLabelResolver.DOMAIN, new CCDummyLabelResolver());
+            lResolver.put(CCLabelResolver.DOMAIN, new CCLabelResolver());
             lResolver.put(SchemaDummyLabelResolver.DOMAIN, new SchemaDummyLabelResolver());
             lResolver.put(GithubDummyLabelResolver.DOMAIN, new GithubDummyLabelResolver());
             lResolver.put(GitUserDummyLabelResolver.DOMAIN, new GitUserDummyLabelResolver());
