@@ -36,8 +36,6 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  */
 public class SparqlLookup {
 
-    private SparqlLookup SpL = new SparqlLookup();
-
     public String lookup(String rdfAddress, String uri, String labelPredicate, String language, RDFFormat format,
             String accept) {
         String label = lookupLabelInCorrectLanguage(rdfAddress, uri, labelPredicate, language, format, accept);
