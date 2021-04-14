@@ -105,7 +105,7 @@ public class EtikettMaker {
 
     public List<Etikett> convertRdfData(InputStream in, String language) {
         List<Etikett> result = new ArrayList<>();
-        Collection<Statement> g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
+        Collection<Statement> g = new RdfUtils().readRdfToGraph(in, RDFFormat.TURTLE, "");
         Iterator<Statement> statements = g.iterator();
         Map<String, Etikett> collect = new HashMap<String, Etikett>();
         while (statements.hasNext()) {

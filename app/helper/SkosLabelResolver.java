@@ -77,7 +77,7 @@ public class SkosLabelResolver implements LabelResolver {
                     cacheEtikett(etikett);
                 } catch (Exception e2) {
                     try {
-                        return lookupSparql(uri, language, RDFFormat.JSONLD, "application/json");
+                        label = lookupSparql(uri, language, RDFFormat.JSONLD, "application/json");
                     } catch (Exception e3) {
                         label = uri;
                         etikett.setLabel(label);
@@ -90,9 +90,10 @@ public class SkosLabelResolver implements LabelResolver {
     }
 
     public String lookupSparql(String uri, String language, RDFFormat format, String accept) {
+        SparqlLookup SpL = new SparqlLookup();
         try {
-            return SparqlLookup.lookup(uri, "<" + uri + ">", "http://www.w3.org/2004/02/skos/core#prefLabel", language,
-                    format, accept);
+            return SpL.lookup(uri, "<" + uri + ">", "http://www.w3.org/2004/02/skos/core#prefLabel", language, format,
+                    accept);
         } catch (Exception e) {
             throw new RuntimeException("No label found for " + uri + "!", e);
         }

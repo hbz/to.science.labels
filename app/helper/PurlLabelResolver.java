@@ -77,7 +77,7 @@ public class PurlLabelResolver implements LabelResolver {
                     cacheEtikett(etikett);
                 } catch (Exception e2) {
                     try {
-                        return lookupSparql(uri, language, RDFFormat.JSONLD, "application/json");
+                        label = lookupSparql(uri, language, RDFFormat.JSONLD, "application/json");
                     } catch (Exception e3) {
                         label = uri;
                         etikett.setLabel(label);
@@ -90,9 +90,9 @@ public class PurlLabelResolver implements LabelResolver {
     }
 
     public String lookupSparql(String uri, String language, RDFFormat format, String accept) {
+        SparqlLookup SpL = new SparqlLookup();
         try {
-            return SparqlLookup.lookup(uri, "<" + uri + ">", "http://purl.org/dc/terms/title", language, format,
-                    accept);
+            return SpL.lookup(uri, "<" + uri + ">", "http://purl.org/dc/terms/title", language, format, accept);
         } catch (Exception e) {
             throw new RuntimeException("No label found for " + uri + "!", e);
         }
