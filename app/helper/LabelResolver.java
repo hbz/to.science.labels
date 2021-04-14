@@ -62,6 +62,7 @@ public interface LabelResolver extends Runnable {
             lResolver.put(WorldcatDummyLabelResolver.DOMAIN, new WorldcatDummyLabelResolver());
             lResolver.put(PurlLabelResolver.DOMAIN, new PurlLabelResolver());
             lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
+            lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new SkosLabelResolver());
 
             return lResolver;
         }
