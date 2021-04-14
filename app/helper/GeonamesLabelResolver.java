@@ -30,8 +30,9 @@ public class GeonamesLabelResolver implements LabelResolver {
     public final static String DOMAIN = "www.geonames.org";
 
     public String lookup(String uri, String language) {
+        SparqlLookup SpL = new SparqlLookup();
         try {
-            return SparqlLookup.lookup(uri + "/about.rdf", "?s", "http://www.geonames.org/ontology#name", language,
+            return SpL.lookup(uri + "/about.rdf", "?s", "http://www.geonames.org/ontology#name", language,
                     RDFFormat.RDFXML, "application/rdf+xml");
         } catch (Exception e) {
             return uri;
