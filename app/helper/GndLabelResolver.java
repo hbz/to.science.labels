@@ -92,7 +92,8 @@ public class GndLabelResolver implements LabelResolver {
             // Workaround for d-nb: change protocol to https
             String sslUrl = uri.replace("http://", "https://");
             URL dnbUrl = new URL(sslUrl + "/about/lds");
-            Collection<Statement> statement = RdfUtils.readRdfToGraph(dnbUrl, RDFFormat.RDFXML, "application/rdf+xml");
+            Collection<Statement> statement = new RdfUtils().readRdfToGraph(dnbUrl, RDFFormat.RDFXML,
+                    "application/rdf+xml");
 
             Iterator<Statement> sit = statement.iterator();
 
