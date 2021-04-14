@@ -45,10 +45,10 @@ public class LobidLabelResolver implements LabelResolver {
 
             SparqlLookup SpL = new SparqlLookup();
             String label = SpL.lookup(uri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
-                    RDFFormat.JSONLD, "application/json");
+                    RDFFormat.RDFXML, "application/rdf+xml");
             if (rdfAddress.equals(label)) {
                 label = SpL.lookup(uri, "<" + rdfUri + ">", "http://purl.org/dc/terms/title", language,
-                        RDFFormat.JSONLD, "application/json");
+                        RDFFormat.RDFXML, "application/rdf+xml");
             }
             return label;
         } catch (Exception e) {
