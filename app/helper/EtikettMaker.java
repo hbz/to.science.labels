@@ -269,16 +269,13 @@ public class EtikettMaker {
         if (result == null) {
             result = urlAddress;
         }
-        if (lResolver == null && result.equals(urlAddress)) {
-            try {
-                result = DefaultLabelResolver.lookup(urlAddress, lang);
-                if (urlAddress.equals(result)) {
-                    result = TitleLabelResolver.lookup(urlAddress, lang);
-                }
-            } catch (Exception e) {
-                play.Logger.info("Lookup fails inside the LabelResolvers");
-            }
-        }
+        /*
+         * if (lResolver == null && result.equals(urlAddress)) { try { result =
+         * DefaultLabelResolver.lookup(urlAddress, lang); if
+         * (urlAddress.equals(result)) { result =
+         * TitleLabelResolver.lookup(urlAddress, lang); } } catch (Exception e)
+         * { play.Logger.info("Lookup fails inside the LabelResolvers"); } }
+         */
 
         return result;
     }

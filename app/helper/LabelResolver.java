@@ -53,7 +53,6 @@ public interface LabelResolver extends Runnable {
             lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
             lResolver.put(LobidLabelResolver.DOMAIN, new LobidLabelResolver());
             lResolver.put(FrlDummyLabelResolver.DOMAIN, new FrlDummyLabelResolver());
-            lResolver.put(W3CDummyLabelResolver.DOMAIN, new W3CDummyLabelResolver());
             lResolver.put(CCDummyLabelResolver.DOMAIN, new CCDummyLabelResolver());
             lResolver.put(SchemaDummyLabelResolver.DOMAIN, new SchemaDummyLabelResolver());
             lResolver.put(GithubDummyLabelResolver.DOMAIN, new GithubDummyLabelResolver());
@@ -61,6 +60,9 @@ public interface LabelResolver extends Runnable {
             lResolver.put(LocDummyLabelResolver.DOMAIN, new LocDummyLabelResolver());
             lResolver.put(OldDataHubDummyLabelResolver.DOMAIN, new OldDataHubDummyLabelResolver());
             lResolver.put(WorldcatDummyLabelResolver.DOMAIN, new WorldcatDummyLabelResolver());
+            lResolver.put(PurlLabelResolver.DOMAIN, new PurlLabelResolver());
+            lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
+
             return lResolver;
         }
 
