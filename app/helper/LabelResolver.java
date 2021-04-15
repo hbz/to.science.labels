@@ -13,6 +13,8 @@ import java.util.Hashtable;
  */
 public interface LabelResolver {
 
+    public String lookup(String urlString, String Language);
+
     public static class Factory {
 
         public static LabelResolver getInstance(String urlString) {
