@@ -70,7 +70,10 @@ public interface LabelResolver extends Runnable {
         private static LabelResolver getLabelResolver(String domain) {
             Hashtable<String, LabelResolver> lResolvTable = null;
             lResolvTable = getLabelResolverTable();
-            return lResolvTable.get(domain);
+            play.Logger.debug("Domain : " + domain);
+            LabelResolver labelResolver = lResolvTable.get(domain);
+            play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
+            return labelResolver;
         }
 
     }
