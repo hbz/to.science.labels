@@ -269,9 +269,8 @@ public class EtikettMaker {
         if (lResolver != null) {
             play.Logger.debug("Start getting label from LabelResolver ");
             result = lResolver.lookup(urlAddress, lang);
-            play.Logger.debug("Get label from LabelResolver " + result);
         } else {
-            play.Logger.debug("LabelResolver ist null");
+            play.Logger.warn("No LabelResolver returned");
         }
         if (result == null) {
             result = urlAddress;

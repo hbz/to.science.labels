@@ -61,9 +61,6 @@ public class Connector {
             this.inStream = httpConn.getInputStream();
             this.typeAccepted = httpConn.getRequestProperty("Accept");
             this.contentType = httpConn.getContentType();
-            play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
-                    + "\n Connection : " + httpConn.toString() + "\n ContentType der Response: "
-                    + httpConn.getContentType() + "\n Accept-Header " + httpConn.getRequestProperty("Accept"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -87,9 +84,6 @@ public class Connector {
             this.inStream = httpsConn.getInputStream();
             this.typeAccepted = httpsConn.getRequestProperty("Accept");
             this.contentType = httpsConn.getContentType();
-            play.Logger.debug("http Status Code: " + httpStatus + ", Location Header: " + redirectLocation
-                    + "\n Connection : " + httpsConn.toString() + "\n ContentType der Response: "
-                    + httpsConn.getContentType() + "\n Accept-Header " + httpsConn.getRequestProperty("Accept"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -130,7 +124,6 @@ public class Connector {
     private void performProtocolChangeToHttps() {
 
         if ((299 < getStatusCode() && getStatusCode() < 400) && getRedirectLocation().startsWith("https")) {
-            play.Logger.debug("found https-protocol and redirect-location: " + this.getRedirectLocation());
             urlConn = this.getHttpsConn(createUrl(getRedirectLocation()));
             performProtocolChangeToHttp();
         }
@@ -146,7 +139,6 @@ public class Connector {
     private void performProtocolChangeToHttp() {
 
         if ((299 < getStatusCode() && getStatusCode() < 400) && getRedirectLocation().startsWith("http")) {
-            play.Logger.debug("found http-protocol and redirect-location: " + this.getRedirectLocation());
             urlConn = this.getHttpConn(createUrl(getRedirectLocation()));
             performProtocolChangeToHttps();
         }

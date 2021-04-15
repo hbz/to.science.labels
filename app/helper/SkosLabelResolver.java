@@ -37,7 +37,6 @@ import models.Etikett;
  * @author Jan Schnasse
  *
  */
-@SuppressWarnings("javadoc")
 public class SkosLabelResolver extends LabelResolverService implements LabelResolver {
 
     public SkosLabelResolver() {
@@ -45,22 +44,6 @@ public class SkosLabelResolver extends LabelResolverService implements LabelReso
     }
 
     public final static String DOMAIN = "www.w3.org";
-
-    public String lookup(String uri, String language) {
-        this.urlString = uri;
-        this.language = language;
-        String etikettLabel = null;
-        this.etikett = getEtikett(uri);
-        if (etikett != null) {
-            etikettLabel = etikett.getLabel();
-            runLookupThread();
-        } else {
-            etikett = new Etikett(urlString);
-            lookupAsync(urlString, language);
-            etikettLabel = label;
-        }
-        return etikettLabel;
-    }
 
     public void lookupAsync(String uri, String language) {
         play.Logger.info("Lookup Title-Label from Purl. Language selection is not supported yet! " + uri);
