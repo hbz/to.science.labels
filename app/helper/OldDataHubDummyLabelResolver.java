@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class OldDataHubDummyLabelResolver implements LabelResolver {
+public class OldDataHubDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "old.datahub.io";
 
@@ -19,7 +19,7 @@ public class OldDataHubDummyLabelResolver implements LabelResolver {
     }
 
     @Override
-    public void run() {
+    protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 
     }

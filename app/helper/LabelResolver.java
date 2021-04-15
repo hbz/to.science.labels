@@ -11,7 +11,7 @@ import java.util.Hashtable;
  * @author aquast
  *
  */
-public interface LabelResolver extends Runnable {
+public interface LabelResolver {
 
     public String lookup(String urlString, String Language);
 
@@ -22,7 +22,6 @@ public interface LabelResolver extends Runnable {
             URL url = createUrlFromString(urlString);
             play.Logger.debug("Domain extracted from urlString: " + url.getHost());
             lResolv = getLabelResolver(url.getHost());
-
             return lResolv;
         }
 
@@ -62,15 +61,16 @@ public interface LabelResolver extends Runnable {
             lResolver.put(WorldcatDummyLabelResolver.DOMAIN, new WorldcatDummyLabelResolver());
             lResolver.put(PurlLabelResolver.DOMAIN, new PurlLabelResolver());
             lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
-            lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new SkosLabelResolver());
+            // lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new
+            // SkosLabelResolver());
 
             return lResolver;
         }
 
         private static LabelResolver getLabelResolver(String domain) {
+            play.Logger.debug("Method getLabelResolver Domain : " + domain);
             Hashtable<String, LabelResolver> lResolvTable = null;
             lResolvTable = getLabelResolverTable();
-            play.Logger.debug("Domain : " + domain);
             LabelResolver labelResolver = lResolvTable.get(domain);
             play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
             return labelResolver;

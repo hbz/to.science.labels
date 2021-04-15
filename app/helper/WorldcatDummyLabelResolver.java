@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class WorldcatDummyLabelResolver implements LabelResolver {
+public class WorldcatDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "www.worldcat.org";
 
@@ -19,7 +19,7 @@ public class WorldcatDummyLabelResolver implements LabelResolver {
     }
 
     @Override
-    public void run() {
+    protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 
     }

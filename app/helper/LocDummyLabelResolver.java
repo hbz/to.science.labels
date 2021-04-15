@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class LocDummyLabelResolver implements LabelResolver {
+public class LocDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "www.loc.gov";
 
@@ -19,7 +19,7 @@ public class LocDummyLabelResolver implements LabelResolver {
     }
 
     @Override
-    public void run() {
+    protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 
     }

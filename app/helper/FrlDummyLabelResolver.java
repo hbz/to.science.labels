@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class FrlDummyLabelResolver implements LabelResolver {
+public class FrlDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "repository.publisso.de";
 
@@ -19,7 +19,7 @@ public class FrlDummyLabelResolver implements LabelResolver {
     }
 
     @Override
-    public void run() {
+    protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 
     }

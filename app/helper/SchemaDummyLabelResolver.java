@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class SchemaDummyLabelResolver implements LabelResolver {
+public class SchemaDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "schema.org";
 
@@ -19,7 +19,7 @@ public class SchemaDummyLabelResolver implements LabelResolver {
     }
 
     @Override
-    public void run() {
+    protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 
     }
