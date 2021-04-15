@@ -40,6 +40,10 @@ import models.Etikett;
 @SuppressWarnings("javadoc")
 public class SkosLabelResolver extends LabelResolverService implements LabelResolver {
 
+    public SkosLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "www.w3.org";
 
     public String lookup(String uri, String language) {

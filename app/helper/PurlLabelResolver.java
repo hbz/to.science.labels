@@ -40,6 +40,10 @@ import models.Etikett;
 @SuppressWarnings("javadoc")
 public class PurlLabelResolver extends LabelResolverService implements LabelResolver {
 
+    PurlLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "purl.org";
 
     public String lookup(String uri, String language) {
@@ -49,6 +53,7 @@ public class PurlLabelResolver extends LabelResolverService implements LabelReso
         this.etikett = getEtikett(uri);
         if (etikett != null) {
             etikettLabel = etikett.getLabel();
+            play.Logger.debug("Call for updating label in new thread");
             runLookupThread();
         } else {
             etikett = new Etikett(urlString);

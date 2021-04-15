@@ -38,6 +38,10 @@ import models.Etikett;
  */
 public class CrossrefLabelResolver extends LabelResolverService implements LabelResolver {
 
+    public CrossrefLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "dx.doi.org";
 
     public String lookup(String uri, String language) {

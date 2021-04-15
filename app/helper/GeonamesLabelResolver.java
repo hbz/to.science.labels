@@ -25,6 +25,10 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  */
 public class GeonamesLabelResolver extends LabelResolverService implements LabelResolver {
 
+    public GeonamesLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "www.geonames.org";
 
     public String lookup(String uri, String language) {

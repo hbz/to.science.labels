@@ -28,6 +28,10 @@ import java.util.Map;
  */
 public class OpenStreetMapLabelResolver extends LabelResolverService implements LabelResolver {
 
+    public OpenStreetMapLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "www.openstreetmap.org";
 
     public String lookup(String uri, String language) {

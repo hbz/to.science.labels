@@ -26,6 +26,11 @@ import models.Etikett;
  *
  */
 public class LobidLabelResolver extends LabelResolverService implements LabelResolver {
+
+    public LobidLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "lobid.org";
 
     public String lookup(String uri, String language) {

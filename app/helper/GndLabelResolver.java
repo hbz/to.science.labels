@@ -40,6 +40,10 @@ import models.Etikett;
 @SuppressWarnings("javadoc")
 public class GndLabelResolver extends LabelResolverService implements LabelResolver {
 
+    public GndLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "d-nb.info";
 
     final public static String protocol = "https://";

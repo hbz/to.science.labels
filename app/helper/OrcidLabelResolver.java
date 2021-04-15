@@ -37,6 +37,10 @@ import models.Etikett;
  *
  */
 public class OrcidLabelResolver extends LabelResolverService implements LabelResolver {
+    public OrcidLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "orcid.org";
 
     public String lookup(String uri, String language) {

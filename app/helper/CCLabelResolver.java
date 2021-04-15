@@ -11,6 +11,10 @@ import models.Etikett;
  */
 public class CCLabelResolver extends LabelResolverService implements LabelResolver {
 
+    public CCLabelResolver() {
+        super();
+    }
+
     public static final String DOMAIN = "creativecommons.org";
 
     public String lookup(String uri, String language) {
