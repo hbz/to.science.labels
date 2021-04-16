@@ -33,22 +33,6 @@ public class LobidLabelResolver extends LabelResolverService implements LabelRes
 
     public final static String DOMAIN = "lobid.org";
 
-    public String lookup(String uri, String language) {
-        this.urlString = uri;
-        this.language = language;
-        String etikettLabel = null;
-        this.etikett = getEtikett(uri);
-        if (etikett != null) {
-            etikettLabel = etikett.getLabel();
-            runLookupThread();
-        } else {
-            etikett = new Etikett(urlString);
-            lookupAsync(urlString, language);
-            etikettLabel = label;
-        }
-        return etikettLabel;
-    }
-
     /**
      * @param uri
      *            analyes data from the url to find a proper label

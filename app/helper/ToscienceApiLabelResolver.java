@@ -17,10 +17,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package helper;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -30,6 +34,11 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.rio.RDFFormat;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 
 import models.Etikett;
 
@@ -46,47 +55,21 @@ public class ToscienceApiLabelResolver extends LabelResolverService implements L
     public final static String DOMAIN = EtikettMaker.TOSCIENCE_API_URL;
 
     public void lookupAsync(String uri, String language) {
-        play.Logger.info("Lookup Value from Local API. Language selection is not supported yet! " + uri);
-        if (isW3SkosUrl(uri)) {
-            try {
-                label = lookupSparql(uri, language, RDFFormat.RDFXML, "application/rdf+xml");
-                etikett.setLabel(label);
-                cacheEtikett(etikett);
-            } catch (Exception e) {
-                try {
-                    label = lookupSparql(uri, language, RDFFormat.NTRIPLES, "text/plain");
-                    etikett.setLabel(label);
-                    cacheEtikett(etikett);
-                } catch (Exception e2) {
-                    try {
-                        label = lookupSparql(uri, language, RDFFormat.JSONLD, "application/json");
-                    } catch (Exception e3) {
-                        label = uri;
-                        etikett.setLabel(label);
-                        cacheEtikett(etikett);
+        play.Logger.debug("Lookup Value from Local API. Language selection is not supported yet! " + uri);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Accept", "application/json");
 
-                    }
-                }
-            }
-        }
-    }
-
-    public String lookupSparql(String uri, String language, RDFFormat format, String accept) {
-        SparqlLookup SpL = new SparqlLookup();
-        try {
-            return SpL.lookup(uri, "<" + uri + ">", "http://www.w3.org/2004/02/skos/core#prefLabel", language, format,
-                    accept);
+        try (InputStream in = urlToInputStream(new URL(uri), headers)) {
+            String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+            JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
+            ArrayList<String> hList = (ArrayList<String>) hit.findValuesAsText("@value");
+            label = hList.get(0);
         } catch (Exception e) {
-            throw new RuntimeException("No label found for " + uri + "!", e);
+            play.Logger.debug("Can't connect to " + DOMAIN);
         }
-    }
-
-    private boolean isW3SkosUrl(String urlString) {
-        boolean isFunderUrl = false;
-        if (urlString.contains("/2004/02/skos")) {
-            isFunderUrl = true;
+        if (label == null) {
+            label = uri;
         }
-        return isFunderUrl;
     }
 
 }
