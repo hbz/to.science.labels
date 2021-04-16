@@ -64,6 +64,12 @@ public class ToscienceApiLabelResolver extends LabelResolverService implements L
             JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
             ArrayList<String> hList = (ArrayList<String>) hit.findValuesAsText("@value");
             label = hList.get(0);
+            if (label != null) {
+                etikett.setLabel(label);
+                cacheEtikett(etikett);
+                play.Logger.debug("Found Label by async Thread: " + label);
+            }
+
         } catch (Exception e) {
             play.Logger.debug("Can't connect to " + DOMAIN);
         }

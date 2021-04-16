@@ -85,6 +85,7 @@ public class EtikettMaker {
         TYPE_ALIAS = Play.application().configuration().getString("etikett.alias.type");
         TOSCIENCE_PRODUCT_URL = Play.application().configuration().getString("toscience.domain");
         TOSCIENCE_API_URL = Play.application().configuration().getString("toscience.api");
+        play.Logger.debug(TOSCIENCE_API_URL);
     }
 
     /**
