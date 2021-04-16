@@ -23,40 +23,47 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
+import models.Etikett;
+
 /**
  * @author Jan Schnasse
  *
  */
-public class CrossrefLabelResolver implements LabelResolver {
+public class CrossrefLabelResolver extends LabelResolverService implements LabelResolver {
 
-    final public static String id = "http://dx.doi.org/10.13039";
-    final public static String id2 = "https://dx.doi.org/10.13039";
+    public CrossrefLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "dx.doi.org";
 
-    public String lookup(String uri, String language) {
-        play.Logger.info("Lookup Label from Crossref. Language selection is not supported yet! " + uri);
+    protected void lookupAsync(String uri, String language) {
         if (isCrossrefFunderUrl(uri)) {
             HashMap<String, String> headers = new HashMap<String, String>();
             headers.put("Accept", "text/html");
-            try (InputStream in = URLUtil.urlToInputStream(new URL(uri), headers)) {
+            try (InputStream in = urlToInputStream(new URL(uri), headers)) {
                 play.Logger.debug("Stream: " + in.toString());
                 String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
                 JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
                 String label = hit.at("/prefLabel/Label/literalForm/content").asText();
-                return label;
+                if (label != null) {
+                    etikett.setLabel(label);
+                    cacheEtikett(etikett);
+                }
             } catch (Exception e) {
                 play.Logger.warn("Failed to find label for " + uri);
             }
         } else {
             play.Logger.debug("Nothing to do here: DOI is not a CrossrefFunder DOI");
         }
-        return uri;
+
     }
 
     private boolean isCrossrefFunderUrl(String urlString) {

@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class SchemaDummyLabelResolver implements LabelResolver {
+public class SchemaDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "schema.org";
 
@@ -16,6 +16,12 @@ public class SchemaDummyLabelResolver implements LabelResolver {
         // TODO Auto-generated method stub
         play.Logger.debug("This is the DummyLabelResolver: Just doing nothing");
         return urlString;
+    }
+
+    @Override
+    protected void lookupAsync(String uri, String language) {
+        // TODO Auto-generated method stub
+
     }
 
 }

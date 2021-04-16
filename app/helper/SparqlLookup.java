@@ -36,7 +36,7 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  */
 public class SparqlLookup {
 
-    public static String lookup(String rdfAddress, String uri, String labelPredicate, String language, RDFFormat format,
+    public String lookup(String rdfAddress, String uri, String labelPredicate, String language, RDFFormat format,
             String accept) {
         String label = lookupLabelInCorrectLanguage(rdfAddress, uri, labelPredicate, language, format, accept);
         if (label != null) {
@@ -49,26 +49,26 @@ public class SparqlLookup {
         return rdfAddress;
     }
 
-    private static String lookupLabelInAnyLanguage(String rdfAddress, String uri, String labelPredicate,
-            RDFFormat format, String accept) {
+    private String lookupLabelInAnyLanguage(String rdfAddress, String uri, String labelPredicate, RDFFormat format,
+            String accept) {
         String queryString = String.format("SELECT ?s ?o {%s <%s> ?o . }", uri, labelPredicate);
-        return SparqlLookup.sparqlLabelLookup(rdfAddress, format, accept, queryString);
+        return sparqlLabelLookup(rdfAddress, format, accept, queryString);
     }
 
-    private static String lookupLabelInCorrectLanguage(String rdfAddress, String uri, String labelPredicate,
-            String language, RDFFormat format, String accept) {
+    private String lookupLabelInCorrectLanguage(String rdfAddress, String uri, String labelPredicate, String language,
+            RDFFormat format, String accept) {
         if (language == null) {
             return null;
         }
         String queryString = String.format("SELECT ?s ?o {%s <%s> ?o . FILTER(LANGMATCHES(lang(?o),'%s'))}", uri,
                 labelPredicate, language);
-        return SparqlLookup.sparqlLabelLookup(rdfAddress, format, accept, queryString);
+        return sparqlLabelLookup(rdfAddress, format, accept, queryString);
     }
 
-    private static String sparqlLabelLookup(String rdfAddress, RDFFormat format, String accept, String queryString) {
+    private String sparqlLabelLookup(String rdfAddress, RDFFormat format, String accept, String queryString) {
         Map<String, String> args = new HashMap<>();
         args.put("accept", accept);
-        try (RepositoryConnection con = RdfUtils
+        try (RepositoryConnection con = new RdfUtils()
                 .readRdfInputStreamToRepository(URLUtil.urlToInputStream(new URL(rdfAddress), args), format);) {
             TupleQuery tupleQuery = con.prepareTupleQuery(QueryLanguage.SPARQL, queryString);
             try (TupleQueryResult qresult = tupleQuery.evaluate()) {
@@ -76,7 +76,7 @@ public class SparqlLookup {
                     BindingSet bindingSet = qresult.next();
                     Value object = bindingSet.getValue("o");
                     if (object instanceof Literal) {
-                        return RdfUtils.normalizeLiteral((Literal) object).stringValue();
+                        return new RdfUtils().normalizeLiteral((Literal) object).stringValue();
                     }
                 }
                 return null;

@@ -26,10 +26,12 @@ import java.util.Map;
  * @author Jan Schnasse
  *
  */
-public class OpenStreetMapLabelResolver implements LabelResolver {
+public class OpenStreetMapLabelResolver extends LabelResolverService implements LabelResolver {
 
-    final public static String id = "http://www.openstreetmap.org";
-    final public static String id2 = "https://www.openstreetmap.org";
+    public OpenStreetMapLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "www.openstreetmap.org";
 
     public String lookup(String uri, String language) {
@@ -49,5 +51,11 @@ public class OpenStreetMapLabelResolver implements LabelResolver {
             play.Logger.debug("Failed to find label for " + uri, e);
         }
         return uri;
+    }
+
+    @Override
+    protected void lookupAsync(String uri, String language) {
+        // TODO Auto-generated method stub
+
     }
 }

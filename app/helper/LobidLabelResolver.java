@@ -19,13 +19,18 @@ package helper;
 
 import org.eclipse.rdf4j.rio.RDFFormat;
 
+import models.Etikett;
+
 /**
  * @author Jan Schnasse
  *
  */
-public class LobidLabelResolver implements LabelResolver {
-    final public static String id = "http://lobid.org/resources";
-    final public static String id2 = "https://lobid.org/resources";
+public class LobidLabelResolver extends LabelResolverService implements LabelResolver {
+
+    public LobidLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "lobid.org";
 
     /**
@@ -33,7 +38,7 @@ public class LobidLabelResolver implements LabelResolver {
      *            analyes data from the url to find a proper label
      * @return a label
      */
-    public String lookup(String uri, String language) {
+    public void lookupAsync(String uri, String language) {
         try {
             String rdfAddress = uri;
 
@@ -43,15 +48,25 @@ public class LobidLabelResolver implements LabelResolver {
              */
             String rdfUri = uri.replaceAll("https", "http");
 
-            String label = SparqlLookup.lookup(uri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
+            SparqlLookup SpL = new SparqlLookup();
+            label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
                     RDFFormat.JSONLD, "application/json");
             if (rdfAddress.equals(label)) {
-                label = SparqlLookup.lookup(uri, "<" + rdfUri + ">", "http://purl.org/dc/terms/title", language,
+                label = SpL.lookup(rdfUri, "<" + rdfUri + ">", "http://purl.org/dc/terms/title", language,
                         RDFFormat.JSONLD, "application/json");
             }
-            return label;
+            etikett.setLabel(label);
+            cacheEtikett(etikett);
         } catch (Exception e) {
-            return uri;
+            label = uri;
+            etikett.setLabel(label);
         }
     }
+
+    @Override
+    public void run() {
+        lookupAsync(urlString, language);
+
+    }
+
 }

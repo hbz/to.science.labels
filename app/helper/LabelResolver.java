@@ -22,7 +22,6 @@ public interface LabelResolver {
             URL url = createUrlFromString(urlString);
             play.Logger.debug("Domain extracted from urlString: " + url.getHost());
             lResolv = getLabelResolver(url.getHost());
-
             return lResolv;
         }
 
@@ -53,21 +52,27 @@ public interface LabelResolver {
             lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
             lResolver.put(LobidLabelResolver.DOMAIN, new LobidLabelResolver());
             lResolver.put(FrlDummyLabelResolver.DOMAIN, new FrlDummyLabelResolver());
-            lResolver.put(W3CDummyLabelResolver.DOMAIN, new W3CDummyLabelResolver());
-            lResolver.put(CCDummyLabelResolver.DOMAIN, new CCDummyLabelResolver());
+            lResolver.put(CCLabelResolver.DOMAIN, new CCLabelResolver());
             lResolver.put(SchemaDummyLabelResolver.DOMAIN, new SchemaDummyLabelResolver());
             lResolver.put(GithubDummyLabelResolver.DOMAIN, new GithubDummyLabelResolver());
             lResolver.put(GitUserDummyLabelResolver.DOMAIN, new GitUserDummyLabelResolver());
             lResolver.put(LocDummyLabelResolver.DOMAIN, new LocDummyLabelResolver());
             lResolver.put(OldDataHubDummyLabelResolver.DOMAIN, new OldDataHubDummyLabelResolver());
             lResolver.put(WorldcatDummyLabelResolver.DOMAIN, new WorldcatDummyLabelResolver());
+            lResolver.put(PurlLabelResolver.DOMAIN, new PurlLabelResolver());
+            lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
+            lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new ToscienceApiLabelResolver());
+
             return lResolver;
         }
 
         private static LabelResolver getLabelResolver(String domain) {
+            play.Logger.debug("Method getLabelResolver Domain : " + domain);
             Hashtable<String, LabelResolver> lResolvTable = null;
             lResolvTable = getLabelResolverTable();
-            return lResolvTable.get(domain);
+            LabelResolver labelResolver = lResolvTable.get(domain);
+            play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
+            return labelResolver;
         }
 
     }

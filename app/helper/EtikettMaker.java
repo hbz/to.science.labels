@@ -77,9 +77,15 @@ public class EtikettMaker {
 
     private String TYPE_ALIAS = null;
 
+    public static String TOSCIENCE_PRODUCT_URL = null;
+    public static String TOSCIENCE_API_URL = null;
+
     public EtikettMaker() {
         ID_ALIAS = Play.application().configuration().getString("etikett.alias.id");
         TYPE_ALIAS = Play.application().configuration().getString("etikett.alias.type");
+        TOSCIENCE_PRODUCT_URL = Play.application().configuration().getString("toscience.domain");
+        TOSCIENCE_API_URL = Play.application().configuration().getString("toscience.api");
+        play.Logger.debug(TOSCIENCE_API_URL);
     }
 
     /**
@@ -105,7 +111,7 @@ public class EtikettMaker {
 
     public List<Etikett> convertRdfData(InputStream in, String language) {
         List<Etikett> result = new ArrayList<>();
-        Collection<Statement> g = RdfUtils.readRdfToGraph(in, RDFFormat.TURTLE, "");
+        Collection<Statement> g = new RdfUtils().readRdfToGraph(in, RDFFormat.TURTLE, "");
         Iterator<Statement> statements = g.iterator();
         Map<String, Etikett> collect = new HashMap<String, Etikett>();
         while (statements.hasNext()) {
@@ -206,9 +212,9 @@ public class EtikettMaker {
                     && urlAddress.startsWith("http")) {
                 play.Logger.debug("Perform Label lookup from URL " + urlAddress);
                 result = getLabelFromUrlAddress(urlAddress);
-                if (result != null) {
-                    addJsonDataIntoDBCache(result);
-                }
+                // if (result != null) {
+                // addJsonDataIntoDBCache(result);
+                // }
             } else {
                 play.Logger.debug("Fetch from db " + result);
                 // + " " + result.getMultiLangSerialized());
@@ -262,22 +268,21 @@ public class EtikettMaker {
         String result = null;
         LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
         if (lResolver != null) {
+            play.Logger.debug("Start getting label from LabelResolver ");
             result = lResolver.lookup(urlAddress, lang);
-            play.Logger.debug("Get label from LabelResolver " + result);
+        } else {
+            play.Logger.warn("No LabelResolver returned");
         }
         if (result == null) {
             result = urlAddress;
         }
-        if (lResolver == null && result.equals(urlAddress)) {
-            try {
-                result = DefaultLabelResolver.lookup(urlAddress, lang);
-                if (urlAddress.equals(result)) {
-                    result = TitleLabelResolver.lookup(urlAddress, lang);
-                }
-            } catch (Exception e) {
-                play.Logger.info("Lookup fails inside the LabelResolvers");
-            }
-        }
+        /*
+         * if (lResolver == null && result.equals(urlAddress)) { try { result =
+         * DefaultLabelResolver.lookup(urlAddress, lang); if
+         * (urlAddress.equals(result)) { result =
+         * TitleLabelResolver.lookup(urlAddress, lang); } } catch (Exception e)
+         * { play.Logger.info("Lookup fails inside the LabelResolvers"); } }
+         */
 
         return result;
     }
@@ -322,7 +327,7 @@ public class EtikettMaker {
         Ebean.save(cur);
     }
 
-    private void addJsonDataIntoDBCache(Etikett e) {
+    public void addJsonDataIntoDBCache(Etikett e) {
         Etikett cur = null;
         if (e != null) {
             cur = Ebean.find(Etikett.class).where().eq("uri", e.uri).findUnique();

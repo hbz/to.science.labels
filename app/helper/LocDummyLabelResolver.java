@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class LocDummyLabelResolver implements LabelResolver {
+public class LocDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "www.loc.gov";
 
@@ -16,6 +16,12 @@ public class LocDummyLabelResolver implements LabelResolver {
         // TODO Auto-generated method stub
         play.Logger.debug("This is the DummyLabelResolver: Just doing nothing");
         return urlString;
+    }
+
+    @Override
+    protected void lookupAsync(String uri, String language) {
+        // TODO Auto-generated method stub
+
     }
 
 }

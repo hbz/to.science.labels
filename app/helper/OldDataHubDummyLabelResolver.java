@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class OldDataHubDummyLabelResolver implements LabelResolver {
+public class OldDataHubDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "old.datahub.io";
 
@@ -16,6 +16,12 @@ public class OldDataHubDummyLabelResolver implements LabelResolver {
         // TODO Auto-generated method stub
         play.Logger.debug("This is the DummyLabelResolver: Just doing nothing");
         return urlString;
+    }
+
+    @Override
+    protected void lookupAsync(String uri, String language) {
+        // TODO Auto-generated method stub
+
     }
 
 }

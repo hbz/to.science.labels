@@ -23,19 +23,28 @@ import org.eclipse.rdf4j.rio.RDFFormat;
  * @author Jan Schnasse
  *
  */
-public class GeonamesLabelResolver implements LabelResolver {
+public class GeonamesLabelResolver extends LabelResolverService implements LabelResolver {
 
-    final public static String id = "http://www.geonames.org/";
-    final public static String id2 = "https://www.geonames.org/";
+    public GeonamesLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "www.geonames.org";
 
     public String lookup(String uri, String language) {
+        SparqlLookup SpL = new SparqlLookup();
         try {
-            return SparqlLookup.lookup(uri + "/about.rdf", "?s", "http://www.geonames.org/ontology#name", language,
+            return SpL.lookup(uri + "/about.rdf", "?s", "http://www.geonames.org/ontology#name", language,
                     RDFFormat.RDFXML, "application/rdf+xml");
         } catch (Exception e) {
             return uri;
         }
+    }
+
+    @Override
+    protected void lookupAsync(String uri, String language) {
+        // TODO Auto-generated method stub
+
     }
 
 }

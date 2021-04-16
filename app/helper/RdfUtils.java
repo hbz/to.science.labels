@@ -58,7 +58,7 @@ public class RdfUtils {
      *            see sesame docu
      * @return a Graph representing the rdf in the input stream
      */
-    public static Collection<Statement> readRdfToGraph(InputStream inputStream, RDFFormat inf, String baseUrl) {
+    public Collection<Statement> readRdfToGraph(InputStream inputStream, RDFFormat inf, String baseUrl) {
         try {
             RDFParser rdfParser = Rio.createParser(inf);
             StatementCollector collector = new StatementCollector();
@@ -84,7 +84,7 @@ public class RdfUtils {
      * @return a Rdf-Graph
      * @throws IOException
      */
-    public static Collection<Statement> readRdfToGraph(URL url, RDFFormat inf, String accept) throws Exception {
+    public Collection<Statement> readRdfToGraph(URL url, RDFFormat inf, String accept) throws Exception {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Accept", accept);
         try (InputStream in = URLUtil.urlToInputStream(url, headers)) {
@@ -92,7 +92,7 @@ public class RdfUtils {
         }
     }
 
-    public static RepositoryConnection readRdfInputStreamToRepository(InputStream is, RDFFormat inf) {
+    public RepositoryConnection readRdfInputStreamToRepository(InputStream is, RDFFormat inf) {
         RepositoryConnection con = null;
         try {
             Repository myRepository = new SailRepository(new MemoryStore());
@@ -106,7 +106,7 @@ public class RdfUtils {
         }
     }
 
-    public static Literal normalizeLiteral(Literal l) {
+    public Literal normalizeLiteral(Literal l) {
         ValueFactory v = SimpleValueFactory.getInstance();
         Literal newLiteral = null;
         if (l.getLanguage().isPresent()) {
