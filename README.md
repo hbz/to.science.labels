@@ -1,5 +1,6 @@
 # etikett 
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9808c99193c54f38a003cc5cb46e0369)](https://app.codacy.com/gh/hbz/to.science.labels?utm_source=github.com&utm_medium=referral&utm_content=hbz/to.science.labels&utm_campaign=Badge_Grade_Settings)
 [![travis status](https://travis-ci.org/hbz/etikett.svg?branch=master)](https://travis-ci.org/hbz/etikett)
 
 etikett helps you to render URIs. URI rendering is a common use case when dealing with rdf data. 
