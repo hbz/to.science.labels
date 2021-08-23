@@ -88,16 +88,16 @@ set the following vars
 ```
 
 JAVA_HOME=/opt/java
-HOME="/opt/etikett"
+HOME="/opt/to.science.labels"
 USER="user to run etikett"
 GROUP="user to run etikett"
 SECRET=`uuidgen` # generate a secret e.g. using uuidgen
-PORT=9000
+PORT=9002
 ```
 
 include into system start and shutdown
 
-`sudo update-rc.d etikett defaults 99 20`
+`sudo update-rc.d to.science.labels defaults 99 20`
 
 Create/Configure Mysql Table
 
@@ -109,7 +109,7 @@ CREATE USER 'etikett'@'localhost' IDENTIFIED BY 'etikett';
 GRANT ALL ON etikett.* TO 'etikett'@'localhost';
 ```
 
-Set /opt/etikett/conf/application.conf
+Set /opt/to.science.labels/conf/application.conf
 
 ```
 db.default.driver=com.mysql.jdbc.Driver
@@ -120,7 +120,7 @@ db.default.password="etikett_test"
 
 start
 
-`sudo service etikett start`
+`sudo service to.science.labels start`
 
 # Update
 
