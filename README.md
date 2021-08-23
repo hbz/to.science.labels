@@ -114,8 +114,8 @@ Set /opt/to.science.labels/conf/application.conf
 ```
 db.default.driver=com.mysql.jdbc.Driver
 db.default.url="jdbc:mysql://localhost/etikett?characterEncoding=UTF-8"
-db.default.user=etikett_test
-db.default.password="etikett_test"
+db.default.user=etikett
+db.default.password="etikett"
 ```
 
 start
