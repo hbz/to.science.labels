@@ -34,8 +34,8 @@ sudo mv activator-1.3.2-minimal /opt
 
 ```
 cd /tmp
-git clone https://github.com/hbz/etikett
-cd etikett
+git clone https://github.com/hbz/to.science.labels
+cd to.science.labels
 ```
 
 ## Run
@@ -65,12 +65,12 @@ Or list info for a single uri
 # Install on Ubuntu
 
 ``` 
-cd /tmp/etikett
+cd /tmp/to.science.labels
 /opt/activator-1.3.2-minimal/activator dist
 cp target/universal/etikett-0.1.0-SNAPSHOT.zip  /tmp
 cd /tmp
 unzip etikett-0.1.0-SNAPSHOT.zip
-mv etikett-0.1.0-SNAPSHOT /opt/etikett
+mv etikett-0.1.0-SNAPSHOT /opt/to.science.labels
 ```
 
 
@@ -78,9 +78,9 @@ edit startscript
 
 ```
 
-sudo cp /tmp/etikett/install/etikett.tmpl /etc/init.d/etikett
-sudo chmod u+x /etc/init.d/etikett
-sudo editor /etc/init.d/etikett
+sudo cp /tmp/to.science.labels/install/etikett.tmpl /etc/init.d/to.science.labels
+sudo chmod u+x /etc/init.d/to.science.labels
+sudo editor /etc/init.d/to.science.labels
 ```
 
 set the following vars
