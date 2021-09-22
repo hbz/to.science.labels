@@ -118,6 +118,12 @@ db.default.user=etikett
 db.default.password="etikett"
 ```
 
+To connect to a to.science.api also edit the following vars
+```
+application.toscience.url="http://localhost"
+application.toscience.url.api="http://api.localhost"
+```
+
 start
 
 `sudo service to.science.labels start`
