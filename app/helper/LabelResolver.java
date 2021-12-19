@@ -62,6 +62,7 @@ public interface LabelResolver {
             lResolver.put(PurlLabelResolver.DOMAIN, new PurlLabelResolver());
             lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
             lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new ToscienceApiLabelResolver());
+            lResolver.put(ResearchOrganízationsRegistry.DOMAIN, new ResearchOrganizationsLabelResolver());
 
             return lResolver;
         }
