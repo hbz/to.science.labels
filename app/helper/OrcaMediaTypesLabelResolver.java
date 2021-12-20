@@ -15,7 +15,7 @@ public class OrcaMediaTypesLabelResolver extends LabelResolverService implements
     public OrcaMediaTypesLabelResolver() {
     }
 
-    public final static String DOMAIN = "medientypen.orca.nrw";
+    public final static String DOMAIN = "w3id.org";
 
     public String lookup(String uri, String language) {
         String label = null;

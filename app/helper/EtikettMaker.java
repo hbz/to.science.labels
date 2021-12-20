@@ -270,7 +270,7 @@ public class EtikettMaker {
         LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
         // LabelResolver.Factory.getInstance(urlAddress);
         if (lResolver != null) {
-            play.Logger.debug("Start getting label from LabelResolver ");
+            play.Logger.debug("Start getting label from LabelResolver: " + lResolver.toString());
             result = lResolver.lookup(urlAddress, lang);
         } else {
             play.Logger.warn("No LabelResolver returned");
