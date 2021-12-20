@@ -10,7 +10,7 @@ import java.util.Map;
  * @author aquast
  *
  */
-public class OrcaMediaTypesLabelResolver extends LabelResolver {
+public class OrcaMediaTypesLabelResolver extends LabelResolverService implements LabelResolver {
 
     public OrcaMediaTypesLabelResolver() {
     }
@@ -29,6 +29,12 @@ public class OrcaMediaTypesLabelResolver extends LabelResolver {
             label = uri;
         }
         return label;
+
+    }
+
+    @Override
+    protected void lookupAsync(String uri, String language) {
+        // TODO Auto-generated method stub
 
     }
 
