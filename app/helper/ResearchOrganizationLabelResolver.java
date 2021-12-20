@@ -16,7 +16,7 @@ public class ResearchOrganizationLabelResolver extends LabelResolverService impl
 
     @Override
     protected void lookupAsync(String uri, String language) {
-        play.logger.info("Search label for: " + uri);
+        play.Logger.info("Search label for: " + uri);
         GenericPropertiesLoader genProp = new GenericPropertiesLoader();
         Map<String, String> map = genProp.loadVocabMap("ResearchOrganizationsRegistry-de.properties");
         if (map.get(uri) != null) {
