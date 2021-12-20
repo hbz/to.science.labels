@@ -38,7 +38,7 @@ import models.Etikett;
  *
  */
 @SuppressWarnings("javadoc")
-public class PurlLabelResolver extends LabelResolverService implements LabelResolver {
+public class PurlLabelResolver extends LabelResolver {
 
     PurlLabelResolver() {
         super();

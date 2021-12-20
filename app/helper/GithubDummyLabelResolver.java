@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class GithubDummyLabelResolver extends LabelResolverService implements LabelResolver {
+public class GithubDummyLabelResolver extends LabelResolver {
 
     public static final String DOMAIN = "github.com";
 
@@ -18,7 +18,6 @@ public class GithubDummyLabelResolver extends LabelResolverService implements La
         return urlString;
     }
 
-    @Override
     protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 

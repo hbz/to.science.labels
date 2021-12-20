@@ -266,6 +266,7 @@ public class EtikettMaker {
     public String lookUpLabel(String urlAddress, String lang) {
 
         String result = null;
+
         LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
         if (lResolver != null) {
             play.Logger.debug("Start getting label from LabelResolver ");
