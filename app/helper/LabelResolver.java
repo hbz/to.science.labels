@@ -78,12 +78,11 @@ public interface LabelResolver {
              */
             lResolver.put(OrcaMediaTypesLabelResolver.DOMAIN, new OrcaMediaTypesLabelResolver());
             lResolver.put(ResearchOrganizationLabelResolver.DOMAIN, new ResearchOrganizationLabelResolver());
-            play.Logger.info("created Hastable: " + lResolver.toString());
             return lResolver;
         }
 
         private static LabelResolver getLabelResolver(String domain) {
-            play.Logger.debug("Method getLabelResolver Domain : " + domain);
+            // play.Logger.debug("Method getLabelResolver Domain : " + domain);
             LabelResolver labelResolver = getLabelResolverTable().get(domain);
             play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
             return labelResolver;

@@ -23,7 +23,7 @@ public class OrcaMediaTypesLabelResolver extends LabelResolverService implements
         GenericPropertiesLoader genProp = new GenericPropertiesLoader();
         Map<String, String> map = genProp.loadVocabMap("OrcaMedientypen-de.properties");
         if (map.get(uri) != null) {
-            play.Logger.info("Found Label " + map.get(uri) + "for: " + uri);
+            play.Logger.info("Found Label " + map.get(uri) + " for: " + uri);
             label = map.get(uri);
         } else {
             label = uri;
@@ -38,7 +38,7 @@ public class OrcaMediaTypesLabelResolver extends LabelResolverService implements
         GenericPropertiesLoader genProp = new GenericPropertiesLoader();
         Map<String, String> map = genProp.loadVocabMap("OrcaMedientypen-de.properties");
         if (map.get(uri) != null) {
-            play.Logger.info("Found Label " + map.get(uri) + "for: " + uri);
+            play.Logger.info("Found Label " + map.get(uri) + " for: " + uri);
             etikett.setUri(uri);
             etikett.setLabel(map.get(uri));
         } else {
