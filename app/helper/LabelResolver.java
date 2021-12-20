@@ -17,7 +17,7 @@ public interface LabelResolver {
 
     public static class Factory {
 
-        public static LabelResolver getInstance(String urlString) {
+        public LabelResolver getInstance(String urlString) {
             LabelResolver lResolv = null;
             URL url = createUrlFromString(urlString);
             play.Logger.debug("Domain extracted from urlString: " + url.getHost());
