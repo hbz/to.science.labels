@@ -70,8 +70,9 @@ public interface LabelResolver {
         private static LabelResolver getLabelResolver(String domain) {
             play.Logger.debug("Method getLabelResolver Domain : " + domain);
             Hashtable<String, LabelResolver> lResolvTable = getLabelResolverTable();
-
+            play.Logger.info("Hier");
             LabelResolver labelResolver = lResolvTable.get(domain);
+            play.Logger.info("Hier");
             play.Logger.info(lResolvTable.get(domain).toString());
             play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
             return labelResolver;
