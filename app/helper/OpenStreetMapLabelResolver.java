@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Jan Schnasse
  *
  */
-public class OpenStreetMapLabelResolver extends LabelResolver {
+public class OpenStreetMapLabelResolver extends LabelResolverService implements LabelResolver {
 
     public OpenStreetMapLabelResolver() {
         super();
@@ -53,6 +53,7 @@ public class OpenStreetMapLabelResolver extends LabelResolver {
         return uri;
     }
 
+    @Override
     protected void lookupAsync(String uri, String language) {
         // TODO Auto-generated method stub
 

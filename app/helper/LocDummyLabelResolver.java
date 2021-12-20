@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class LocDummyLabelResolver extends LabelResolver {
+public class LocDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "www.loc.gov";
 

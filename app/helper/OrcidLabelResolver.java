@@ -36,7 +36,7 @@ import models.Etikett;
  * @author Jan Schnasse
  *
  */
-public class OrcidLabelResolver extends LabelResolver {
+public class OrcidLabelResolver extends LabelResolverService implements LabelResolver {
     public OrcidLabelResolver() {
         super();
     }
@@ -60,12 +60,6 @@ public class OrcidLabelResolver extends LabelResolver {
         } catch (Exception e) {
             play.Logger.info("Failed to find label for " + uri);
         }
-    }
-
-    @Override
-    public String lookup(String urlString, String Language) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

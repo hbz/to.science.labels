@@ -25,7 +25,7 @@ import models.Etikett;
  * @author Jan Schnasse
  *
  */
-public class LobidLabelResolver extends LabelResolver {
+public class LobidLabelResolver extends LabelResolverService implements LabelResolver {
 
     public LobidLabelResolver() {
         super();
@@ -67,12 +67,6 @@ public class LobidLabelResolver extends LabelResolver {
     public void run() {
         lookupAsync(urlString, language);
 
-    }
-
-    @Override
-    public String lookup(String urlString, String Language) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

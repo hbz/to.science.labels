@@ -38,7 +38,7 @@ import models.Etikett;
  *
  */
 @SuppressWarnings("javadoc")
-public class GndLabelResolver extends LabelResolver {
+public class GndLabelResolver extends LabelResolverService implements LabelResolver {
 
     public GndLabelResolver() {
         super();
@@ -134,11 +134,6 @@ public class GndLabelResolver extends LabelResolver {
                 return s.getObject().stringValue();
             }
         }
-        return null;
-    }
-
-    public String lookup(String urlString, String Language) {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -11,13 +11,13 @@ import java.util.Hashtable;
  * @author aquast
  *
  */
-public abstract class LabelResolver {
+public interface LabelResolver {
 
-    public abstract String lookup(String urlString, String Language);
+    public String lookup(String urlString, String Language);
 
-    public class Factory {
+    public static class Factory {
 
-        public LabelResolver getInstance(String urlString) {
+        public static LabelResolver getInstance(String urlString) {
             URL url = createUrlFromString(urlString);
             play.Logger.debug("Domain extracted from urlString: " + url.getHost());
             LabelResolver lResolv = getLabelResolver(url.getHost());
@@ -29,7 +29,7 @@ public abstract class LabelResolver {
             return getLabelResolverTable().containsKey(url.getHost());
         }
 
-        private URL createUrlFromString(String urlString) {
+        private static URL createUrlFromString(String urlString) {
             URL createdUrl = null;
             try {
                 createdUrl = new URL(urlString);
@@ -82,7 +82,7 @@ public abstract class LabelResolver {
             return lResolver;
         }
 
-        private LabelResolver getLabelResolver(String domain) {
+        private static LabelResolver getLabelResolver(String domain) {
             play.Logger.debug("Method getLabelResolver Domain : " + domain);
             LabelResolver labelResolver = getLabelResolverTable().get(domain);
             play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());

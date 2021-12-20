@@ -7,7 +7,7 @@ package helper;
  * @author aquast
  *
  */
-public class OldDataHubDummyLabelResolver extends LabelResolver {
+public class OldDataHubDummyLabelResolver extends LabelResolverService implements LabelResolver {
 
     public static final String DOMAIN = "old.datahub.io";
 
