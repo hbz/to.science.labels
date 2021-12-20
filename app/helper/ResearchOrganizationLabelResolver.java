@@ -20,8 +20,12 @@ public class ResearchOrganizationLabelResolver extends LabelResolverService impl
         GenericPropertiesLoader genProp = new GenericPropertiesLoader();
         Map<String, String> map = genProp.loadVocabMap("ResearchOrganizationsRegistry-de.properties");
         if (map.get(uri) != null) {
+            play.Logger.info("Found Label " + map.get(uri) + "for: " + uri);
             etikett.setUri(uri);
             etikett.setLabel(map.get(uri));
+        } else {
+            etikett.setUri(uri);
+            etikett.setLabel("testLabel");
         }
     }
 }
