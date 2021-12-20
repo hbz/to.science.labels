@@ -63,7 +63,7 @@ public interface LabelResolver {
             lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
             lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new ToscienceApiLabelResolver());
             lResolver.put(ResearchOrganizationLabelResolver.DOMAIN, new ResearchOrganizationLabelResolver());
-
+            play.Logger.info("created Hastable: " + lResolver.toString());
             return lResolver;
         }
 
