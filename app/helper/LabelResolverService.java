@@ -12,7 +12,7 @@ import models.Etikett;
 /**
  * @author aquast LabelResolverService provides the default methods required for
  *         the specific Authority Files LabelResolvers. LabelResolverService can
- *         be extended by specific LabelResolver Clsses that implement the
+ *         be extended by specific LabelResolver Classes that implement the
  *         LabelResolver Interface
  *
  */

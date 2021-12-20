@@ -17,11 +17,10 @@ public interface LabelResolver {
 
     public static class Factory {
 
-        public LabelResolver getInstance(String urlString) {
-            LabelResolver lResolv = null;
+        public static LabelResolver getInstance(String urlString) {
             URL url = createUrlFromString(urlString);
             play.Logger.debug("Domain extracted from urlString: " + url.getHost());
-            lResolv = getLabelResolver(url.getHost());
+            LabelResolver lResolv = getLabelResolver(url.getHost());
             return lResolv;
         }
 
@@ -83,7 +82,7 @@ public interface LabelResolver {
             return lResolver;
         }
 
-        private LabelResolver getLabelResolver(String domain) {
+        private static LabelResolver getLabelResolver(String domain) {
             play.Logger.debug("Method getLabelResolver Domain : " + domain);
             LabelResolver labelResolver = getLabelResolverTable().get(domain);
             play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
