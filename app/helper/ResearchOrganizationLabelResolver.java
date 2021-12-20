@@ -12,6 +12,10 @@ import java.util.Map;
  */
 public class ResearchOrganizationLabelResolver extends LabelResolverService implements LabelResolver {
 
+    public ResearchOrganizationLabelResolver() {
+        super();
+    }
+
     public final static String DOMAIN = "ror.org";
 
     @Override
