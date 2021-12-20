@@ -10,9 +10,9 @@ import java.util.Map;
  * @author aquast
  *
  */
-public class ResearchOrganizationLabelResolver extends LabelResolverService implements LabelResolver {
+public class OrcaMediaTypesLabelResolver extends LabelResolverService implements LabelResolver {
 
-    public ResearchOrganizationLabelResolver() {
+    public OrcaMediaTypesLabelResolver() {
     }
 
     public final static String DOMAIN = "ror.org";
@@ -21,7 +21,7 @@ public class ResearchOrganizationLabelResolver extends LabelResolverService impl
         String label = null;
         play.Logger.info("Search label for: " + uri);
         GenericPropertiesLoader genProp = new GenericPropertiesLoader();
-        Map<String, String> map = genProp.loadVocabMap("ResearchOrganizationsRegistry-de.properties");
+        Map<String, String> map = genProp.loadVocabMap("OrcaMedientypen-de.properties");
         if (map.get(uri) != null) {
             play.Logger.info("Found Label " + map.get(uri) + "for: " + uri);
             label = map.get(uri);
@@ -36,7 +36,7 @@ public class ResearchOrganizationLabelResolver extends LabelResolverService impl
     protected void lookupAsync(String uri, String language) {
         play.Logger.info("Search label for: " + uri);
         GenericPropertiesLoader genProp = new GenericPropertiesLoader();
-        Map<String, String> map = genProp.loadVocabMap("ResearchOrganizationsRegistry-de.properties");
+        Map<String, String> map = genProp.loadVocabMap("OrcaMedientypen-de.properties");
         if (map.get(uri) != null) {
             play.Logger.info("Found Label " + map.get(uri) + "for: " + uri);
             etikett.setUri(uri);

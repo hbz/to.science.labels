@@ -77,6 +77,7 @@ public interface LabelResolver {
              * lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new
              * ToscienceApiLabelResolver());
              */
+            lResolver.put(OrcaMediaTypesLabelResolver.DOMAIN, new OrcaMediaTypesLabelResolver());
             lResolver.put(ResearchOrganizationLabelResolver.DOMAIN, new ResearchOrganizationLabelResolver());
             play.Logger.info("created Hastable: " + lResolver.toString());
             return lResolver;
@@ -84,12 +85,7 @@ public interface LabelResolver {
 
         private static LabelResolver getLabelResolver(String domain) {
             play.Logger.debug("Method getLabelResolver Domain : " + domain);
-            play.Logger.info("Hier0");
-            Hashtable<String, LabelResolver> lResolvTable = getLabelResolverTable();
-            play.Logger.info("Hier1");
-            LabelResolver labelResolver = lResolvTable.get(domain);
-            play.Logger.info("Hier2");
-            play.Logger.info(lResolvTable.get(domain).toString());
+            LabelResolver labelResolver = getLabelResolverTable().get(domain);
             play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
             return labelResolver;
         }
