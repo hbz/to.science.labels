@@ -72,6 +72,7 @@ public interface LabelResolver {
             Hashtable<String, LabelResolver> lResolvTable = null;
             lResolvTable = getLabelResolverTable();
             LabelResolver labelResolver = lResolvTable.get(domain);
+            play.Logger.info(lResolvTable.get(domain).toString());
             play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
             return labelResolver;
         }
