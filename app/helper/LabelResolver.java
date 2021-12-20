@@ -83,7 +83,7 @@ public interface LabelResolver {
             return lResolver;
         }
 
-        private static LabelResolver getLabelResolver(String domain) {
+        private LabelResolver getLabelResolver(String domain) {
             play.Logger.debug("Method getLabelResolver Domain : " + domain);
             LabelResolver labelResolver = getLabelResolverTable().get(domain);
             play.Logger.debug("Return LabelResolver of Class: " + labelResolver.getClass().toString());
