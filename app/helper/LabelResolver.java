@@ -44,11 +44,22 @@ public interface LabelResolver {
 
             Hashtable<String, LabelResolver> lResolver = new Hashtable<String, LabelResolver>();
             // put all known Class that implements the Interface into Hashtable
+            lResolver.put(CrossrefLabelResolver.DOMAIN, new CrossrefLabelResolver());
+            lResolver.put(OrcidLabelResolver.DOMAIN, new OrcidLabelResolver());
+            lResolver.put(GeonamesLabelResolver.DOMAIN, new GeonamesLabelResolver());
+            lResolver.put(GndLabelResolver.DOMAIN, new GndLabelResolver());
+            lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
+            lResolver.put(LobidLabelResolver.DOMAIN, new LobidLabelResolver());
+            lResolver.put(CCLabelResolver.DOMAIN, new CCLabelResolver());
+            lResolver.put(PurlLabelResolver.DOMAIN, new PurlLabelResolver());
+            lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
+            lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new ToscienceApiLabelResolver());
+
             lResolver.put(LicenseLabelResolver.DOMAIN, new LicenseLabelResolver());
             lResolver.put(LanguageLabelResolver.DOMAIN, new LanguageLabelResolver());
             lResolver.put(OrcaMediaTypesLabelResolver.DOMAIN, new OrcaMediaTypesLabelResolver());
             lResolver.put(ResearchOrganizationLabelResolver.DOMAIN, new ResearchOrganizationLabelResolver());
-            lResolver.put(OrcidLabelResolver.DOMAIN, new OrcidLabelResolver());
+
             return lResolver;
         }
 
