@@ -84,7 +84,7 @@ public class EtikettMaker {
         ID_ALIAS = Play.application().configuration().getString("etikett.alias.id");
         TYPE_ALIAS = Play.application().configuration().getString("etikett.alias.type");
         TOSCIENCE_PRODUCT_URL = Play.application().configuration().getString("toscience.domain");
-        TOSCIENCE_API_URL = Play.application().configuration().getString("toscience.api");
+        TOSCIENCE_API_URL = Play.application().configuration().getString("application.toscience.url.api");
         play.Logger.debug(TOSCIENCE_API_URL);
     }
 
@@ -232,6 +232,7 @@ public class EtikettMaker {
 
     private Etikett getLabelFromUrlAddress(String urlAddress) {
         Etikett result;
+        play.Logger.debug("Rolle=" + (String) Http.Context.current().args.get("role"));
         if ("admin".equals((String) Http.Context.current().args.get("role"))) {
             result = createLabel(urlAddress);
             if (result.label != null) {
@@ -264,7 +265,7 @@ public class EtikettMaker {
     }
 
     public String lookUpLabel(String urlAddress, String lang) {
-
+        play.Logger.debug("Starting to look up label for String=" + urlAddress + "; Sprache=" + lang);
         String result = null;
 
         LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
