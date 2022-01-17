@@ -48,6 +48,7 @@ public interface LabelResolver {
             lResolver.put(LanguageLabelResolver.DOMAIN, new LanguageLabelResolver());
             lResolver.put(OrcaMediaTypesLabelResolver.DOMAIN, new OrcaMediaTypesLabelResolver());
             lResolver.put(ResearchOrganizationLabelResolver.DOMAIN, new ResearchOrganizationLabelResolver());
+            lResolver.put(OrcidLabelResolver.DOMAIN, new OrcidLabelResolver());
             return lResolver;
         }
 
