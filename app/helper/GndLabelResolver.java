@@ -21,6 +21,7 @@ import java.net.URL;
 import java.text.Normalizer;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -81,23 +82,24 @@ public class GndLabelResolver extends LabelResolverService implements LabelResol
             Iterator<Statement> sit = statement.iterator();
 
             while (sit.hasNext()) {
-                Statement s = sit.next();
-                boolean isLiteral = s.getObject() instanceof Literal;
-                if (!(s.getSubject() instanceof BNode)) {
+                Statement partialStatement = sit.next();
+                boolean isLiteral = partialStatement.getObject() instanceof Literal;
+                if (!(partialStatement.getSubject() instanceof BNode)) {
                     if (isLiteral) {
                         ValueFactory v = SimpleValueFactory.getInstance();
-                        Statement newS = v.createStatement(s.getSubject(), s.getPredicate(), v.createLiteral(
-                                Normalizer.normalize(s.getObject().stringValue(), Normalizer.Form.NFKC)));
+                        Statement newS = v.createStatement(partialStatement.getSubject(),
+                                partialStatement.getPredicate(), v.createLiteral(Normalizer
+                                        .normalize(partialStatement.getObject().stringValue(), Normalizer.Form.NFKC)));
                         String tmpLabel = findLabel(newS, uri);
                         if (tmpLabel != null) {
-                            play.Logger.info("Found Label: " + label);
+                            play.Logger.info("Found Label: " + tmpLabel);
                             label = tmpLabel;
                             etikett.setLabel(label);
                             cacheEtikett(etikett);
                         } else {
                             tmpLabel = findLabel(newS, sslUrl);
                             if (tmpLabel != null) {
-                                play.Logger.info("Found Label with https: " + label);
+                                play.Logger.info("Found Label with https: " + tmpLabel);
                                 label = tmpLabel;
                                 etikett.setLabel(label);
                                 cacheEtikett(etikett);
@@ -112,29 +114,46 @@ public class GndLabelResolver extends LabelResolverService implements LabelResol
         }
     }
 
-    private String findLabel(Statement s, String uri) {
-        if (!uri.equals(s.getSubject().stringValue())) {
+    private String findLabel(Statement stmnt, String uri) {
+        if (!uri.equals(stmnt.getSubject().stringValue())) {
             return null;
         }
         GndLabelResolver.setProperties();
 
         Enumeration<Object> keys = turtleObjectProp.keys();
         while (keys.hasMoreElements()) {
-            String predicate = protocol + namespace + turtleObjectProp.getProperty((String) keys.nextElement());
-            if (predicate.equals(s.getPredicate().stringValue())) {
-                return s.getObject().stringValue();
+            String predicateProperty = turtleObjectProp.getProperty((String) keys.nextElement());
+            String predicate = protocol + namespace + predicateProperty;
+            if (predicate.equals(stmnt.getPredicate().stringValue())) {
+                return refineLabel(predicateProperty, stmnt.getObject().stringValue());
+                // return stmnt.getObject().stringValue();
             }
         }
 
         keys = turtleObjectProp.keys();
         while (keys.hasMoreElements()) {
-            String predicate = alternateProtocol + namespace
-                    + turtleObjectProp.getProperty((String) keys.nextElement());
-            if (predicate.equals(s.getPredicate().stringValue())) {
-                return s.getObject().stringValue();
+            String predicateProperty = turtleObjectProp.getProperty((String) keys.nextElement());
+            String predicate = alternateProtocol + namespace + predicateProperty;
+            if (predicate.equals(stmnt.getPredicate().stringValue())) {
+                return refineLabel(predicateProperty, stmnt.getObject().stringValue());
+                // return stmnt.getObject().stringValue();
             }
         }
         return null;
+    }
+
+    private String refineLabel(String predProp, String stmntValue) {
+        Hashtable<String, String> predStmnt = new Hashtable<>();
+        if (predStmnt.containsKey("preferredNameForThePerson")) {
+            // refine for Name-Sequence
+            String[] personNames = predStmnt.get("preferredNameForThePerson").split(", ");
+            StringBuffer personNameLabel = new StringBuffer();
+            for (int i = personNames.length; i > 0; i--) {
+                personNameLabel.append(personNames[i - 1] + " ");
+            }
+            return personNameLabel.toString();
+        }
+        return stmntValue;
     }
 
 }

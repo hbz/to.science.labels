@@ -50,8 +50,8 @@ public class OrcidLabelResolver extends LabelResolverService implements LabelRes
         try (InputStream in = urlToInputStream(new URL(uri), headers)) {
             String str = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
             JsonNode hit = new ObjectMapper().readValue(str, JsonNode.class);
-            label = hit.at("/person/name/family-name/value").asText() + ", "
-                    + hit.at("/person/name/given-names/value").asText();
+            label = hit.at("/person/name/given-names/value").asText() + " "
+                    + hit.at("/person/name/family-name/value").asText();
             if (label != null) {
                 etikett.setLabel(label);
                 cacheEtikett(etikett);
