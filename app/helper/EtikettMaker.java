@@ -273,10 +273,9 @@ public class EtikettMaker {
         if (lResolver != null) {
             play.Logger.debug("Start getting label from LabelResolver: " + lResolver.toString());
             result = lResolver.lookup(urlAddress, lang);
-        } else {
-            play.Logger.warn("No LabelResolver returned");
         }
         if (result == null) {
+            play.Logger.warn("No LabelResolver returned, URL will be written into Label");
             result = urlAddress;
         }
         /*
