@@ -220,6 +220,14 @@ public class EtikettMaker {
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
                 }
+            } else if ((result == null || result.getType().equals(Etikett.EtikettType.CACHE))
+                    && urlAddress.startsWith("genid")) {
+                urlAddress = EtikettMaker.TOSCIENCE_API_URL + "/adhoc/uri/" + urlAddress;
+                play.Logger.debug("Perform Label lookup from URL: " + urlAddress);
+                result = getLabelFromUrlAddress(urlAddress);
+                if (result != null) {
+                    addJsonDataIntoDBCache(result);
+                }
             }
         } catch (Exception e) {
             play.Logger.warn("Label konnte nicht gefunden werden");
