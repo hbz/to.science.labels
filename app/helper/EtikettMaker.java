@@ -197,11 +197,12 @@ public class EtikettMaker {
     }
 
     public Etikett getValue(String urlAddress) {
-        String result = null;
+        Etikett result = null;
         result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
         if (result != null) {
-            play.Logger.debug("Fetched Label from db: " + result);
+            play.Logger.debug("Fetched Label from db: " + result.label);
         }
+        return result;
     }
 
     /**
