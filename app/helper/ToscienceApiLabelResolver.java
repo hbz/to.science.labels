@@ -53,7 +53,7 @@ public class ToscienceApiLabelResolver extends LabelResolverService implements L
         super();
     }
 
-    URL url = createUrlFromString(EtikettMaker.TOSCIENCE_API_URL);
+    private static URL url = createUrlFromString(EtikettMaker.TOSCIENCE_API_URL);
 
     public final static String DOMAIN = url.getHost();
 
