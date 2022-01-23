@@ -19,6 +19,7 @@ package helper;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -52,7 +53,9 @@ public class ToscienceApiLabelResolver extends LabelResolverService implements L
         super();
     }
 
-    public final static String DOMAIN = EtikettMaker.TOSCIENCE_API_URL;
+    URL url = createUrlFromString(EtikettMaker.TOSCIENCE_API_URL);
+
+    public final static String DOMAIN = url.getHost();
 
     public void lookupAsync(String uri, String language) {
         play.Logger.debug("Lookup Value from Local API. Language selection is not supported yet! " + uri);
@@ -76,6 +79,17 @@ public class ToscienceApiLabelResolver extends LabelResolverService implements L
         if (label == null) {
             label = uri;
         }
+    }
+
+    private static URL createUrlFromString(String urlString) {
+        URL createdUrl = null;
+        try {
+            createdUrl = new URL(urlString);
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            play.Logger.warn("Can't generate URL from " + urlString);
+        }
+        return createdUrl;
     }
 
 }

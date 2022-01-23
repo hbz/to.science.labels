@@ -225,6 +225,8 @@ public class EtikettMaker {
             play.Logger.warn("Label konnte nicht gefunden werden");
         }
         if (result == null) {
+            play.Logger.debug("Due to missing Etikett, creating new Etikett with urlAdress as Label as last option: "
+                    + urlAddress);
             result = new Etikett(urlAddress);
             result.label = urlAddress;
         }

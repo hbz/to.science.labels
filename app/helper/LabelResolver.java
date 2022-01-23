@@ -53,12 +53,12 @@ public interface LabelResolver {
             lResolver.put(CCLabelResolver.DOMAIN, new CCLabelResolver());
             lResolver.put(PurlLabelResolver.DOMAIN, new PurlLabelResolver());
             lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
-            lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new ToscienceApiLabelResolver());
 
             lResolver.put(LicenseLabelResolver.DOMAIN, new LicenseLabelResolver());
             lResolver.put(LanguageLabelResolver.DOMAIN, new LanguageLabelResolver());
             lResolver.put(OrcaMediaTypesLabelResolver.DOMAIN, new OrcaMediaTypesLabelResolver());
             lResolver.put(ResearchOrganizationLabelResolver.DOMAIN, new ResearchOrganizationLabelResolver());
+            lResolver.put(ToscienceApiLabelResolver.DOMAIN, new ToscienceApiLabelResolver());
 
             return lResolver;
         }
