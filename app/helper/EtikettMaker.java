@@ -220,11 +220,12 @@ public class EtikettMaker {
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
                 }
-            } else if ((result == null || result.getType().equals(Etikett.EtikettType.CACHE))
-                    && urlAddress.startsWith("genid")) {
-                urlAddress = EtikettMaker.TOSCIENCE_API_URL + "/adhoc/uri/" + urlAddress;
-                play.Logger.debug("Perform Label lookup from URL: " + urlAddress);
-                result = getLabelFromUrlAddress(urlAddress);
+            } else if (result == null && urlAddress.startsWith("genid")) {
+                urlAddress = EtikettMaker.TOSCIENCE_API_URL + "/adhoc/uri/" + urlAddress.hashCode();
+                // play.Logger.debug("Perform Label lookup from URL: " +
+                // urlAddress);
+                result.uri = urlAddress;
+                result.label = "Dummy Name";
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
                 }
