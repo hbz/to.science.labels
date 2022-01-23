@@ -197,7 +197,11 @@ public class EtikettMaker {
     }
 
     public Etikett getValue(String urlAddress) {
-        return Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
+        String result = null;
+        result = Ebean.find(Etikett.class).where().eq("uri", urlAddress).findUnique();
+        if (result != null) {
+            play.Logger.debug("Fetched Label from db: " + result);
+        }
     }
 
     /**
@@ -210,14 +214,11 @@ public class EtikettMaker {
         try {
             if ((result == null || result.getType().equals(Etikett.EtikettType.CACHE))
                     && urlAddress.startsWith("http")) {
-                play.Logger.debug("Perform Label lookup from URL " + urlAddress);
+                play.Logger.debug("Perform Label lookup from URL: " + urlAddress);
                 result = getLabelFromUrlAddress(urlAddress);
-                // if (result != null) {
-                // addJsonDataIntoDBCache(result);
-                // }
-            } else {
-                play.Logger.debug("Fetch from db " + result);
-                // + " " + result.getMultiLangSerialized());
+                if (result != null) {
+                    addJsonDataIntoDBCache(result);
+                }
             }
         } catch (Exception e) {
             play.Logger.warn("Label konnte nicht gefunden werden");
