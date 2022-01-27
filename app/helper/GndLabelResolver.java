@@ -143,10 +143,9 @@ public class GndLabelResolver extends LabelResolverService implements LabelResol
     }
 
     private String refineLabel(String predProp, String stmntValue) {
-        Hashtable<String, String> predStmnt = new Hashtable<>();
-        if (predStmnt.containsKey("preferredNameForThePerson")) {
+        if (predProp.equals("preferredNameForThePerson")) {
             // refine for Name-Sequence
-            String[] personNames = predStmnt.get("preferredNameForThePerson").split(", ");
+            String[] personNames = stmntValue.split(", ");
             StringBuffer personNameLabel = new StringBuffer();
             for (int i = personNames.length; i > 0; i--) {
                 personNameLabel.append(personNames[i - 1] + " ");

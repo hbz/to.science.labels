@@ -220,18 +220,16 @@ public class EtikettMaker {
                 if (result != null) {
                     addJsonDataIntoDBCache(result);
                 }
-            } else if (result == null && urlAddress.startsWith("genid")) {
+            } else if (result != null && (!urlAddress.startsWith("http"))) {
                 urlAddress = EtikettMaker.TOSCIENCE_API_URL + "/adhoc/uri/" + urlAddress.hashCode();
                 // play.Logger.debug("Perform Label lookup from URL: " +
                 // urlAddress);
                 result.uri = urlAddress;
-                result.label = "Dummy Name";
-                if (result != null) {
-                    addJsonDataIntoDBCache(result);
-                }
+                // result.label = "Dummy Name";
+                addJsonDataIntoDBCache(result);
             }
         } catch (Exception e) {
-            play.Logger.warn("Label konnte nicht gefunden werden");
+            play.Logger.warn("found no Label for " + urlAddress);
         }
         if (result == null) {
             play.Logger.debug("Due to missing Etikett, creating new Etikett with urlAdress as Label as last option: "
