@@ -13266,6 +13266,30 @@
 		"multilangLabel": {}
 	},
 	{
+		"uri": "http://www.w3.org/2006/vcard/ns#adr",
+		"comment": "",
+		"label": "Hochschule",
+		"icon": "",
+		"name": "contributorAffiliation",
+		"referenceType": "String",
+		"container": "@list",
+		"weight": "5",
+		"type": "CONTEXT",
+		"multilangLabel": {}
+	},
+	{
+		"uri": "http://hbz-nrw.de/regal#affiliationIndex",
+		"comment": "",
+		"label": "contributorAffiliationIndex",
+		"icon": "",
+		"name": "contributorAffiliationIndex",
+		"referenceType": "String",
+		"container": "@list",
+		"weight": "5",
+		"type": "CONTEXT",
+		"multilangLabel": {}
+	},
+	{
 		"uri": "https://d-nb.info/standards/elementset/gnd#academicDegree",
 		"comment": "",
 		"label": "Akademischer Grad",
@@ -13283,6 +13307,30 @@
 		"label": "academicDegreeIndex",
 		"icon": "",
 		"name": "academicDegreeIndex",
+		"referenceType": "String",
+		"container": "@list",
+		"weight": "5",
+		"type": "CONTEXT",
+		"multilangLabel": {}
+	},
+	{
+		"uri": "https://d-nb.info/standards/elementset/gnd#academicDegree",
+		"comment": "",
+		"label": "Akademischer Grad",
+		"icon": "",
+		"name": "contributorAcademicDegree",
+		"referenceType": "String",
+		"container": "@list",
+		"weight": "5",
+		"type": "CONTEXT",
+		"multilangLabel": {}
+	},
+	{
+		"uri": "http://hbz-nrw.de/regal#academicDegreeIndex",
+		"comment": "",
+		"label": "contributorAcademicDegreeIndex",
+		"icon": "",
+		"name": "contributorAcademicDegreeIndex",
 		"referenceType": "String",
 		"container": "@list",
 		"weight": "5",
