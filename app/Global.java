@@ -74,7 +74,7 @@ public class Global extends GlobalSettings {
                     (List<Etikett>) new ObjectMapper().readValue(uploadData, new TypeReference<List<Etikett>>() {
                     }));
         } catch (Exception e) {
-            play.Logger.warn("Failed to import data from " + url + ".")
+            play.Logger.warn("Failed to import data from " + url + ".");
             play.Logger.warn(e.printStackTrace());
         }
     }
