@@ -25938,7 +25938,19 @@
 		"multilangLabel": {}
 	},
 	{
-		"uri": "info:regal/zettel/titleHeader",
+		"uri": "http://hbz-nrw.de/regal#affiliationIndex",
+		"comment": "",
+		"label": "contributorAffiliationIndex",
+		"icon": "",
+		"name": "contributorAffiliationIndex",
+		"referenceType": "String",
+		"container": "@list",
+		"weight": "5",
+		"type": "CONTEXT",
+		"multilangLabel": {}
+	},
+	{
+		"uri": "https://d-nb.info/standards/elementset/gnd#academicDegree",
 		"comment": "",
 		"label": "Angaben zum Titel",
 		"icon": "",
@@ -25967,7 +25979,45 @@
 		"multilangLabel": {}
 	},
 	{
-		"uri": "ttps://creativecommons.org/publicdomain/zero/1.0/",
+		"uri": "https://d-nb.info/standards/elementset/gnd#academicDegree",
+		"comment": "",
+		"label": "Akademischer Grad",
+		"icon": "",
+		"name": "contributorAcademicDegree",
+		"referenceType": "String",
+		"container": "@list",
+		"weight": "5",
+		"type": "CONTEXT",
+		"multilangLabel": {}
+	},
+	{
+		"uri": "http://hbz-nrw.de/regal#academicDegreeIndex",
+		"comment": "",
+		"label": "contributorAcademicDegreeIndex",
+		"icon": "",
+		"name": "contributorAcademicDegreeIndex",
+		"referenceType": "String",
+		"container": "@list",
+		"weight": "5",
+		"type": "CONTEXT",
+		"multilangLabel": {}
+	},
+	{
+		"uri": "http://www.w3.org/2007/05/powder-s#describedby",
+		"label": "Beschrieben durch",
+		"name": "describedby",
+		"referenceType": "@id",
+		"weight": "1000",
+		"type": "CONTEXT"
+	},{
+		"uri": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf",
+		"label": "Gegenstand von",
+		"name": "isPrimaryTopicOf",
+		"referenceType": "@id",
+		"weight": "1000",
+		"type": "CONTEXT"
+	},{
+		"uri": "http://xmlns.com/foaf/0.1/primaryTopic",
 		"comment": "",
 		"label": "CC0 1.0",
 		"icon": "",
@@ -25976,5 +26026,262 @@
 		"weight": "",
 		"type": "STORE",
 		"multilangLabel": {}
-	}
-]
+	},{
+  "uri" : "info:regal/regal/joinedFunding",
+  "comment" : "",
+  "label" : "Förderung",
+  "icon" : "",
+  "name" : "joinedFunding",
+  "referenceType" : "@id",
+  "container" : "@list",
+  "weight" : "183",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/regal/publishLocation",
+  "comment" : "",
+  "label" : "Erscheinungsort",
+  "icon" : "",
+  "name" : "regal:publishLocation",
+  "referenceType" : "String",
+  "container" : "",
+  "weight" : "48",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/regal/publishYear",
+  "comment" : "",
+  "label" : "Erscheinungsjahr",
+  "icon" : "",
+  "name" : "regal:publishYear",
+  "referenceType" : "String",
+  "container" : "",
+  "weight" : "51",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/regal/publishedBy",
+  "comment" : "",
+  "label" : "Verlag",
+  "icon" : "",
+  "name" : "regal:publishedBy",
+  "referenceType" : "String",
+  "container" : "",
+  "weight" : "49",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/File",
+  "comment" : "",
+  "label" : "Datei",
+  "icon" : "",
+  "name" : "",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/additionalMaterial",
+  "comment" : "",
+  "label" : "Ergänzendes Material",
+  "icon" : "",
+  "name" : "additionalMaterial",
+  "referenceType" : "@id",
+  "container" : "@list",
+  "weight" : "69",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/additionalNotes",
+  "comment" : "",
+  "label" : "Hinweis",
+  "icon" : "",
+  "name" : "additionalNotes",
+  "referenceType" : "String",
+  "container" : "",
+  "weight" : "170",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/additionalNotesHeader",
+  "comment" : "",
+  "label" : "Erweiterte Angaben",
+  "icon" : "",
+  "name" : "",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/catalogingHeader",
+  "comment" : "",
+  "label" : "Angaben zum Inhalt",
+  "icon" : "",
+  "name" : "",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/collectionHeader",
+  "label" : "Zuordnung zur Sammlung",
+  "referenceType" : "String",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/collectionOne",
+  "comment" : "",
+  "label" : "LeibnizOpen",
+  "icon" : "",
+  "name" : "collectionOne",
+  "referenceType" : "@id",
+  "container" : "",
+  "weight" : "56",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/collectionTwo",
+  "comment" : "",
+  "label" : "Übergeordneter Kongress ",
+  "icon" : "",
+  "name" : "collectionTwo",
+  "referenceType" : "@id",
+  "container" : "",
+  "weight" : "64",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/contributorsHeader",
+  "label" : "Beteiligte",
+  "referenceType" : "String",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/creatorshipHeader",
+  "comment" : "",
+  "label" : "Angaben zur Urheberschaft",
+  "icon" : "",
+  "name" : "",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/fulltextVersion",
+  "comment" : "",
+  "label" : "Volltext",
+  "icon" : "",
+  "name" : "fulltextVersion",
+  "referenceType" : "@id",
+  "container" : "@list",
+  "weight" : "80",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/fundingsHeader",
+  "comment" : "",
+  "label" : "Angaben zur Förderung",
+  "icon" : "",
+  "name" : "",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/identifiersHeader",
+  "comment" : "",
+  "label" : "Externe und interne Referenzen",
+  "icon" : "",
+  "name" : "",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/internalReference",
+  "comment" : "",
+  "label" : "Interne Referenz",
+  "icon" : "",
+  "name" : "internalReference",
+  "referenceType" : "@id",
+  "container" : "",
+  "weight" : "70",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/notification",
+  "comment" : "",
+  "label" : "Wichtiger Hinweis",
+  "icon" : "fa fa-bell",
+  "name" : "notification",
+  "referenceType" : "String",
+  "container" : "",
+  "weight" : "1",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/observationHeader",
+  "label" : "Erfassung",
+  "referenceType" : "String",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/publicationsHeader",
+  "label" : "Zugehörige Publikationen",
+  "referenceType" : "String",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/publisherVersion",
+  "comment" : "",
+  "label" : "Verlagsversion",
+  "icon" : "",
+  "name" : "publisherVersion",
+  "referenceType" : "@id",
+  "container" : "@list",
+  "weight" : "68",
+  "type" : "CONTEXT",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/resourceHeader",
+  "comment" : "",
+  "label" : "Angaben zur Quelle",
+  "icon" : "",
+  "name" : "",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/statusHeader",
+  "label" : "Angaben zur Publikation",
+  "referenceType" : "String",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/titleHeader",
+  "comment" : "",
+  "label" : "Angaben zum Titel",
+  "icon" : "",
+  "name" : "Angaben zum Titel",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/typeHeader",
+  "label" : "Publikationstyp",
+  "referenceType" : "String",
+  "type" : "STORE",
+  "multilangLabel" : { }
+}, {
+  "uri" : "info:regal/zettel/uploadHeader",
+  "comment" : "",
+  "label" : "Angaben zur Datei",
+  "icon" : "",
+  "name" : "",
+  "container" : "",
+  "weight" : "",
+  "type" : "STORE",
+  "multilangLabel" : { }
+} ]
