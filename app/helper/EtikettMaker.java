@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 import org.eclipse.rdf4j.model.Literal;
@@ -362,12 +362,15 @@ public class EtikettMaker {
         Ebean.save(cur);
     }
 
+    /**
+     * @return
+     */
     public Map<String, Object> getContext() {
         List<Etikett> ls = getContextValues();
         Map<String, Object> pmap;
-        Map<String, Object> cmap = new TreeMap<String, Object>();
+        Map<String, Object> cmap = new LinkedHashMap<String, Object>();
         for (Etikett l : ls) {
-            if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
+            if ("class".equals(l.referenceType) || l.referenceType == null || l.referenceType == "" || l.name == null)
                 continue;
             pmap = new HashMap<String, Object>();
             pmap.put("@id", l.uri);
@@ -384,7 +387,7 @@ public class EtikettMaker {
             cmap.put(l.name, pmap);
         }
         addAliases(cmap);
-        Map<String, Object> contextObject = new TreeMap<String, Object>();
+        Map<String, Object> contextObject = new LinkedHashMap<String, Object>();
         contextObject.put("@context", cmap);
         return contextObject;
     }
@@ -399,11 +402,18 @@ public class EtikettMaker {
         }
     }
 
+    /**
+     * @param contextMap
+     */
     public void addJsonContextData(Map<String, Object> contextMap) {
         List<Etikett> result = convertJsonContextData(contextMap);
         addJsonData(result);
     }
 
+    /**
+     * @param contextMap
+     * @return
+     */
     public List<Etikett> convertJsonContextData(Map<String, Object> contextMap) {
         List<Etikett> result = new ArrayList<Etikett>();
         @SuppressWarnings("unchecked")
@@ -434,7 +444,7 @@ public class EtikettMaker {
     public Map<String, Object> getRawContext() {
         List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
         Map<String, Object> pmap;
-        Map<String, Object> cmap = new TreeMap<String, Object>();
+        Map<String, Object> cmap = new LinkedHashMap<String, Object>();
         for (Etikett l : ls) {
             if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
                 continue;
@@ -459,7 +469,7 @@ public class EtikettMaker {
     public Map<String, Object> getContextAnnotation() {
         List<Etikett> ls = new ArrayList<Etikett>(Globals.profile.getValues());
         Map<String, Object> pmap;
-        Map<String, Object> cmap = new TreeMap<String, Object>();
+        Map<String, Object> cmap = new LinkedHashMap<String, Object>();
         for (Etikett l : ls) {
             if ("class".equals(l.referenceType) || l.referenceType == null || l.name == null)
                 continue;
