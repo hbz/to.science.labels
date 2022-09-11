@@ -75,7 +75,7 @@ public class Global extends GlobalSettings {
                     }));
         } catch (Exception e) {
             play.Logger.warn("Failed to import data from " + url + ".");
-            play.Logger.warn(e.printStackTrace());
+            e.printStackTrace();
         }
     }
 
