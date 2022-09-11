@@ -66,11 +66,16 @@ public class Global extends GlobalSettings {
         try {
             String uploadData = CharStreams
                     .toString(new InputStreamReader(new URL(url).openConnection().getInputStream(), "UTF-8"));
+        } catch (IOException ioE) {
+            play.Logger.warn("Failed to open file at: " + url + ".");
+        }
+        try {
             Globals.profile.addJsonData(
                     (List<Etikett>) new ObjectMapper().readValue(uploadData, new TypeReference<List<Etikett>>() {
                     }));
         } catch (Exception e) {
-            play.Logger.warn("Cannot import data from " + url + ".");
+            play.Logger.warn("Failed to import data from " + url + ".")
+            play.Logger.warn(e.printStackTrace());
         }
     }
 
