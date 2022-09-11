@@ -64,8 +64,9 @@ public class Global extends GlobalSettings {
 
     @SuppressWarnings("unchecked")
     private void readStringFromUrl(String url) {
+        String uploadData = null;
         try {
-            String uploadData = CharStreams
+            uploadData = CharStreams
                     .toString(new InputStreamReader(new URL(url).openConnection().getInputStream(), "UTF-8"));
         } catch (IOException ioE) {
             play.Logger.warn("Failed to open file at: " + url + ".");
