@@ -21,7 +21,7 @@ public class LanguageLabelResolver extends LabelResolverService implements Label
         String label = null;
         play.Logger.info("Search label for: " + uri);
         GenericPropertiesLoader genProp = new GenericPropertiesLoader();
-        Map<String, String> map = genProp.loadVocabMap("Language-de.properties");
+        Map<String, String> map = genProp.loadVocabMap("language-de.properties");
         if (map.get(uri) != null) {
             play.Logger.info("Found Label " + map.get(uri) + " for: " + uri);
             label = map.get(uri);
@@ -36,7 +36,7 @@ public class LanguageLabelResolver extends LabelResolverService implements Label
     protected void lookupAsync(String uri, String language) {
         play.Logger.info("Search label for: " + uri);
         GenericPropertiesLoader genProp = new GenericPropertiesLoader();
-        Map<String, String> map = genProp.loadVocabMap("Language-de.properties");
+        Map<String, String> map = genProp.loadVocabMap("language-de.properties");
         if (map.get(uri) != null) {
             play.Logger.info("Found Label " + map.get(uri) + " for: " + uri);
             etikett.setUri(uri);
