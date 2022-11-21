@@ -15,4 +15,11 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-annotations" % "2.7.6"
   )
 
+resolvers := Seq(Resolver.mavenLocal,
+"Maven Central Server" at "https://repo1.maven.org/maven2",
+"aduna" at "https://maven.ontotext.com/content/repositories/aduna/" ,
+"Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/",
+"Duraspace releases" at "https://m2.duraspace.org/content/repositories/thirdparty"
+)
+
 playJavaSettings
