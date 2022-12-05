@@ -1,0 +1,26 @@
+[Unit]
+Description=Toscience Labels
+After=toscience-api.target
+Before=
+PartOf=
+
+[Service]
+EnvironmentFile=/etc/toscience/labels.conf/application.conf
+PIDFile=/opt/toscience/apps/to.science.labels/RUNNING_PID
+WorkingDirectory=/opt/toscience/apps/to.science.labels
+Restart=on-failure
+User=toscience
+Group=users
+Type=notify
+PrivateTmp=true
+ExecStart=/opt/toscience/conf/toscience-labels start
+ExecReload=/opt/toscience/conf/toscience-labels start
+ExecStop=/opt/toscience/conf/toscience-labels stop
+KillMode=mixed
+TasksMax=infinity
+NotifyAccess=all
+
+[Install]
+WantedBy=
+Alias=etikett.service
+
