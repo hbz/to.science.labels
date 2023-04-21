@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
 )
 
 ivyScala := ivyScala.value map { _.copy(overrideScalaVersion = true) }
-pulls
+
 resolvers := Seq(Resolver.mavenLocal,
 "Maven Central Server" at "https://repo1.maven.org/maven2",
 "edoweb releases" at "https://edoweb.github.com/releases",
