@@ -5,9 +5,9 @@ Before=
 PartOf=
 
 [Service]
-EnvironmentFile=/etc/toscience/labels.conf/application.conf
-PIDFile=/opt/toscience/apps/to.science.labels/RUNNING_PID
-WorkingDirectory=/opt/toscience/apps/to.science.labels
+EnvironmentFile=/etc/toscience/labels/application.conf
+PIDFile=/opt/toscience/toscience-labels/RUNNING_PID
+WorkingDirectory=/opt/toscience/toscience-labels
 Restart=on-failure
 User=toscience
 Group=users
