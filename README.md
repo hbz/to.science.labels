@@ -135,6 +135,8 @@ rm -rf /tmp/labels
 cd /tmp
 git clone https://github.com/hbz/to.science.labels labels
 cd labels
+rm -r conf
+ln -s /etc/to.science/labels.conf  conf
 /opt/activator-1.3.2-minimal/activator dist
 cp target/universal/etikett-0.1.0-SNAPSHOT.zip  /tmp
 cd /tmp
