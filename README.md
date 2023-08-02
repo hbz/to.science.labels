@@ -141,7 +141,8 @@ ln -s /etc/to.science/labels.conf  conf
 cp target/universal/etikett-0.1.0-SNAPSHOT.zip  /tmp
 cd /tmp
 unzip etikett-0.1.0-SNAPSHOT.zip
-cp /opt/labels/conf/application.conf /tmp/etikett-0.1.0-SNAPSHOT/conf
+rm -r /tmp/etikett-0.1.0-SNAPSHOT/conf
+ln -s /etc/to.science/labels.conf /tmp/etikett-0.1.0-SNAPSHOT/conf
 sudo service labels stop
 rm -rf /opt/labels/*
 mv /tmp/etikett-0.1.0-SNAPSHOT/* /opt/labels/
