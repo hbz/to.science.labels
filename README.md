@@ -138,6 +138,9 @@ cd labels
 rm -r conf
 ln -s /etc/to.science/labels.conf  conf
 /opt/activator-1.3.2-minimal/activator dist
+# wenn das nicht geht, folgende Verzeichnisse entfernen:
+rm $HOME/.ivy2
+rm $HOME/.sbt
 cp target/universal/etikett-0.1.0-SNAPSHOT.zip  /tmp
 cd /tmp
 unzip etikett-0.1.0-SNAPSHOT.zip
