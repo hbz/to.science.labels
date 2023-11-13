@@ -5,7 +5,10 @@ if (( $EUID == 0 )); then
     exit
 fi
 
+<<<<<<< HEAD
 actDir=$(pwd)
+=======
+>>>>>>> master-sles
 appDeployDir=$(pwd)
 toscienceDir="/opt/toscience"
 deployDir="/opt/toscience/git"
@@ -30,7 +33,10 @@ fi
 ln -sf $targetDir/$newInstallDir $toscienceDir/$linkDir
 rm -r  $targetDir/$newInstallDir/conf
 ln -sf $confDir $targetDir/$newInstallDir/conf
+<<<<<<< HEAD
 cd $actDir
+=======
+>>>>>>> master-sles
 
 echo ""
 echo "Neue Binärversion verfügbar unter $targetDir/$newInstallDir."
