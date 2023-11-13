@@ -6,9 +6,6 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
 scalaVersion := "2.11.7"
 
-version := "0.1.0-SNAPSHOT"
-
-
 libraryDependencies ++= Seq(
   cache,ws,javaWs,javaJdbc,
   "org.eclipse.rdf4j" % "rdf4j-runtime" % "2.2.2" exclude("org.apache.lucene" , "lucene-core") ,
