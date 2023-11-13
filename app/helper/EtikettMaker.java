@@ -232,6 +232,8 @@ public class EtikettMaker {
 
     private Etikett getLabelFromUrlAddress(String urlAddress) {
         Etikett result;
+        play.Logger.debug("getLabelFromUrlAddress " + urlAddress);
+        play.Logger.debug("role " + (String) Http.Context.current().args.get("role"));
         if ("admin".equals((String) Http.Context.current().args.get("role"))) {
             result = createLabel(urlAddress);
             if (result.label != null) {
@@ -242,6 +244,7 @@ public class EtikettMaker {
     }
 
     private Etikett createLabel(String urlAddress) {
+        play.Logger.debug("createLabel " + urlAddress);
         try {
             Etikett etikett = new Etikett(urlAddress);
             etikett.label = lookUpLabel(URLDecoder.decode(urlAddress, "UTF-8"));
@@ -266,7 +269,9 @@ public class EtikettMaker {
     public String lookUpLabel(String urlAddress, String lang) {
 
         String result = null;
+        play.Logger.debug("Looking up label " + urlAddress + " " + lang);
         LabelResolver lResolver = LabelResolver.Factory.getInstance(urlAddress);
+        play.Logger.debug("Got instance of label resolver.");
         if (lResolver != null) {
             play.Logger.debug("Start getting label from LabelResolver ");
             result = lResolver.lookup(urlAddress, lang);
