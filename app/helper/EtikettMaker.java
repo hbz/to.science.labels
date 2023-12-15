@@ -279,6 +279,7 @@ public class EtikettMaker {
             play.Logger.warn("No LabelResolver returned");
         }
         if (result == null) {
+            play.Logger.debug("Ergebnis der Resolver-Suche ist leer. Setze Label auf URL-Adresse.");
             result = urlAddress;
         }
         /*
@@ -289,6 +290,7 @@ public class EtikettMaker {
          * { play.Logger.info("Lookup fails inside the LabelResolvers"); } }
          */
 
+        play.Logger.debug("Label="+result);
         return result;
     }
 
