@@ -57,7 +57,7 @@ public class LobidLabelResolver extends LabelResolverService implements LabelRes
             String rdfUri = uri.replaceAll("https", "http");
 
             SparqlLookup SpL = new SparqlLookup();
-            play.Logger.debug("Start lookup of LobidLabelResolver for uri " + uri);
+            play.Logger.debug("Start lookup of LobidLabelResolver for uri " + uri + "; dcterms=" + dcterm);
             label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/" + dcterm, language,
                     RDFFormat.JSONLD, "application/json");
             play.Logger.debug("LobidLabelResolver: label=" + label);

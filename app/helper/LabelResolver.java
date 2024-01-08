@@ -50,7 +50,7 @@ public interface LabelResolver {
                 lResolver.put(CrossrefLabelResolver.DOMAIN, new CrossrefLabelResolver());
                 play.Logger.debug("Put and instantiated CrossrefLabelResolver");
                 lResolver.put(OrcidLabelResolver.DOMAIN, new OrcidLabelResolver());
-                play.Logger.debug("Put and instantiated OrcidLabelResolver");
+
                 lResolver.put(GeonamesLabelResolver.DOMAIN, new GeonamesLabelResolver());
                 lResolver.put(GndLabelResolver.DOMAIN, new GndLabelResolver());
                 lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
@@ -66,7 +66,7 @@ public interface LabelResolver {
                 lResolver.put(OldDataHubDummyLabelResolver.DOMAIN, new OldDataHubDummyLabelResolver());
                 lResolver.put(WorldcatDummyLabelResolver.DOMAIN, new WorldcatDummyLabelResolver());
                 lResolver.put(PurlLabelResolver.DOMAIN, new PurlLabelResolver());
-                play.Logger.debug("Put and instantiated PurlLabelResolver());");
+
                 lResolver.put(SkosLabelResolver.DOMAIN, new SkosLabelResolver());
                 lResolver.put(EtikettMaker.TOSCIENCE_API_URL, new ToscienceApiLabelResolver());
                 play.Logger.debug("Put and instantiated ToscienceApiLabelResolver");

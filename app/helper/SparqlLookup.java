@@ -38,6 +38,8 @@ public class SparqlLookup {
 
     public String lookup(String rdfAddress, String uri, String labelPredicate, String language, RDFFormat format,
             String accept) {
+        play.Logger.debug("rdfAddress=" + rdfAddress + ", uri=" + uri + ", labelPredicate=" + labelPredicate
+                + ", language=" + language + ", RDFormat=" + format + ", accept=" + accept);
         String label = lookupLabelInCorrectLanguage(rdfAddress, uri, labelPredicate, language, format, accept);
         if (label != null) {
             return label;
@@ -62,6 +64,7 @@ public class SparqlLookup {
         }
         String queryString = String.format("SELECT ?s ?o {%s <%s> ?o . FILTER(LANGMATCHES(lang(?o),'%s'))}", uri,
                 labelPredicate, language);
+        play.Logger.debug("queryString=" + queryString);
         return sparqlLabelLookup(rdfAddress, format, accept, queryString);
     }
 
@@ -81,6 +84,7 @@ public class SparqlLookup {
                 }
                 return null;
             } catch (Exception e) {
+                play.Logger.warn(e.getStackTrace().toString());
                 return null;
             }
         } catch (Exception e) {
