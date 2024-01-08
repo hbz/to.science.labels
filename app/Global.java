@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.CharStreams;
 
 import controllers.Globals;
+import helper.DevLoggerContext;
 import models.Etikett;
 import play.Application;
 import play.GlobalSettings;
@@ -52,13 +53,15 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
+
+        DevLoggerContext.doConfigure(Play.application().configuration().getString("logger.config"));
+
         String[] imports = Play.application().configuration().getString("etikett.imports").split("\\s*,[,\\s]*");
         for (String url : imports) {
             play.Logger.info("Import data from " + url + ".");
             readStringFromUrl(url + "/labels.json");
         }
         play.Logger.info("Application has started");
-
     }
 
     @SuppressWarnings("unchecked")
