@@ -27,8 +27,16 @@ import models.Etikett;
  */
 public class LobidLabelResolver extends LabelResolverService implements LabelResolver {
 
+    String dcterm = "";
+
     public LobidLabelResolver() {
         super();
+        this.dcterm = "title";
+    }
+
+    public LobidLabelResolver(String dcterm) {
+        super();
+        this.dcterm = dcterm;
     }
 
     public final static String DOMAIN = "lobid.org";
@@ -49,19 +57,19 @@ public class LobidLabelResolver extends LabelResolverService implements LabelRes
             String rdfUri = uri.replaceAll("https", "http");
 
             SparqlLookup SpL = new SparqlLookup();
-	    play.Logger.debug("Start lookup of LobidLabelResolver for uri "+uri);
-            label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/title", language,
+            play.Logger.debug("Start lookup of LobidLabelResolver for uri " + uri);
+            label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/" + dcterm, language,
                     RDFFormat.JSONLD, "application/json");
-	    play.Logger.debug("LobidLabelResolver: label="+label);
+            play.Logger.debug("LobidLabelResolver: label=" + label);
             if (rdfAddress.equals(label)) {
-                label = SpL.lookup(rdfUri, "<" + rdfUri + ">", "http://purl.org/dc/terms/title", language,
+                label = SpL.lookup(rdfUri, "<" + rdfUri + ">", "http://purl.org/dc/terms/" + dcterm, language,
                         RDFFormat.JSONLD, "application/json");
-	        play.Logger.debug("LobidLabelResolver: label="+label);
+                play.Logger.debug("LobidLabelResolver: label=" + label);
             }
             etikett.setLabel(label);
             cacheEtikett(etikett);
         } catch (Exception e) {
-	    play.Logger.warn(e.toString());
+            play.Logger.warn(e.toString());
             label = uri;
             etikett.setLabel(label);
         }
