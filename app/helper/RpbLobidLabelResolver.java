@@ -49,13 +49,13 @@ public class RpbLobidLabelResolver extends LabelResolverService implements Label
 
             SparqlLookup SpL = new SparqlLookup();
             play.Logger.debug("Start lookup of RpbLobidLabelResolver for uri " + uri);
-            label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://purl.org/dc/terms/subject", language,
+            label = SpL.lookup(rdfUri, "<" + rdfUri + "#!>", "http://www.w3.org/2004/02/skos/core#prefLabel", language,
                     RDFFormat.JSONLD, "application/json");
             play.Logger.debug("RpbLobidLabelResolver: label=" + label);
             if (rdfAddress.equals(label)) {
                 // 2. Versuch ohne Hashtag
-                label = SpL.lookup(rdfUri, "<" + rdfUri + ">", "http://purl.org/dc/terms/subject", language,
-                        RDFFormat.JSONLD, "application/json");
+                label = SpL.lookup(rdfUri, "<" + rdfUri + ">", "http://www.w3.org/2004/02/skos/core#prefLabel",
+                        language, RDFFormat.JSONLD, "application/json");
                 play.Logger.debug("RpbLobidLabelResolver: label=" + label);
             }
             etikett.setLabel(label);

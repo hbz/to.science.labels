@@ -41,14 +41,16 @@ public class SparqlLookup {
         play.Logger.debug("rdfAddress=" + rdfAddress + ", uri=" + uri + ", labelPredicate=" + labelPredicate
                 + ", language=" + language + ", RDFormat=" + format + ", accept=" + accept);
         String label = null;
-        if (rdfAddress.contains("rpb.lobid.org")) {
-            label = lookupRpbLabel(rdfAddress, uri, labelPredicate, language, format, accept);
-        } else {
-            label = lookupLabelInCorrectLanguage(rdfAddress, uri, labelPredicate, language, format, accept);
-            if (label == null) {
-                label = lookupLabelInAnyLanguage(rdfAddress, uri, labelPredicate, format, accept);
-            }
+        /*
+         * if (rdfAddress.contains("rpb.lobid.org")) { label =
+         * lookupRpbLabel(rdfAddress, uri, labelPredicate, language, format,
+         * accept); } else {
+         */
+        label = lookupLabelInCorrectLanguage(rdfAddress, uri, labelPredicate, language, format, accept);
+        if (label == null) {
+            label = lookupLabelInAnyLanguage(rdfAddress, uri, labelPredicate, format, accept);
         }
+        // }
         return label != null ? label : rdfAddress;
     }
 
