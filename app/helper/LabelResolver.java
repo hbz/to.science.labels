@@ -55,8 +55,7 @@ public interface LabelResolver {
                 lResolver.put(GndLabelResolver.DOMAIN, new GndLabelResolver());
                 lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
                 lResolver.put(LobidLabelResolver.DOMAIN, new LobidLabelResolver());
-                lResolver.put("rpb." + LobidLabelResolver.DOMAIN, new LobidLabelResolver("subject"));
-                play.Logger.debug("Put and instantiated LobidLabelResolver");
+                lResolver.put(RpbLobidLabelResolver.DOMAIN, new RpbLobidLabelResolver());
                 lResolver.put(FrlDummyLabelResolver.DOMAIN, new FrlDummyLabelResolver());
                 lResolver.put(CCLabelResolver.DOMAIN, new CCLabelResolver());
                 lResolver.put(SchemaDummyLabelResolver.DOMAIN, new SchemaDummyLabelResolver());

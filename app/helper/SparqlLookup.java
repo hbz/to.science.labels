@@ -40,15 +40,16 @@ public class SparqlLookup {
             String accept) {
         play.Logger.debug("rdfAddress=" + rdfAddress + ", uri=" + uri + ", labelPredicate=" + labelPredicate
                 + ", language=" + language + ", RDFormat=" + format + ", accept=" + accept);
-        String label = lookupLabelInCorrectLanguage(rdfAddress, uri, labelPredicate, language, format, accept);
-        if (label != null) {
-            return label;
+        String label = null;
+        if (rdfAddress.contains("rpd.lobid.org")) {
+            label = lookupRpbLabel(rdfAddress, uri, labelPredicate, language, format, accept);
+        } else {
+            label = lookupLabelInCorrectLanguage(rdfAddress, uri, labelPredicate, language, format, accept);
+            if (label == null) {
+                label = lookupLabelInAnyLanguage(rdfAddress, uri, labelPredicate, format, accept);
+            }
         }
-        label = lookupLabelInAnyLanguage(rdfAddress, uri, labelPredicate, format, accept);
-        if (label != null) {
-            return label;
-        }
-        return rdfAddress;
+        return label != null ? label : rdfAddress;
     }
 
     private String lookupLabelInAnyLanguage(String rdfAddress, String uri, String labelPredicate, RDFFormat format,
@@ -65,6 +66,15 @@ public class SparqlLookup {
         String queryString = String.format("SELECT ?s ?o {%s <%s> ?o . FILTER(LANGMATCHES(lang(?o),'%s'))}", uri,
                 labelPredicate, language);
         play.Logger.debug("queryString=" + queryString);
+        return sparqlLabelLookup(rdfAddress, format, accept, queryString);
+    }
+
+    private String lookupRpbLabel(String rdfAddress, String uri, String labelPredicate, String language,
+            RDFFormat format, String accept) {
+        String queryString = String.format("SELECT ?o WHERE {" + "%s <%s> ?concept . "
+                + "?concept <http://id.loc.gov/ontologies/bibframe/source> <https://w3id.org/lobid/rpb2>. "
+                + "?concept <http://www.w3.org/2000/01/rdf-schema#label> ?o . FILTER(LANGMATCHES(lang(?o),'%s'))" + "}",
+                uri, labelPredicate, language);
         return sparqlLabelLookup(rdfAddress, format, accept, queryString);
     }
 
