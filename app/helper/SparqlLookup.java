@@ -73,7 +73,7 @@ public class SparqlLookup {
             RDFFormat format, String accept) {
         String queryString = String.format(
                 "SELECT ?o WHERE {" + "%s <%s> ?concept . "
-                        + "?concept <http://id.loc.gov/ontologies/bibframe/source> <https://w3id.org/lobid/rpb2>. "
+                        + "?concept <http://id.loc.gov/ontologies/bibframe/source> <https://w3id.org/lobid/rpb2> . "
                         + "?concept <http://www.w3.org/2000/01/rdf-schema#label> ?o . }",
                 // + "FILTER(LANGMATCHES(lang(?o),'%s'))" + "}",
                 uri, labelPredicate, language);
