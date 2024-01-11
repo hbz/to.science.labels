@@ -1,4 +1,4 @@
-application.secret="P^NAcJO:o:C_PF:uVHlskn7aB5@B/mB5os?xg>k:U5>C[X=Qa:CxyDEn<?Dxb>Dr"
+application.secret=""
 application.langs="en"
 logger.root=ERROR
 logger.play=INFO
@@ -6,14 +6,14 @@ logger.application=DEBUG
 db.default.logStatements=true
 logger.com.jolbox=WARN // for EBean
 
-application.toscience.url="https://ellinet-dev.hbz-nrw.de"
-application.toscience.url.api="https://api.ellinet-dev.hbz-nrw.de"
+toscience.domain="localhost"
+toscience.api="api.loaclhost"
 
 #---------Example mysql conf 
 db.default.driver=com.mysql.jdbc.Driver
 db.default.url="jdbc:mysql://localhost/etikett?characterEncoding=UTF-8"
 db.default.user=etikett
-db.default.password="etikett"
+db.default.password=""
 evolutionplugin=enabled
 applyEvolutions.default=true
 applyDownEvolutions.default=true
@@ -27,7 +27,7 @@ ebean.default="models.*"
 etikett.configs="regal.turtle"
 etikett.userImpl="controllers.HardCodedUser"
 etikett.admin-user="admin"
-etikett.admin-password="admin"
+etikett.admin-password=""
 etikett.imports=""
 etikett.alias.id="id"
 etikett.alias.type="type"
