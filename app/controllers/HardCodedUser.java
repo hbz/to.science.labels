@@ -39,9 +39,9 @@ public class HardCodedUser implements User {
 
     @Override
     public User authenticate(String username, String password) {
-        play.Logger.debug("username = " + username);
-        play.Logger.debug("password = " + password);
-        play.Logger.debug("MyController.ADMIN_ROLE = " + MyController.ADMIN_ROLE);
+        // play.Logger.debug("username = " + username);
+        // play.Logger.debug("password = " + password);
+        // play.Logger.debug("MyController.ADMIN_ROLE = " + MyController.ADMIN_ROLE);
         role = null;
         if (MyController.ADMIN_ROLE.equals(username)
                 && password.equals(Play.application().configuration().getString("etikett.admin-password"))) {
