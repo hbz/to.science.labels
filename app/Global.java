@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.CharStreams;
 
 import controllers.Globals;
+import helper.DevLoggerContext;
 import models.Etikett;
 import play.Application;
 import play.GlobalSettings;
@@ -52,17 +53,32 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
-        String[] imports = Play.application().configuration().getString("etikett.imports").split("\\s*,[,\\s]*");
-        for (String url : imports) {
-            play.Logger.info("Import data from " + url + ".");
-            readStringFromUrl(url + "/labels.json");
+        if (play.api.Play.isProd(play.api.Play.current())) {
+            startInProductionMode();
+        } else {
+            // play Framework läuft im Test- oder Entwicklungsmodus
+            // Logger-Konfiguration für Entwickler/innen laden
+            DevLoggerContext.doConfigure(Play.application().configuration().getString("logger.config.developer"));
         }
-        play.Logger.info("Application has started");
+    }
 
+    private static void startInProductionMode() {
+        try {
+            String[] imports = Play.application().configuration().getString("etikett.imports").split("\\s*,[,\\s]*");
+            for (String url : imports) {
+                play.Logger.info("Import data from " + url + ".");
+                readStringFromUrl(url + "/labels.json");
+            }
+            play.Logger.info("Application has started");
+        } catch (Throwable t) {
+            play.Logger.error("Failure at startup!", t);
+            play.Logger.error("Fail :-( - Labels-API not properly started!");
+            throw new RuntimeException(t);
+        }
     }
 
     @SuppressWarnings("unchecked")
-    private void readStringFromUrl(String url) {
+    private static void readStringFromUrl(String url) {
         try {
             String uploadData = CharStreams
                     .toString(new InputStreamReader(new URL(url).openConnection().getInputStream(), "UTF-8"));
