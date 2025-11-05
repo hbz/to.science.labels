@@ -44,9 +44,11 @@ public interface LabelResolver {
         private static Hashtable<String, LabelResolver> getLabelResolverTable() {
 
             Hashtable<String, LabelResolver> lResolver = new Hashtable<String, LabelResolver>();
-	    try {
-                // put all known Class that implements the Interface into Hashtable
+            try {
+                // put all known Class that implements the Interface into
+                // Hashtable
                 lResolver.put(CrossrefLabelResolver.DOMAIN, new CrossrefLabelResolver());
+                lResolver.put(CrossrefLabelResolver.DOMAIN2, new CrossrefLabelResolver());
                 play.Logger.debug("Put and instantiated CrossrefLabelResolver");
                 lResolver.put(OrcidLabelResolver.DOMAIN, new OrcidLabelResolver());
                 play.Logger.debug("Put and instantiated OrcidLabelResolver");
@@ -54,7 +56,7 @@ public interface LabelResolver {
                 lResolver.put(GndLabelResolver.DOMAIN, new GndLabelResolver());
                 lResolver.put(OpenStreetMapLabelResolver.DOMAIN, new OpenStreetMapLabelResolver());
                 lResolver.put(LobidLabelResolver.DOMAIN, new LobidLabelResolver());
-                lResolver.put("rpb."+LobidLabelResolver.DOMAIN, new LobidLabelResolver());
+                lResolver.put("rpb." + LobidLabelResolver.DOMAIN, new LobidLabelResolver());
                 play.Logger.debug("Put and instantiated LobidLabelResolver");
                 lResolver.put(FrlDummyLabelResolver.DOMAIN, new FrlDummyLabelResolver());
                 lResolver.put(CCLabelResolver.DOMAIN, new CCLabelResolver());

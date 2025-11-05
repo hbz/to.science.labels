@@ -43,6 +43,7 @@ public class CrossrefLabelResolver extends LabelResolverService implements Label
     }
 
     public final static String DOMAIN = "dx.doi.org";
+    public final static String DOMAIN2 = "doi.org";
 
     protected void lookupAsync(String uri, String language) {
         if (isCrossrefFunderUrl(uri)) {
